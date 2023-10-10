@@ -1,0 +1,14 @@
+{{ define "image_carousel" }}
+<div class="slideshow-wrapper shadow-sm">
+    <div class="slideshow-container flex items-center justify-center w-screen">
+        {{ range . }}
+            <img src="{{ . }}" class="mySlides slide-fade">
+        {{ end }}
+    </div>
+    <div class="slide-dot-container" style="text-align:left">
+        {{ range . }}
+        <span class="dot"></span>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

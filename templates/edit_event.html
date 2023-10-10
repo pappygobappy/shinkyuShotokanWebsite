@@ -1,0 +1,138 @@
+{{ define "edit_event" }}
+{{ template "top" }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="history h-screen mx-auto p-7 max-w-6xl bg-base-100">
+        <h3 class="font-bold text-lg">Edit Event</h3>
+        <form id="add_event_form" hx-put="/admin/events/{{ .Event.ID }}" hx-target=".content"
+            hx-swap="outerHTML show:top" enctype="multipart/form-data">
+            <label class="label">
+                <span class="text-base label-text">Event Name</span>
+            </label>
+            <input type="text" placeholder="Event Name" class="w-full input input-bordered" name="Name"
+                value="{{ .Event.Title }}" required />
+            <label class="label">
+                <span class="text-base label-text">Date</span>
+            </label>
+            <input type="date" placeholder="Event Date" class="w-full input input-bordered"
+                value="{{ .Event.Date.Format "2006-01-02" }}" name="Date" required />
+            <label class="label">
+                <span class="text-base label-text">Event Location</span>
+            </label>
+            <input type="text" placeholder="Event Location" class="w-full input input-bordered"
+                value="{{ .Event.Location }}" name="Location" required />
+            <label class="label">
+                <span class="text-base label-text">Address</span>
+            </label>
+            <textarea placeholder="Event Address" class="textarea textarea-bordered textarea-lg w-full" name="Address"
+                required>{{ .Event.Address }}</textarea>
+            <label class="label">
+                <span class="text-base label-text">Google Maps Iframe</span>
+            </label>
+            <input type="text" placeholder="Google Maps Iframe" class="w-full input input-bordered"
+                name="GoogleMapsIframe" value="{{ .Event.GoogleMapsIframe }}" required />
+            <label class="label">
+                <span class="text-base label-text">Event Description</span>
+            </label>
+            <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full" name="Description"
+                required>{{ .Event.Description }}</textarea>
+            <div class="form-control">
+                <label class="cursor-pointer label">
+                    <span class="label-text">Add New Cover Photo</span>
+                    <input type="checkbox" class="toggle toggle-warning cover-selector" onchange="
+                      if (this.checked) {
+                        document.querySelector('.existing-cover-photos').classList.add('hidden')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').removeAttribute('required')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').value = null
+    
+                        if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+                            document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
+                            document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
+                        }
+    
+                        document.querySelector('.new-cover-photo').classList.remove('hidden')
+                        document.querySelector('input[name=\'NewCoverPhoto\']').setAttribute('required', true)
+                      } else {
+                        document.querySelector('.existing-cover-photos').classList.remove('hidden')
+                        document.querySelector('.new-cover-photo').classList.add('hidden')
+                        document.querySelector('input[name=\'NewCoverPhoto\']').value = null
+                        document.querySelector('input[name=\'NewCoverPhoto\']').removeAttribute('required')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').setAttribute('required', true)
+                      }
+                  " />
+                </label>
+            </div>
+            <label class="label">
+                <span class="text-base label-text">Event Cover Photo</span>
+            </label>
+            <div class="existing-cover-photos">
+                <div class="upcoming-events w-full overflow-x-auto max-h-72">
+                    <div class="mx-auto w-fit flex flex-row items-center">
+                        {{ $picUrl := .Event.PictureUrl }}
+                        {{ range .EventPhotos }}
+                        <img src="{{ . }}"
+                            class="cover-photo h-44 rounded border-4 {{ if eq $picUrl . }}border-yellow-500{{ else }}border-sky-500{{end}} hover:border-yellow-500 shadow-xl my-2.5 mx-1.5"
+                            onclick="
+                if (event.target.classList.contains('border-yellow-500')){
+                    event.target.classList.remove('border-yellow-500')
+                    event.target.classList.add('border-sky-500')
+                    document.querySelector('input[name=\'ExistingCoverPhoto\']').value = ''
+                } else {
+                    if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+                        document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
+                        document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
+                    }
+                    event.target.classList.add('border-yellow-500');
+                    event.target.classList.remove('border-sky-500')
+                    document.querySelector('input[name=\'ExistingCoverPhoto\']').value = event.target.getAttribute('src')
+                }
+                " />
+                        {{ end }}
+                    </div>
+                </div>
+                <div class="">
+                    <input type="text" class="" name="ExistingCoverPhoto" value="{{ .Event.PictureUrl }}" required />
+                </div>
+            </div>
+            <div class="new-cover-photo form-control hidden">
+                <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full"
+                    name="NewCoverPhoto" />
+            </div>
+            {{ if .Files }}
+            <label class="label">
+                <span class="text-base label-text">Remove Files</span>
+            </label>
+            <div class="upcoming-events w-full overflow-x-auto max-h-72">
+                <div class="mx-auto w-fit flex flex-row items-center">
+                    {{ range $key, $value := .Files }}
+                    <label class="swap">
+                        <input type="checkbox" onclick=" 
+                            if (this.checked) {
+                                document.querySelector('.deleted-files').value = document.querySelector('.deleted-files').value + {{ $value }} + ','
+                            } else {
+                                curDeleted = document.querySelector('.deleted-files').value
+                                curDeleted = curDeleted.replace({{ $value }} + ',', '')
+                                document.querySelector('.deleted-files').value = curDeleted
+                            }"/>
+                        <div class="swap-on line-through m-2.5 p-2.5 shadow-xl rounded-lg bg-gray-400 font-bold">{{ $key }}</div>
+                        <div class="swap-off p-2.5 m-2.5 shadow-xl rounded-lg bg-warning font-bold">{{ $key }}</div>
+                      </label>
+                    {{ end }}
+                </div>
+            </div>
+            <input class="deleted-files hidden" name="DeletedFiles"/>
+            {{ end }}
+            <label class="label">
+                <span class="text-base label-text">Add Files</span>
+            </label>
+            <input type="file" accept="image/*,.pdf" class="file-input file-input-bordered file-input-warning w-full"
+                name="Files" multiple />
+        </form>
+        <div class="modal-action">
+            <button class="btn" hx-get="/events/{{ .Event.ID }}" hx-target=".content"
+                hx-swap="outerHTML show:top">Close</button>
+            <input type="Submit" form="add_event_form" class="btn btn-warning" />
+        </div>
+    </div>
+    {{ template "footer" }}
+    {{ end }}

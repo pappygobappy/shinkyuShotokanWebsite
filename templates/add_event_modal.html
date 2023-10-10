@@ -1,0 +1,111 @@
+{{ define "add_event_modal" }}
+<dialog id="add_event_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Add Event</h3>
+        <form id="add_event_form" hx-post="/admin/events" hx-push-url="true" hx-target=".content" hx-swap="outerHTML"
+            enctype="multipart/form-data">
+            <label class="label">
+                <span class="text-base label-text">Event Name</span>
+            </label>
+            <input type="text" placeholder="Event Name" class="w-full input input-bordered" name="Name" required />
+            <label class="label">
+                <span class="text-base label-text">Date</span>
+            </label>
+            <input type="date" placeholder="Event Date" class="w-full input input-bordered" name="Date" required />
+            <label class="label">
+                <span class="text-base label-text">Event Location</span>
+            </label>
+            <input type="text" placeholder="Event Location" class="w-full input input-bordered" name="Location"
+                required />
+            <label class="label">
+                <span class="text-base label-text">Address</span>
+            </label>
+            <textarea placeholder="Event Address" class="textarea textarea-bordered textarea-lg w-full" name="Address"
+                required></textarea>
+            <label class="label">
+                <span class="text-base label-text">Google Maps Iframe</span>
+            </label>
+            <input type="text" placeholder="Google Maps Iframe" class="w-full input input-bordered"
+                name="GoogleMapsIframe" required />
+            <label class="label">
+                <span class="text-base label-text">Event Description</span>
+            </label>
+            <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full" name="Description"
+                required></textarea>
+            <div class="form-control">
+                <label class="cursor-pointer label">
+                    <span class="label-text">Add New Cover Photo</span>
+                    <input type="checkbox" class="toggle toggle-warning cover-selector" onchange="
+                      if (this.checked) {
+                        document.querySelector('.existing-cover-photos').classList.add('hidden')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').removeAttribute('required')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').value = null
+
+                        if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+                            document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
+                            document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
+                        }
+
+                        document.querySelector('.new-cover-photo').classList.remove('hidden')
+                        document.querySelector('input[name=\'NewCoverPhoto\']').setAttribute('required', true)
+                      } else {
+                        document.querySelector('.existing-cover-photos').classList.remove('hidden')
+                        document.querySelector('.new-cover-photo').classList.add('hidden')
+                        document.querySelector('input[name=\'NewCoverPhoto\']').value = null
+                        document.querySelector('input[name=\'NewCoverPhoto\']').removeAttribute('required')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').setAttribute('required', true)
+                      }
+                  " />
+                </label>
+            </div>
+            <label class="label">
+                <span class="text-base label-text">Event Cover Photo</span>
+            </label>
+            <div class="existing-cover-photos">
+                <div class="upcoming-events w-full overflow-x-auto max-h-72">
+                    <div class="mx-auto w-fit flex flex-row items-center">
+                        {{ range .EventPhotos }}
+                        <img src="{{ . }}"
+                            class="cover-photo h-44 rounded border-4 border-sky-500 hover:border-yellow-500 shadow-xl my-2.5 mx-1.5"
+                            onclick="
+                if (event.target.classList.contains('border-yellow-500')){
+                    event.target.classList.remove('border-yellow-500')
+                    event.target.classList.add('border-sky-500')
+                    document.querySelector('input[name=\'ExistingCoverPhoto\']').value = ''
+                } else {
+                    if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+                        document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
+                        document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
+                    }
+                    event.target.classList.add('border-yellow-500');
+                    event.target.classList.remove('border-sky-500')
+                    document.querySelector('input[name=\'ExistingCoverPhoto\']').value = event.target.getAttribute('src')
+                }
+                " />
+                        {{ end }}
+                    </div>
+                </div>
+                <div class="hidden">
+                <input type="text" class="" name="ExistingCoverPhoto" required />
+            </div>
+            </div>
+            <div class="new-cover-photo form-control hidden">
+                <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full"
+                    name="NewCoverPhoto" />
+            </div>
+            <label class="label">
+                <span class="text-base label-text">Files</span>
+            </label>
+            <input type="file" accept="image/*,.pdf" class="file-input file-input-bordered file-input-warning w-full"
+                name="Files" multiple />
+        </form>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Close</button>
+            </form>
+            <input type="Submit" form="add_event_form" class="btn btn-warning" />
+        </div>
+    </div>
+</dialog>
+{{ end }}

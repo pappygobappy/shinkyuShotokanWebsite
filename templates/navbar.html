@@ -1,0 +1,34 @@
+{{ define "navbar" }}
+{{$activePageName := .Page.PageName}}
+<div class="navbar py-0 hidden md:flex">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-center">
+        <ul class="menu menu-horizontal px-1 font-semibold">
+            {{ range .Page.Tabs }}
+            {{ if .SubTabs }}
+            <li tabindex="0">
+                <details>
+                    <summary class="{{ if ne $activePageName .Name }} text-gray-400 {{ end }} hover:bg-warning">{{ .Name }}</summary>
+                    <ul class="p-2 z-10 font-normal">
+                        {{ range .SubTabs }}
+                        <li><a hx-get="{{ .GetUrl }}" hx-push-url="true" hx-target=".content"
+                                hx-swap="outerHTML" class="hover:bg-warning">{{ .Name }}</a></li>
+                        {{ end }}
+                    </ul>
+                </details>
+            </li>
+            {{ else }}
+            <li><a class="{{ if ne $activePageName .Name }} text-gray-400 {{ end }} hover:bg-warning" hx-get="{{ .GetUrl }}"
+                    hx-push-url="true" hx-target=".content" hx-swap="outerHTML">{{ .Name }}</a></li>
+            {{ end }}
+            {{ end }}
+            {{ if .user }}
+        <li><a class="text-gray-400 hover:bg-warning" hx-post="/admin/logout"
+           hx-target=".content" hx-swap="outerHTML">Logout</a></li>
+           {{ end }}
+        </ul>
+    </div>
+    <div class="navbar-end"></div>
+</div>
+{{ end }}
