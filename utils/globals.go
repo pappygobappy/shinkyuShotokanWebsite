@@ -13,9 +13,9 @@ var Classes []structs.Class
 func Init() {
 
 	Instructors = []structs.Instructor{
-		{Name: "Leroy Rodrigues", PictureUrl: "/assets/instructors/leroy.jpg", Bio: "Sensei Leroy Rodrigues has studied karate since 1961 and holds the rank of 10th Dan. He founded the Shinkyu Shotokan Dojo in 1983. Sensei Leroy knows approximately 50 karate katas and more than 15 weapons katas. He also has a book published as well as a video, containing older katas of Shorinji-Ryu."},
-		{Name: "Sue Miller", PictureUrl: "/assets/instructors/940489572.jpg", Bio: "Sensei Sue been training since 1972. In the beginning, she trained with Sensei Leroy Rodrigues as a Okinawan Stylist in Shorinji-Ryu. She is an 8th Dan and currently teaches the Pre-Karate Classes, Youth, Teen and Adults, as well as, Men and Women's Self Defense Classes and is the Head Instructor for our Tournaments and Promotional's."},
-		{Name: "Sensei Nobu Kaji", PictureUrl: "/assets/instructors/854453422.jpg", Bio: "Sensei Nobu has been training in KobuJutsu and Karate since 1968. He holds the rank of 6th Dan in KobuJutsu and 8th Dan with Shinkyu Shotokan.  His Karate styles include Ryugo-ryu, Magai-ryu, Yamani-ryu, Shito-ryu and Shorin-ryu."},
+		{Name: "Leroy Rodrigues", PictureUrl: "/public/instructors/leroy.jpg", Bio: "Sensei Leroy Rodrigues has studied karate since 1961 and holds the rank of 10th Dan. He founded the Shinkyu Shotokan Dojo in 1983. Sensei Leroy knows approximately 50 karate katas and more than 15 weapons katas. He also has a book published as well as a video, containing older katas of Shorinji-Ryu."},
+		{Name: "Sue Miller", PictureUrl: "/public/instructors/940489572.jpg", Bio: "Sensei Sue been training since 1972. In the beginning, she trained with Sensei Leroy Rodrigues as a Okinawan Stylist in Shorinji-Ryu. She is an 8th Dan and currently teaches the Pre-Karate Classes, Youth, Teen and Adults, as well as, Men and Women's Self Defense Classes and is the Head Instructor for our Tournaments and Promotional's."},
+		{Name: "Sensei Nobu Kaji", PictureUrl: "/public/instructors/854453422.jpg", Bio: "Sensei Nobu has been training in KobuJutsu and Karate since 1968. He holds the rank of 6th Dan in KobuJutsu and 8th Dan with Shinkyu Shotokan.  His Karate styles include Ryugo-ryu, Magai-ryu, Yamani-ryu, Shito-ryu and Shorin-ryu."},
 	}
 	Events = []structs.Event{
 		{Title: "Promotional", PictureUrl: "/assets/image_carousel/PXL_20221114_013356064.MP.jpg", Alt: "Promotional", Description: "Belt Testing Coming Up fast! Practice Hard!"},

@@ -1,9 +1,11 @@
 {{ define "event" }}
 {{ template "top" }}
 <div class="content">
-    {{ template "header" makeMap "Page" .Page  "user" .user }}
-    <img class="w-screen object-cover" style="aspect-ratio: 16 / 4; object-position: left 32%;"
-        src="{{ .Event.PictureUrl }}">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="overflow-hidden">
+    <img class="max-h-60 md:max-h-full md:aspect-16/4 w-screen object-cover scale-110 md:scale-100"
+        style="object-position: left 32%;" src="{{ .Event.PictureUrl }}">
+    </div>
     <div class="event pb-9 h-screen mx-auto p-7 max-w-6xl bg-base-100">
         <div class="border-b py-10 flex flex-col md:flex-row">
             <div class="text-3xl">{{ .Event.Title }} - {{ .Event.Date.Format "Jan 02, 2006" }}</div>
@@ -19,11 +21,13 @@
                 </button>
                 <button onclick="document.querySelector('#delete_event_modal').showModal()"
                     class="ml-2 btn btn-md md:btn-sm btn-warning btn-square shadow-xl self-end md:self-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                     </svg>
                 </button>
-        </div>
+            </div>
             {{ end }}
         </div>
         <div class="whitespace-pre-line my-7">{{ .Event.Description }}</div>
@@ -33,35 +37,39 @@
             loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         {{ if .Files }}
         <div class="text-l font-bold mt-7 flex">Downloads</div>
-            {{ range $key, $value := .Files }}
-                <a class="btn btn-warning shadow-md text-sm md:text-base my-1.5 normal-case" href="{{ $value }}" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-download" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
-                        <path d="M12 17v-6"></path>
-                        <path d="M9.5 14.5l2.5 2.5l2.5 -2.5"></path>
-                     </svg>
-                    {{ $key }}
-                </a>
-            {{ end }}
+        {{ range $key, $value := .Files }}
+        <a class="btn btn-warning shadow-md text-sm md:text-base my-1.5 normal-case" href="{{ $value }}"
+            target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-download" width="18"
+                height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                <path d="M12 17v-6"></path>
+                <path d="M9.5 14.5l2.5 2.5l2.5 -2.5"></path>
+            </svg>
+            {{ $key }}
+        </a>
+        {{ end }}
         {{ end }}
     </div>
 </div>
 {{ if .user }}
 <dialog id="delete_event_modal" class="modal">
     <div class="modal-box">
-      <h3 class="font-bold text-lg">Delete</h3>
-      <p class="py-4">Are you sure you want to delete this event?</p>
-      <div class="modal-action">
-        <form method="dialog">
-          <!-- if there is a button in form, it will close the modal -->
-          <button class="btn">Cancel</button>
-          <button class="btn btn-warning" hx-delete="/admin/events/{{ .Event.ID }}" hx-target=".content" hx-swap="outerHTML show:top" hx-redirect="/">Delete</button>
-        </form>
-      </div>
+        <h3 class="font-bold text-lg">Delete</h3>
+        <p class="py-4">Are you sure you want to delete this event?</p>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Cancel</button>
+                <button class="btn btn-warning" hx-delete="/admin/events/{{ .Event.ID }}" hx-target=".content"
+                    hx-swap="outerHTML show:top" hx-redirect="/">Delete</button>
+            </form>
+        </div>
     </div>
-  </dialog>
-  {{ end }}
+</dialog>
+{{ end }}
 {{ template "footer" }}
 {{ end }}

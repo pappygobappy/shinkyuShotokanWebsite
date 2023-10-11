@@ -1,19 +1,23 @@
 {{ define "instructorsPage" }}
 <div class="content">
-    {{ template "header" makeMap "Page" .Page  "user" .user  }}
-    <img class="w-screen object-cover"  style="aspect-ratio: 16 / 3; object-position: left 30%;" src="/assets/instructors/original_0dba6fc4-1896-4cc8-926b-56568fb5ea74_PXL_20230827_175124417 (1).jpg">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="overflow-hidden">
+        <img class="max-h-60 md:max-h-full md:aspect-16/4 w-screen object-cover scale-110 md:scale-100"
+            style="object-position: left 30%;"
+            src="/public/instructors/original_0dba6fc4-1896-4cc8-926b-56568fb5ea74_PXL_20230827_175124417 (1).jpg">
+    </div>
     <div class="mx-auto p-7 max-w-6xl bg-base-100">
-    {{ range $i, $e := .Instructors }}
-        
-            <div class="instructor lg:flex py-7 {{if gt $i 0}}border-t{{end}}">
-                <img class="rounded-xl mx-auto max-w-xs mb-5 lg:pb-0" src="{{ .PictureUrl}}">
-                <div class="px-14">
-                    <h1 class="text-xl pb-5 font-bold">{{ .Name }}</h1>
-                    <p>{{ .Bio }}</p>
-                </div>
+        {{ range $i, $e := .Instructors }}
+
+        <div class="instructor lg:flex py-7 {{if gt $i 0}}border-t{{end}}">
+            <img class="rounded-xl mx-auto max-w-xs mb-5 lg:pb-0" src="{{ .PictureUrl}}">
+            <div class="px-14">
+                <h1 class="text-xl pb-5 font-bold">{{ .Name }}</h1>
+                <p>{{ .Bio }}</p>
             </div>
-        
-    {{ end }}
-</div>
+        </div>
+
+        {{ end }}
+    </div>
 </div>
 {{ end }}

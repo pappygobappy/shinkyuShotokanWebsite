@@ -146,3 +146,6 @@ dist
 
 # Go workspace file
 go.work
+
+# upload dir
+upload/*

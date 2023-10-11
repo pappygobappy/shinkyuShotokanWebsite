@@ -46,7 +46,8 @@ func main() {
 	})
 
 	//Register Static Files
-	app.Static("/assets", "./assets")
+	app.Static("/public", "./public")
+	app.Static("/upload", os.Getenv("UPLOAD_DIR"))
 
 	//Init Data
 	

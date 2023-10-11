@@ -18,8 +18,7 @@ import (
 func Home(c *fiber.Ctx) error {
 	paths, _ := os.Getwd()
 	var imagePaths []string
-	var eventImagePaths []string
-	err := filepath.Walk(paths+"/assets/image_carousel/", func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk(paths+"/public/image_carousel/", func(path string, info os.FileInfo, err error) error {
 
 		if err != nil {
 			fmt.Println(err)
@@ -31,17 +30,7 @@ func Home(c *fiber.Ctx) error {
 		return nil
 	})
 
-	err = filepath.Walk(paths+"/assets/events/", func(path string, info os.FileInfo, err error) error {
-
-		if err != nil {
-			fmt.Println(err)
-			return nil
-		}
-		if !info.IsDir() {
-			eventImagePaths = append(eventImagePaths, strings.Replace(path, paths, "", 1))
-		}
-		return nil
-	})
+	eventImagePaths := getExistingEventCoverPhotos()
 
 	var events []models.Event
 	result := initializers.DB.Order("date").Find(&events)
