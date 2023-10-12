@@ -15,7 +15,7 @@ func Classes(c *fiber.Ctx) error {
 
 	//Build Page Data
 	classesPage := fiber.Map{
-		"Page": structs.Page{PageName: class.Name + " Classes", Tabs: utils.Tabs, Classes: utils.Classes},
+		"Page": structs.Page{PageName: "Classes", Tabs: utils.Tabs, Classes: utils.Classes},
 		"Class": class,
 	}
 

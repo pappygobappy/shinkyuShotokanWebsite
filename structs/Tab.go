@@ -1,7 +1,9 @@
 package structs
 
+import "html/template"
+
 type Tab struct {
-	Name string
-	GetUrl string
+	Name    template.HTML
+	GetUrl  string
 	SubTabs []Tab
 }

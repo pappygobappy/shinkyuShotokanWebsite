@@ -1,0 +1,134 @@
+{{ define "requirements" }}
+{{ template "top" }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+
+    <div class="bg-base-100 drawer lg:drawer-open">
+        <input id="drawer" type="checkbox" class="drawer-toggle">
+        <div class="drawer-content">
+
+            <div class="overflow-hidden">
+                <img class="w-screen object-cover scale-110 md:scale-100"
+                    style="aspect-ratio: 16 / 2; object-position: left 32%;" src="/public/history/banner.jpeg">
+            </div>
+            <div class="mx-auto p-4 lg:p-7 w-screen max-w-6xl">
+                <div class="text-3xl border-b my-10">10th Kyu Yellow Belt Requirements</div>
+                <div class="font-bold underline my-5 text-lg">KIHON</div>
+                <table class="table table-sm table-zebra">
+                    <thead>
+                        <tr>
+                            <th>Direction</th>
+                            <th>Technique</th>
+                            <th>English Name</th>
+                            <th>Number of times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Oi-Suki</td>
+                            <td>Lunge Punch</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Oi-Suki</td>
+                            <td>Lunge Punch</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Jodan-Uke</td>
+                            <td>Rising Block</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Soto-Uke</td>
+                            <td>Outside Center Block</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Gedan-Barai</td>
+                            <td>Downward Block</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Gedan-Barai</td>
+                            <td>Downward Block</td>
+                            <td>(4 times)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="font-bold underline mt-5 text-sm">KICKS</div>
+                <table class="table table-sm table-zebra">
+                    <thead>
+                        <tr>
+                            <th>Direction</th>
+                            <th>Technique</th>
+                            <th>English Name</th>
+                            <th>Number of times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Mae-Geri</td>
+                            <td>Front Snap Kick</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Mae-Geri</td>
+                            <td>Front Snap Kick</td>
+                            <td>(4 times)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="font-bold underline my-5 text-lg">KATA</div>
+                <div>Taikyoku Shodan</div>
+                <div class="font-bold underline my-5 text-lg">FIVE STEP PRE-ARRANGED KUMITE</div>
+                <div>Attack: Jodan-Oi-Suki - Face Punch</div>
+                <div>Defend: Jodan-Uke, Reverse Punch Stomach Counter</div>
+            </div>
+        </div>
+        <div class="drawer-side z-40 border-t border-r max-h-full"
+            style="scroll-behavior: smooth; scroll-padding-top: 5rem;">
+            <label for="drawer" class="drawer-overlay" aria-label="Close menu"></label>
+            <aside class="bg-base-100 w-90">
+                <ul class="menu menu-md lg:menu-lg px-4 py-0 h-screen">
+                    <li><a href="/requirements/10thkyu/" class="bg-yellow-400 border border-black my-1.5">
+                            <div class="bg-yellow-400 border border-black rounded-md w-7 h-4"></div><span>10th Kyu
+                            </span>
+                        </a> </li>
+                    <li><a href="/requirements/9th8thkyu/" class="bg-blue-500 border border-black my-1.5">
+                            <div class="bg-blue-500 border border-black rounded-md w-7 h-4"></div><span>9th & 8th Kyu
+                            </span>
+                        </a> </li>
+                    <li><a href="/requirements/7th6thkyu/" class="bg-green-600 border border-black my-1.5">
+                            <div class="bg-green-600 border border-black rounded-md w-7 h-4"></div><span>7th & 6th Kyu
+                            </span>
+                        </a> </li>
+                    <li><a href="/requirements/5th4thkyu/" class="bg-purple-500 border border-black my-1.5">
+                            <div class="bg-purple-500 border border-black rounded-md w-7 h-4"></div><span>5th & 4th Kyu
+                            </span>
+                        </a> </li>
+                    <li><a href="/requirements/3rd2ndkyu/" class="bg-yellow-900 border border-black my-1.5">
+                            <div class="bg-yellow-900 border border-black rounded-md w-7 h-4"></div><span>3rd & 2nd Kyu
+                            </span>
+                        </a> </li>
+                    <li><a href="/requirements/1stkyu/" class="bg-yellow-900 border border-black my-1.5">
+                            <div class="bg-yellow-900 border border-black rounded-md w-7 h-4"></div><span>1st Kyu</span>
+                        </a> </li>
+                    <li><a href="/requirements/1stdan/" class="bg-black border border-black my-1.5">
+                            <div class="bg-black border rounded-md w-7 h-4"></div><span>1st Dan</span>
+                        </a> </li>
+
+                </ul>
+            </aside>
+        </div>
+    </div>
+    {{ template "footer" }}
+    {{ end }}

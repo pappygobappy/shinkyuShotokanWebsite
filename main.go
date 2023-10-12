@@ -58,6 +58,7 @@ func main() {
 	mainRoutes.Get("/instructors", handlers.Instructors)
 	mainRoutes.Get("/history", handlers.History)
 	mainRoutes.Get("/events/:id", handlers.Event)
+	mainRoutes.Get("/requirements/:rank", handlers.Requirements)
 
 	mainRoutes.Get("/login", handlers.LoginGet)
 	mainRoutes.Get("/signup", handlers.SignupGet)

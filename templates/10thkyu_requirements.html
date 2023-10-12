@@ -1,0 +1,126 @@
+{{ define "10thkyu_requirements" }}
+{{ if not .hxRequest }}
+{{ template "top" }}
+{{ end }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="overflow-hidden">
+        <img class="w-screen object-cover scale-110 md:scale-100"
+            style="aspect-ratio: 16 / 2; object-position: left 32%;" src="/public/history/banner.jpeg">
+    </div>
+    <div class="mx-auto p-4 lg:p-7 max-w-6xl bg-base-100">
+        <div class="text-3xl border-b my-10">
+            10th Kyu Yellow Belt Requirements
+        </div>
+        <div class="font-bold underline my-5 text-lg">KIHON</div>
+        <div class="font-semibold mt-5 text-sm over">Zenkutsu-Dachi - Front Stance</div>
+        <div class="overflow-x-auto">
+            <table class="table table-xs md:table-sm table-zebra">
+                <thead>
+                    <tr>
+                        <th>Direction</th>
+                        <th>Technique</th>
+                        <th>English Name</th>
+                        <th>Number of times</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Forward</th>
+                        <td>Oi-Suki</td>
+                        <td>Lunge Punch</td>
+                        <td>(4 times)</td>
+                    </tr>
+                    <tr>
+                        <th>Backward</th>
+                        <td>Oi-Suki</td>
+                        <td>Lunge Punch</td>
+                        <td>(4 times)</td>
+                    </tr>
+                    <tr>
+                        <th>Forward</th>
+                        <td>Jodan-Uke</td>
+                        <td>Rising Block</td>
+                        <td>(4 times)</td>
+                    </tr>
+                    <tr>
+                        <th>Backward</th>
+                        <td>Soto-Uke</td>
+                        <td>Outside Center Block</td>
+                        <td>(4 times)</td>
+                    </tr>
+                    <tr>
+                        <th>Forward</th>
+                        <td>Gedan-Barai</td>
+                        <td>Downward Block</td>
+                        <td>(4 times)</td>
+                    </tr>
+                    <tr>
+                        <th>Backward</th>
+                        <td>Gedan-Barai</td>
+                        <td>Downward Block</td>
+                        <td>(4 times)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="font-bold underline mt-5 text-sm">KICKS</div>
+        <div class="font-semibold mt-5 text-sm over">Kamae - Fighting Position</div>
+        <div class="overflow-x-auto">
+            <table class="table table-xs md:table-sm table-zebra">
+                <thead>
+                    <tr>
+                        <th>Direction</th>
+                        <th>Technique</th>
+                        <th>English Name</th>
+                        <th>Number of times</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Forward</th>
+                        <td>Mae-Geri Keage</td>
+                        <td>Front Snap Kick</td>
+                        <td>(4 times)</td>
+                    </tr>
+                    <tr>
+                        <th>Backward</th>
+                        <td>Mae-Geri Keage</td>
+                        <td>Front Snap Kick</td>
+                        <td>(4 times)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr class="my-5">
+        <div class="font-bold underline my-5 text-lg">KATA</div>
+        <div>Taikyoku Shodan</div>
+        <hr class="my-5">
+        <div class="font-bold underline my-5 text-lg">FIVE STEP PRE-ARRANGED KUMITE</div>
+        <div class="overflow-x-auto">
+            <table class="table table-xs md:table-sm table-zebra">
+                <thead>
+                    <tr>
+                        <th>Attack</th>
+                        <th>Defense</th>
+                        <th>Counter</th>
+                        <th>Number of times</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jodan-Oi-Suki - Face Punch</td>
+                        <td>Jodan-Uke - Rising Block</td>
+                        <td>Reverse Punch to Stomach</td>
+                        <td>(5 times)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{ if not .hxRequest }}
+    {{ template "footer" }}
+    {{ else }}
+</div>
+{{ end }}
+{{ end }}

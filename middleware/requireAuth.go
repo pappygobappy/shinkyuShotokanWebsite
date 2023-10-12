@@ -6,6 +6,7 @@ import (
 	"os"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -55,6 +56,12 @@ func RequireAuth(c *fiber.Ctx) error {
 }
 
 func AttachUser(c *fiber.Ctx) error {
+	hxRequest, err := strconv.ParseBool(c.Get("hx-request"))
+	if err != nil {
+		hxRequest = false
+	}
+	c.Locals("hxRequest", hxRequest)
+
 	//Get the cookie off request
 	tokenString := c.Cookies("Authorization", "NoAuth")
 
