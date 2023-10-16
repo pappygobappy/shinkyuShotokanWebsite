@@ -119,6 +119,7 @@ func Event(c *fiber.Ctx) error {
 		"Event":       event,
 		"Description": strings.Replace(template.HTMLEscapeString(event.Description), "\n", "<br/>", -1),
 		"Files":       files,
+		"Location":    utils.Locations[event.Location],
 	})
 }
 
@@ -142,6 +143,7 @@ func EditEventGet(c *fiber.Ctx) error {
 		"EventPhotos": eventImagePaths,
 		"Description": strings.Replace(template.HTMLEscapeString(event.Description), "\n", "<br/>", -1),
 		"Files":       files,
+		"Locations": utils.Locations,
 	})
 }
 
@@ -150,8 +152,6 @@ func AddEvent(c *fiber.Ctx) error {
 		Name               string
 		Date               string
 		Location           string
-		Address            string
-		GoogleMapsIframe   string
 		Description        string
 		ExistingCoverPhoto string
 	}
@@ -170,7 +170,7 @@ func AddEvent(c *fiber.Ctx) error {
 
 	photoUrl := getCoverPhotoUrl(body.ExistingCoverPhoto, c)
 
-	event := models.Event{Title: body.Name, Date: date, Description: body.Description, PictureUrl: photoUrl, Location: body.Location, GoogleMapsIframe: body.GoogleMapsIframe, Address: body.Address}
+	event := models.Event{Title: body.Name, Date: date, Description: body.Description, PictureUrl: photoUrl, Location: body.Location}
 
 	result := initializers.DB.Create(&event)
 
@@ -189,14 +189,12 @@ func EditEventPost(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var event models.Event
 	initializers.DB.First(&event, id)
-	page := structs.Page{PageName: "Event", Tabs: utils.Tabs, Classes: utils.Classes}
+	//page := structs.Page{PageName: "Event", Tabs: utils.Tabs, Classes: utils.Classes}
 
 	var body struct {
 		Name               string
 		Date               string
 		Location           string
-		Address            string
-		GoogleMapsIframe   string
 		Description        string
 		ExistingCoverPhoto string
 		DeletedFiles       string
@@ -227,8 +225,10 @@ func EditEventPost(c *fiber.Ctx) error {
 	event.Description = body.Description
 	event.PictureUrl = photoUrl
 	event.Location = body.Location
-	event.GoogleMapsIframe = body.GoogleMapsIframe
-	event.Address = body.Address
+	log.Println(body.Location)
+	// event.Location = body.Location
+	// event.GoogleMapsIframe = body.GoogleMapsIframe
+	// event.Address = body.Address
 
 	result := initializers.DB.Save(&event)
 
@@ -242,13 +242,9 @@ func EditEventPost(c *fiber.Ctx) error {
 	//Handle Files
 	uploadEventFiles(event, c)
 
-	files := getEventFilePaths(event)
-	return c.Render("event", fiber.Map{
-		"Page":        page,
-		"Event":       event,
-		"Description": strings.Replace(template.HTMLEscapeString(event.Description), "\n", "<br/>", -1),
-		"Files":       files,
-	})
+	//files := getEventFilePaths(event)
+	c.Set("HX-Redirect", "/events/" + strconv.FormatUint(uint64(event.ID), 10))
+	return c.Next()
 }
 
 func DeleteEventPost(c *fiber.Ctx) error {

@@ -1,0 +1,8 @@
+{{ define "location" }}
+<div class="location my-10">
+    <div class="font-bold">Location:</div>
+    <div class="whitespace-pre-line ">{{ .Name }}<br />{{ .Address }}</div>
+    <iframe src="{{ .GoogleMapsIframe }}" class="w-full h-72 mt-3" style="border:0;" allowfullscreen=""
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+{{ end }}

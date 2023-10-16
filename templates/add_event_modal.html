@@ -15,18 +15,12 @@
             <label class="label">
                 <span class="text-base label-text">Event Location</span>
             </label>
-            <input type="text" placeholder="Event Location" class="w-full input input-bordered" name="Location"
-                required />
-            <label class="label">
-                <span class="text-base label-text">Address</span>
-            </label>
-            <textarea placeholder="Event Address" class="textarea textarea-bordered textarea-lg w-full" name="Address"
-                required></textarea>
-            <label class="label">
-                <span class="text-base label-text">Google Maps Iframe</span>
-            </label>
-            <input type="text" placeholder="Google Maps Iframe" class="w-full input input-bordered"
-                name="GoogleMapsIframe" required />
+            <select class="select select-bordered w-full max-w-xs" name="Location">
+                <option disabled selected>Event Location</option>
+                {{ range .Locations }}
+                <option>{{ .Name }}</option>
+                {{ end }}
+            </select>
             <label class="label">
                 <span class="text-base label-text">Event Description</span>
             </label>

@@ -7,10 +7,14 @@
     </div>
     <div class="class h-screen mx-auto p-7 max-w-7xl bg-base-100">
         <h1 class="text-3xl border-b my-10">{{ .Class.Name }} Class</h1>
-        <p>Ages: {{ .Class.StartAge }}{{ if .Class.EndAge }}-{{ .Class.EndAge }}yr{{ else }}/up{{ end }}</p>
-        <p>{{ .Class.Description }} </p>
-        <iframe src="{{ .Class.GoogleMapsSrc }}" class="w-full h-72" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div><b>Ages:</b> {{ .Class.StartAge }}{{ if .Class.EndAge }}-{{ .Class.EndAge }}yr{{ else }}/up{{ end }}</div>
+        <div><b>Schedule:</b></div>
+        <div class="whitespace-pre-line">{{ .Class.Schedule }}</div>
+        <div class="my-7">{{ .Class.Description }} </div>
+        {{ range .Class.Annotations }}
+            <div class="font-bold italic">{{ . }}</div>
+        {{ end }}
+        {{ template "location" .Class.Location }}
     </div>
 </div>
 {{ end }}

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"shinkyuShotokan/models"
 	"shinkyuShotokan/structs"
 	"shinkyuShotokan/utils"
 	"strconv"
@@ -15,7 +16,7 @@ func Classes(c *fiber.Ctx) error {
 
 	//Build Page Data
 	classesPage := fiber.Map{
-		"Page": structs.Page{PageName: "Classes", Tabs: utils.Tabs, Classes: utils.Classes},
+		"Page":  structs.Page{PageName: "Classes", Tabs: utils.Tabs, Classes: utils.Classes},
 		"Class": class,
 	}
 
@@ -32,11 +33,11 @@ func Classes(c *fiber.Ctx) error {
 	}
 }
 
-func findClass(path string) structs.Class {
+func findClass(path string) models.Class {
 	for _, class := range utils.Classes {
 		if class.GetUrl == path {
 			return class
 		}
 	}
-	return structs.Class{};
+	return models.Class{}
 }

@@ -1,7 +1,9 @@
 package structs
 
+import "shinkyuShotokan/models"
+
 type Page struct {
 	PageName string
-	Tabs []Tab
-	Classes []Class
+	Tabs     []Tab
+	Classes  []models.Class
 }
