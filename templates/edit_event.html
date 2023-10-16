@@ -2,7 +2,7 @@
 {{ template "top" }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="history h-screen mx-auto p-7 max-w-6xl bg-base-100">
+    <div class="history h-screen mx-auto p-7 max-w-7xl bg-base-100">
         <h3 class="font-bold text-lg">Edit Event</h3>
         <form id="add_event_form" hx-put="/admin/events/{{ .Event.ID }}" hx-target=".content"
             hx-swap="outerHTML show:top" enctype="multipart/form-data">

@@ -2,10 +2,10 @@
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     <div class="overflow-hidden">
-        <img class="max-h-64 md:max-h-full md:aspect-16/4 w-screen object-cover scale-150 md:scale-100"
+        <img class="max-h-52 md:max-h-full md:aspect-16/4 w-screen object-cover scale-150 md:scale-100"
             style="object-position: left 55%" ; src="/public/pre-karate-advanced.png">
     </div>
-    <div class="class h-screen mx-auto p-7 max-w-6xl bg-base-100">
+    <div class="class h-screen mx-auto p-7 max-w-7xl bg-base-100">
         <h1 class="text-3xl border-b my-10">{{ .Class.Name }} Class</h1>
         <p>Ages: {{ .Class.StartAge }}{{ if .Class.EndAge }}-{{ .Class.EndAge }}yr{{ else }}/up{{ end }}</p>
         <p>{{ .Class.Description }} </p>
