@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"os"
 	"path/filepath"
@@ -11,7 +12,6 @@ import (
 	"shinkyuShotokan/utils"
 	"strconv"
 	"strings"
-	"text/template"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -117,7 +117,7 @@ func Event(c *fiber.Ctx) error {
 	return c.Render("event", fiber.Map{
 		"Page":        page,
 		"Event":       event,
-		"Description": strings.Replace(template.HTMLEscapeString(event.Description), "\n", "<br/>", -1),
+		"Description": event.Description,
 		"Files":       files,
 		"Location":    utils.Locations[event.Location],
 	})
@@ -141,9 +141,9 @@ func EditEventGet(c *fiber.Ctx) error {
 		"Page":        page,
 		"Event":       event,
 		"EventPhotos": eventImagePaths,
-		"Description": strings.Replace(template.HTMLEscapeString(event.Description), "\n", "<br/>", -1),
+		"Description": event.Description,
 		"Files":       files,
-		"Locations": utils.Locations,
+		"Locations":   utils.Locations,
 	})
 }
 
@@ -152,7 +152,7 @@ func AddEvent(c *fiber.Ctx) error {
 		Name               string
 		Date               string
 		Location           string
-		Description        string
+		Description        template.HTML
 		ExistingCoverPhoto string
 	}
 
@@ -195,7 +195,7 @@ func EditEventPost(c *fiber.Ctx) error {
 		Name               string
 		Date               string
 		Location           string
-		Description        string
+		Description        template.HTML
 		ExistingCoverPhoto string
 		DeletedFiles       string
 	}
@@ -243,7 +243,7 @@ func EditEventPost(c *fiber.Ctx) error {
 	uploadEventFiles(event, c)
 
 	//files := getEventFilePaths(event)
-	c.Set("HX-Redirect", "/events/" + strconv.FormatUint(uint64(event.ID), 10))
+	c.Set("HX-Redirect", "/events/"+strconv.FormatUint(uint64(event.ID), 10))
 	return c.Next()
 }
 

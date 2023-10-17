@@ -1,6 +1,7 @@
 package models
 
 import (
+	"html/template"
 	"time"
 
 	"gorm.io/gorm"
@@ -13,5 +14,5 @@ type Event struct {
 	Location    string
 	PictureUrl  string
 	Alt         string
-	Description string
+	Description template.HTML
 }
