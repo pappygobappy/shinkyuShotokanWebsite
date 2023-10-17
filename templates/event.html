@@ -1,10 +1,12 @@
 {{ define "event" }}
+{{ if not .hxRequest }}
 {{ template "top" }}
+{{ end }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     <div class="overflow-hidden">
-    <img class="max-h-60 md:max-h-full md:aspect-16/4 w-screen object-cover scale-110 md:scale-100"
-        style="object-position: left 32%;" src="{{ .Event.PictureUrl }}">
+        <img class="max-h-60 md:max-h-full md:aspect-16/4 w-screen object-cover scale-110 md:scale-100"
+            style="object-position: left 32%;" src="{{ .Event.PictureUrl }}">
     </div>
     <div class="event pb-9 h-screen mx-auto p-7 max-w-7xl bg-base-100">
         <div class="border-b py-10 flex flex-col md:flex-row">
@@ -51,7 +53,6 @@
         {{ end }}
         {{ end }}
     </div>
-</div>
 {{ if .user }}
 <dialog id="delete_event_modal" class="modal">
     <div class="modal-box">
@@ -68,5 +69,9 @@
     </div>
 </dialog>
 {{ end }}
+{{ if not .hxRequest }}
 {{ template "footer" }}
+{{ else }}
+</div>
+{{ end }}
 {{ end }}
