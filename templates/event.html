@@ -8,7 +8,7 @@
         <img class="max-h-60 md:max-h-full md:aspect-16/4 w-screen object-cover scale-110 md:scale-100"
             style="object-position: left 32%;" src="{{ .Event.PictureUrl }}">
     </div>
-    <div class="event pb-9 h-screen mx-auto p-7 max-w-7xl bg-base-100">
+    <div class="event pb-9 mx-auto p-7 max-w-7xl bg-base-100">
         <div class="border-b py-10 flex flex-col md:flex-row">
             <div class="text-3xl">{{ .Event.Title }} - {{ .Event.Date.Format "Jan 02, 2006" }}</div>
             {{ if .user }}
