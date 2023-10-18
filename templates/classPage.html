@@ -1,10 +1,7 @@
 {{ define "classPage" }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="overflow-hidden">
-        <img class="max-h-52 md:max-h-full md:aspect-16/4 w-screen object-cover scale-150 md:scale-100"
-            style="object-position: left 55%" ; src="/public/pre-karate-advanced.png">
-    </div>
+    {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust}}
     <div class="class h-screen mx-auto p-7 max-w-7xl bg-base-100">
         <h1 class="text-3xl border-b my-10">{{ .Class.Name }} Class</h1>
         <div><b>Ages:</b> {{ .Class.StartAge }}{{ if .Class.EndAge }}-{{ .Class.EndAge }}yr{{ else }}/up{{ end }}</div>

@@ -10,7 +10,7 @@
     </div>
     <div class="event pb-9 mx-auto p-7 max-w-7xl bg-base-100">
         <div class="border-b py-10 flex flex-col md:flex-row">
-            <div class="text-3xl">{{ .Event.Title }} - {{ .Event.Date.Format "Jan 02, 2006" }}</div>
+            <div class="text-3xl">{{ .Event.Title }} - {{ .Event.Date.Format "1/2/2006" }}</div>
             {{ if .user }}
             <div class="flex flex-row self-end md:self-center">
                 <button hx-get="/admin/events/{{ .Event.ID }}" hx-target=".content" hx-swap="outerHTML"

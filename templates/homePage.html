@@ -23,7 +23,7 @@
                 <figure><img class="object-cover w-48 h-full" src="{{ .PictureUrl }}" alt="{{ .Alt }}" /></figure>
                 <div class="card-body">
                     <h2 class="card-title">{{ .Title }}</h2>
-                    <p class="">{{ .Date.Format "Jan 02, 2006" }}<br/>{{ .Location }}</p>
+                    <p class="">{{ .Date.Format "1/2/2006" }}<br/>{{ .Location }}</p>
                     <div class="card-actions justify-end">
                         <button class="btn btn-warning" hx-get="/events/{{ .ID }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML show:top">Learn More</button>
                     </div>
@@ -50,18 +50,7 @@
     </div>
     <div class="classes-wrapper grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 md:p-5">
         {{ range .Page.Classes }}
-        <div class="card bg-base-100 shadow-xl image-full my-2.5 md:mx-5"
-            style=".card.image-full:before{opacity: 0.2;}">
-            <figure><img src="/public/image_carousel/PXL_20210506_005649942.jpg" alt="Kids" /></figure>
-            <div class="card-body">
-                <h2 class="card-title mx-auto">{{ .Name }} Classes</h2>
-                <p></p>
-                <div class="card-actions justify-end">
-                    <button class="btn btn-outline btn-warning" hx-get="{{ .GetUrl }}" hx-push-url="true"
-                        hx-target=".content" hx-swap="outerHTML show:top">Learn More</button>
-                </div>
-            </div>
-        </div>
+            {{ template "class_card" .}}
         {{ end }}
     </div>
     {{ end }}

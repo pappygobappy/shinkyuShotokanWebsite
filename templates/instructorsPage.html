@@ -1,11 +1,7 @@
 {{ define "instructorsPage" }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="overflow-hidden">
-        <img class="max-h-52 md:max-h-full md:aspect-16/4 w-screen object-cover scale-110 md:scale-100"
-            style="object-position: left 30%;"
-            src="/public/instructors/original_0dba6fc4-1896-4cc8-926b-56568fb5ea74_PXL_20230827_175124417 (1).jpg">
-    </div>
+    {{ template "banner_image" makeMap "Banner" "/public/instructors/original_0dba6fc4-1896-4cc8-926b-56568fb5ea74_PXL_20230827_175124417 (1).jpg" "BannerAdjust" 30 "BannerAspectRatio" "16/4" "BannerScale" 110}}
     <div class="mx-auto p-7 max-w-7xl bg-base-100">
         {{ range $i, $e := .Instructors }}
 

@@ -44,6 +44,9 @@ func Init() {
 			Level 1 (Beginners) Session B:  Saturday 8:30AM - 9:15AM
 			Level 2 (White, Color Belts): Tuesday 6:00PM - 6:45PM, Saturday 10:30AM - 11:15AM
 			Level 2 (Color Belts): Tuesday 6:00PM - 7:15PM, Saturday 10:30AM - 12:00PM`,
+			CardPhoto: "/public/classes/pre-karate/card.png",
+			BannerPhoto: "/public/classes/pre-karate/banner.png",
+			BannerAdjust: 65,
 		},
 		{
 			Name:        "Kids",
@@ -55,23 +58,32 @@ func Init() {
 			Schedule: `Level 1 (Beginners, Yellow, Blue Belts): Monday/Wednesday 5:30PM - 6:30PM
 			Level 2 (Green First Level): Monday/Wednesday 6:00PM - 7:00PM
 			Advanced Level (Green, Purple, Brown): Monday/Wednesday 6:00PM - 7:30PM`,
+			CardPhoto:    "/public/classes/kids/card.jpg",
+			BannerPhoto:  "/public/classes/kids/card.jpg",
+			BannerAdjust: 50,
 		},
 		{
-			Name:        "Teen",
-			Description: "Learn Karate as an ancient art form, the traditional way of Shotokan. Attain knowledge of self-defense in a spiritual, mental and physical way. Develop confidence; build up your endurance, focus and self-awareness. This is a great way to keep in shape, in a friendly atmosphere. Students should wear loose clothing. Sensei Leroy Rodriques started this program in 1965. Sensei Sue Miller has studied Karate since 1972 and holds the rank of 8th Dan degree black belt. She will be assisted by Nobu Kaji, 8th degree black belt. ",
-			GetUrl:      "/teen-class",
-			StartAge:    13,
-			EndAge:      17,
-			Location:    Locations["Joseph A. Fernekes Recreation Building"],
-			Schedule:    "Tuesday/Thursday 6:00PM - 7:00PM",
+			Name:         "Teen",
+			Description:  "Learn Karate as an ancient art form, the traditional way of Shotokan. Attain knowledge of self-defense in a spiritual, mental and physical way. Develop confidence; build up your endurance, focus and self-awareness. This is a great way to keep in shape, in a friendly atmosphere. Students should wear loose clothing. Sensei Leroy Rodriques started this program in 1965. Sensei Sue Miller has studied Karate since 1972 and holds the rank of 8th Dan degree black belt. She will be assisted by Nobu Kaji, 8th degree black belt. ",
+			GetUrl:       "/teen-class",
+			StartAge:     13,
+			EndAge:       17,
+			Location:     Locations["Joseph A. Fernekes Recreation Building"],
+			Schedule:     "Tuesday/Thursday 6:00PM - 7:00PM",
+			CardPhoto:    "/public/classes/teen/card.jpg",
+			BannerPhoto:  "/public/classes/teen/banner.jpg",
+			BannerAdjust: 75,
 		},
 		{
-			Name:        "Adult",
-			Description: "Learn Karate as an ancient art form, the traditional way of Shotokan. Attain knowledge of self-defense in a spiritual, mental and physical way. Develop confidence; build up your endurance, focus and self-awareness. This is a great way to keep in shape, in a friendly atmosphere. Students should wear loose clothing. Sensei Leroy Rodriques started this program in 1965. Sensei Sue Miller has studied Karate since 1972 and holds the rank of 8th Dan degree black belt. She will be assisted by Nobu Kaji, 8th degree black belt. ",
-			GetUrl:      "/adult-class",
-			StartAge:    18,
-			Location:    Locations["Joseph A. Fernekes Recreation Building"],
-			Schedule:    "Tuesday/Thursday 7:00PM - 8:30PM",
+			Name:         "Adult",
+			Description:  "Learn Karate as an ancient art form, the traditional way of Shotokan. Attain knowledge of self-defense in a spiritual, mental and physical way. Develop confidence; build up your endurance, focus and self-awareness. This is a great way to keep in shape, in a friendly atmosphere. Students should wear loose clothing. Sensei Leroy Rodriques started this program in 1965. Sensei Sue Miller has studied Karate since 1972 and holds the rank of 8th Dan degree black belt. She will be assisted by Nobu Kaji, 8th degree black belt. ",
+			GetUrl:       "/adult-class",
+			StartAge:     18,
+			Location:     Locations["Joseph A. Fernekes Recreation Building"],
+			Schedule:     "Tuesday/Thursday 7:00PM - 8:30PM",
+			CardPhoto:    "/public/classes/adult/card.jpg",
+			BannerPhoto:  "/public/classes/adult/banner.jpg",
+			BannerAdjust: 65,
 		},
 	}
 
