@@ -1,0 +1,27 @@
+{{ define "contact_us" }}
+{{ if not .hxRequest }}
+{{ template "top" }}
+{{ end }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="mx-auto px-4 pb-4 lg:px-7 lb:pb-7 max-w-7xl bg-base-100 h-screen">
+        <div class="text-3xl border-b py-5 flex flex-row items-center">
+            <div>Contact Us</div>
+        </div>
+        <div class="whitespace-pre-line py-2.5">
+            Sensei Sue Miller
+            <b>Phone:</b> (650)952-4275
+        </div>
+        <div class="whitespace-pre-line py-2.5">
+            <b>Class Registration</b>
+            <a href="https://secure.rec1.com/CA/south-san-francisco-ca/catalog/index/9b79cbab20d2d84dbedc4378b0f04183?filter=c2VhcmNoPWthcmF0ZQ==">South San Francisco Recreation Department</a>
+            33 Arroyo Drive
+            South San Francisco, CA 94080
+        </div>
+    </div>
+    {{ if not .hxRequest }}
+    {{ template "footer" }}
+    {{ else }}
+</div>
+{{ end }}
+{{ end }}

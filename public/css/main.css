@@ -2545,6 +2545,10 @@ html {
   border-radius: var(--rounded-box, 1rem);
 }
 
+.artboard.phone {
+  width: 320px;
+}
+
 .btn-md {
   height: 3rem;
   padding-left: 1rem;
@@ -3210,6 +3214,10 @@ html {
 
 .border-4 {
   border-width: 4px;
+}
+
+.border {
+  border-width: 1px;
 }
 
 .border-b {

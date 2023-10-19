@@ -182,6 +182,6 @@ func CurrentTabs() []structs.Tab {
 		currentTabs = append(currentTabs, structs.Tab{Name: "Past Events", SubTabs: pastEventTabs})
 	}
 
-
+	currentTabs = append(currentTabs, structs.Tab{Name: "Contact Us", GetUrl: "/contact-us"})
 	return currentTabs
 }
