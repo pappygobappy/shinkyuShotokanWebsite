@@ -4,10 +4,7 @@
 {{ end }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="overflow-hidden">
-        <img class="max-h-60 md:max-h-full md:aspect-16/4 w-screen object-cover scale-110 md:scale-100"
-            style="object-position: left 32%;" src="{{ .Event.PictureUrl }}">
-    </div>
+    {{ template "banner_image" makeMap "Banner" .Event.PictureUrl "BannerAdjust" 32 "BannerAspectRatio" "16/4" }}
     <div class="event pb-9 mx-auto p-7 max-w-7xl bg-base-100">
         <div class="border-b py-10 flex flex-col md:flex-row">
             <div class="text-3xl">{{ .Event.Title }} - {{ .Event.Date.Format "1/2/2006" }}</div>
