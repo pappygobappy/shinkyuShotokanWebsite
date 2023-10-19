@@ -111,7 +111,11 @@ func Event(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var event models.Event
 	initializers.DB.First(&event, id)
-	page := structs.Page{PageName: "Event", Tabs: utils.Tabs, Classes: utils.Classes}
+	pageName := "Upcoming Events"
+	if event.Date.Before(time.Now()){
+		pageName = "Past Events"
+	}
+	page := structs.Page{PageName: pageName, Tabs: utils.CurrentTabs(), Classes: utils.Classes}
 	files := getEventFilePaths(event)
 
 	return c.Render("event", fiber.Map{
@@ -127,7 +131,7 @@ func EditEventGet(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var event models.Event
 	initializers.DB.First(&event, id)
-	page := structs.Page{PageName: "Event", Tabs: utils.Tabs, Classes: utils.Classes}
+	page := structs.Page{PageName: "Event", Tabs: utils.CurrentTabs(), Classes: utils.Classes}
 	files := getEventFilePaths(event)
 
 	eventImagePaths := getExistingEventCoverPhotos()
@@ -189,7 +193,7 @@ func EditEventPost(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var event models.Event
 	initializers.DB.First(&event, id)
-	//page := structs.Page{PageName: "Event", Tabs: utils.Tabs, Classes: utils.Classes}
+	//page := structs.Page{PageName: "Event", Tabs: utils.CurrentTabs(), Classes: utils.Classes}
 
 	var body struct {
 		Name               string

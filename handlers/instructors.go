@@ -10,7 +10,7 @@ import (
 
 func Instructors(c *fiber.Ctx) error {
 	instructorsPage := fiber.Map{
-		"Page": structs.Page{PageName: "Instructors", Tabs: utils.Tabs, Classes: utils.Classes},
+		"Page":        structs.Page{PageName: "Instructors", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
 		"Instructors": utils.Instructors,
 	}
 	hxRequest, err := strconv.ParseBool(c.Get("hx-request"))

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"os"
 	"shinkyuShotokan/handlers"
@@ -19,6 +20,26 @@ func init() {
 	utils.Init()
 }
 
+func addEngineFuncs(engine *html.Engine) {
+	engine.AddFunc("makeMap", func(values ...interface{}) map[string]interface{} {
+
+		makeMap := make(map[string]interface{})
+		for i := 0; i < len(values); i += 2 {
+			key, ok := values[i].(string)
+			if !ok {
+				log.Println("error making map")
+				return makeMap
+			}
+			makeMap[key] = values[i+1]
+		}
+		return makeMap
+	})
+
+	engine.AddFunc("htmlRender", func(s string) template.HTML {
+		return template.HTML(s)
+	})
+}
+
 func main() {
 	log.Print("hello world")
 
@@ -26,23 +47,12 @@ func main() {
 
 	//Create App
 	engine := html.New("./templates", ".html")
-	engine.AddFunc("makeMap", func(values ...interface{}) map[string]interface{}{
-		
-		makeMap := make(map[string]interface{})
-		for i := 0; i < len(values); i+=2 {
-			key, ok := values[i].(string)
-			if !ok {
-				log.Println("error making map")
-				return makeMap
-			}
-			makeMap[key] = values[i +1]
-		}
-		return makeMap
-	})
+	addEngineFuncs(engine)
+
 	app := fiber.New(fiber.Config{
-		Views: engine,
+		Views:             engine,
 		PassLocalsToViews: true,
-		BodyLimit: 16 * 1024 * 1024,
+		BodyLimit:         16 * 1024 * 1024,
 	})
 
 	//Register Static Files
@@ -50,7 +60,6 @@ func main() {
 	app.Static("/upload", os.Getenv("UPLOAD_DIR"))
 
 	//Init Data
-	
 
 	//Register Routes
 	mainRoutes := app.Group("/", middleware.AttachUser)
@@ -67,7 +76,7 @@ func main() {
 	for _, class := range utils.Classes {
 		mainRoutes.Get(class.GetUrl, handlers.Classes)
 	}
-	
+
 	adminRoutes := app.Group("admin", middleware.RequireAuth)
 	adminRoutes.Get("/", handlers.AdminHome)
 	adminRoutes.Post("/events", handlers.AddEvent)

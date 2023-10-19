@@ -1,9 +1,10 @@
 package utils
 
 import (
-	"html/template"
 	"shinkyuShotokan/models"
+	"shinkyuShotokan/queries"
 	"shinkyuShotokan/structs"
+	"strconv"
 )
 
 var Instructors []structs.Instructor
@@ -44,8 +45,8 @@ func Init() {
 			Level 1 (Beginners) Session B:  Saturday 8:30AM - 9:15AM
 			Level 2 (White, Color Belts): Tuesday 6:00PM - 6:45PM, Saturday 10:30AM - 11:15AM
 			Level 2 (Color Belts): Tuesday 6:00PM - 7:15PM, Saturday 10:30AM - 12:00PM`,
-			CardPhoto: "/public/classes/pre-karate/card.png",
-			BannerPhoto: "/public/classes/pre-karate/banner.png",
+			CardPhoto:    "/public/classes/pre-karate/card.png",
+			BannerPhoto:  "/public/classes/pre-karate/banner.png",
 			BannerAdjust: 65,
 		},
 		{
@@ -89,7 +90,7 @@ func Init() {
 
 	var classesTabs []structs.Tab
 	for _, class := range Classes {
-		classesTabs = append(classesTabs, structs.Tab{Name: template.HTML(class.Name), GetUrl: class.GetUrl})
+		classesTabs = append(classesTabs, structs.Tab{Name: class.Name, GetUrl: class.GetUrl})
 	}
 
 	requirementsTabs := []structs.Tab{
@@ -158,4 +159,29 @@ func Init() {
 		{Name: "Classes", SubTabs: classesTabs},
 		{Name: "Requirements", SubTabs: requirementsTabs},
 	}
+}
+
+func CurrentTabs() []structs.Tab {
+	upcomingEvents := queries.GetUpcomingEvents()
+	pastEvents := queries.GetPastEventsForTheYear()
+	currentTabs := Tabs
+	var upcomingEventsTabs []structs.Tab
+	var pastEventTabs []structs.Tab
+
+	for _, upcomingEvent := range upcomingEvents {
+		upcomingEventsTabs = append(upcomingEventsTabs, structs.Tab{Name: upcomingEvent.Title, GetUrl: "/events/" + strconv.FormatUint(uint64(upcomingEvent.ID), 10)})
+	}
+	if len(upcomingEventsTabs) != 0 {
+		currentTabs = append(currentTabs, structs.Tab{Name: "Upcoming Events", SubTabs: upcomingEventsTabs})
+	}
+
+	for _, pastEvent := range pastEvents {
+		pastEventTabs = append(pastEventTabs, structs.Tab{Name: pastEvent.Title, GetUrl: "/events/" + strconv.FormatUint(uint64(pastEvent.ID), 10)})
+	}
+	if len(pastEventTabs) != 0 {
+		currentTabs = append(currentTabs, structs.Tab{Name: "Past Events", SubTabs: pastEventTabs})
+	}
+
+
+	return currentTabs
 }

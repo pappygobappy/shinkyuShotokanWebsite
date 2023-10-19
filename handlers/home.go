@@ -2,11 +2,9 @@ package handlers
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
-	"shinkyuShotokan/initializers"
-	"shinkyuShotokan/models"
+	"shinkyuShotokan/queries"
 	"shinkyuShotokan/structs"
 	"shinkyuShotokan/utils"
 	"strconv"
@@ -32,17 +30,13 @@ func Home(c *fiber.Ctx) error {
 
 	eventImagePaths := getExistingEventCoverPhotos()
 
-	var events []models.Event
-	result := initializers.DB.Order("date").Find(&events)
-	if result.Error != nil {
-		log.Print(result.Error)
-	}
+	events := queries.GetUpcomingEvents()
 	homePage := fiber.Map{
-		"Page": structs.Page{PageName: "Home", Tabs: utils.Tabs, Classes: utils.Classes},
-		"Events": events,
-		"ImagePaths": imagePaths,
+		"Page":        structs.Page{PageName: "Home", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Events":      events,
+		"ImagePaths":  imagePaths,
 		"EventPhotos": eventImagePaths,
-		"Locations": utils.Locations,
+		"Locations":   utils.Locations,
 	}
 
 	hxRequest, err := strconv.ParseBool(c.Get("hx-request"))

@@ -9,7 +9,7 @@ import (
 )
 
 func History(c *fiber.Ctx) error {
-	historyPage := structs.Page{PageName: "History", Tabs: utils.Tabs, Classes: utils.Classes}
+	historyPage := structs.Page{PageName: "History", Tabs: utils.CurrentTabs(), Classes: utils.Classes}
 	hxRequest, err := strconv.ParseBool(c.Get("hx-request"))
 	if err != nil {
 		hxRequest = false

@@ -48,7 +48,7 @@ func AdminHome(c *fiber.Ctx) error {
 		log.Print(result.Error)
 	}
 	homePage := fiber.Map{
-		"Page":        structs.Page{PageName: "Home", Tabs: utils.Tabs, Classes: utils.Classes},
+		"Page":        structs.Page{PageName: "Home", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
 		"Events":      events,
 		"ImagePaths":  imagePaths,
 		"EventPhotos": eventImagePaths,

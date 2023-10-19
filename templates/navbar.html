@@ -13,7 +13,7 @@
                     <ul class="p-2 z-10 font-normal">
                         {{ range .SubTabs }}
                         <li><a hx-get="{{ .GetUrl }}" hx-push-url="true" hx-target=".content"
-                                hx-swap="outerHTML" class="hover:bg-warning">{{ .Name }}</a></li>
+                                hx-swap="outerHTML" class="hover:bg-warning">{{ htmlRender .Name }}</a></li>
                         {{ end }}
                     </ul>
                 </details>

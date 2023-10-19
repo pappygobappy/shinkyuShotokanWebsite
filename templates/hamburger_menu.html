@@ -14,7 +14,7 @@
                 <summary>{{ .Name }}</summary>
                 <ul class="p-2 z-10 font-normal">
                     {{ range .SubTabs }}
-                    <li><a hx-get="{{ .GetUrl }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML">{{ .Name
+                    <li><a hx-get="{{ .GetUrl }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML">{{ htmlRender .Name
                             }}</a></li>
                     {{ end }}
                 </ul>

@@ -10,5 +10,5 @@ import (
 
 func Requirements(c *fiber.Ctx) error {
 	rank := c.Params("rank")
-	return c.Render(fmt.Sprintf("%s_requirements", rank), fiber.Map{"Page": structs.Page{PageName: "Requirements", Tabs: utils.Tabs, Classes: utils.Classes}})
+	return c.Render(fmt.Sprintf("%s_requirements", rank), fiber.Map{"Page": structs.Page{PageName: "Requirements", Tabs: utils.CurrentTabs(), Classes: utils.Classes}})
 }
