@@ -3045,6 +3045,10 @@ html {
   max-height: 18rem;
 }
 
+.min-h-screen {
+  min-height: 100vh;
+}
+
 .w-1\/2 {
   width: 50%;
 }
