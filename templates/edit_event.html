@@ -16,6 +16,14 @@
             <input type="date" placeholder="Event Date" class="w-full input input-bordered"
                 value="{{ .Event.Date.Format "2006-01-02" }}" name="Date" required />
             <label class="label">
+                <span class="text-base label-text">Start Time</span>
+            </label>
+            <input type="time" placeholder="Start Time" class="w-full input input-bordered" name="StartTime" required />
+            <label class="label">
+                <span class="text-base label-text">End Time</span>
+            </label>
+            <input type="time" placeholder="End Time" class="w-full input input-bordered" name="EndTime" required />
+            <label class="label">
                 <span class="text-base label-text">Event Location</span>
             </label>
             <select class="select select-bordered w-full max-w-xs" name="Location">
@@ -128,5 +136,5 @@
             <input type="Submit" form="add_event_form" class="btn btn-warning" />
         </div>
     </div>
-    </div>
-    {{ end }}
+</div>
+{{ end }}

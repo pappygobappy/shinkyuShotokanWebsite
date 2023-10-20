@@ -11,6 +11,8 @@ type Event struct {
 	gorm.Model
 	Title       string
 	Date        time.Time
+	StartTime   time.Time
+	EndTime     time.Time
 	Location    string
 	PictureUrl  string
 	Alt         string

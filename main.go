@@ -8,6 +8,7 @@ import (
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/middleware"
 	"shinkyuShotokan/utils"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
@@ -37,6 +38,10 @@ func addEngineFuncs(engine *html.Engine) {
 
 	engine.AddFunc("htmlRender", func(s string) template.HTML {
 		return template.HTML(s)
+	})
+	
+	engine.AddFunc("gmtRfc5545", func(t time.Time) string {
+		return t.In(time.FixedZone("GMT", 0)).Format("20060102T150405Z")
 	})
 }
 

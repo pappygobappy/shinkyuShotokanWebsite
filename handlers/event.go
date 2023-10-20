@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/arran4/golang-ical"
 )
 
 func getExistingEventCoverPhotos() []string {
@@ -112,7 +113,7 @@ func Event(c *fiber.Ctx) error {
 	var event models.Event
 	initializers.DB.First(&event, id)
 	pageName := "Upcoming Events"
-	if event.Date.Before(time.Now()){
+	if event.Date.Before(time.Now()) {
 		pageName = "Past Events"
 	}
 	page := structs.Page{PageName: pageName, Tabs: utils.CurrentTabs(), Classes: utils.Classes}
@@ -185,6 +186,7 @@ func AddEvent(c *fiber.Ctx) error {
 
 	//Handle Files
 	uploadEventFiles(event, c)
+	createEventIcs(event, utils.Locations[event.Location])
 
 	return c.Redirect("/")
 }
@@ -198,6 +200,8 @@ func EditEventPost(c *fiber.Ctx) error {
 	var body struct {
 		Name               string
 		Date               string
+		StartTime          string
+		EndTime            string
 		Location           string
 		Description        template.HTML
 		ExistingCoverPhoto string
@@ -210,6 +214,10 @@ func EditEventPost(c *fiber.Ctx) error {
 	}
 
 	date, error := time.ParseInLocation("2006-01-02", body.Date, time.Local)
+	startTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.StartTime), time.Local)
+	endTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.EndTime), time.Local)
+	log.Println(startTime)
+	log.Println(endTime)
 
 	filesToDelete := strings.Split(body.DeletedFiles, ",")
 
@@ -226,6 +234,8 @@ func EditEventPost(c *fiber.Ctx) error {
 
 	event.Title = body.Name
 	event.Date = date
+	event.StartTime = startTime
+	event.EndTime = endTime
 	event.Description = body.Description
 	event.PictureUrl = photoUrl
 	event.Location = body.Location
@@ -245,6 +255,7 @@ func EditEventPost(c *fiber.Ctx) error {
 
 	//Handle Files
 	uploadEventFiles(event, c)
+	createEventIcs(event, utils.Locations[event.Location])
 
 	//files := getEventFilePaths(event)
 	c.Set("HX-Redirect", "/events/"+strconv.FormatUint(uint64(event.ID), 10))
@@ -258,4 +269,22 @@ func DeleteEventPost(c *fiber.Ctx) error {
 
 	c.Set("HX-Redirect", "/")
 	return c.Next()
+}
+
+func createEventIcs (e models.Event, l models.Location) {
+	cal := ics.NewCalendar()
+	cal.SetMethod(ics.MethodRequest)
+	event := cal.AddEvent("12345678")
+	event.SetStartAt(e.StartTime)
+	event.SetEndAt(e.EndTime)
+	event.SetSummary(e.Title)
+	event.SetLocation(l.Name)
+	event.SetDescription(string(e.Description))
+	ics := cal.Serialize()
+	f, err := os.Create(fmt.Sprintf("%s/assets/event/%s/%s.ics", os.Getenv("UPLOAD_DIR"), strconv.FormatUint(uint64(e.ID), 10), e.Title))
+    if err != nil {
+        fmt.Println(err)
+		return 
+    }
+	f.WriteString(ics)
 }

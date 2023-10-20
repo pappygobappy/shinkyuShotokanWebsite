@@ -16,15 +16,15 @@ body {
 
 .slideshow-wrapper {
     position: relative;
-	width:100%;
-	margin: 0 auto;
+    width: 100%;
+    margin: 0 auto;
 }
 
 /* Slideshow container */
 .slideshow-container {
-    position:relative;
+    position: relative;
     aspect-ratio: 16 / 6;
-	overflow: hidden;
+    overflow: hidden;
 }
 
 /* Caption text */
@@ -67,10 +67,10 @@ body {
 
 .slide-dot-container {
     display: flex;
-	column-gap: 0.5rem;
-	position: absolute;
-	bottom: 0.25rem;
-	z-index: 1;
+    column-gap: 0.5rem;
+    position: absolute;
+    bottom: 0.25rem;
+    z-index: 1;
 }
 
 /* Fading animation */
@@ -98,4 +98,28 @@ body {
 
 .card.image-full:before {
     opacity: 0.35;
-  }
+}
+
+.aspect-16\/4 {
+    aspect-ratio: 16 / 4;
+}
+
+.aspect-16\/5 {
+    aspect-ratio: 16 / 5;
+}
+
+.aspect-16\/6 {
+    aspect-ratio: 16 / 6;
+}
+
+.md\:aspect-16\/4 {
+    aspect-ratio: 16 / 4;
+}
+
+.md\:aspect-16\/5 {
+    aspect-ratio: 16 / 5;
+}
+
+.md\:aspect-16\/6 {
+    aspect-ratio: 16 / 6;
+}
