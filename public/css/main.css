@@ -2957,6 +2957,10 @@ html {
   margin-top: 1.75rem;
 }
 
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
 .block {
   display: block;
 }
@@ -3391,6 +3395,11 @@ html {
   padding-bottom: 2rem;
 }
 
+.px-7 {
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+}
+
 .pb-4 {
   padding-bottom: 1rem;
 }
@@ -3409,6 +3418,10 @@ html {
 
 .pr-4 {
   padding-right: 1rem;
+}
+
+.pt-10 {
+  padding-top: 2.5rem;
 }
 
 .text-center {
