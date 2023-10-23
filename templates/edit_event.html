@@ -18,7 +18,6 @@
             <label class="label">
                 <span class="text-base label-text">Start Time</span>
             </label>
-            {{ .Event.StartTime }}
             <input type="time" placeholder="Start Time" class="w-full input input-bordered" value="{{ .Event.StartTime.Format "15:04:05" }}" name="StartTime" required />
             <label class="label">
                 <span class="text-base label-text">End Time</span>
