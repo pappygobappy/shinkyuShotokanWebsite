@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
 	"shinkyuShotokan/structs"
@@ -14,8 +15,9 @@ import (
 	"strings"
 	"time"
 
+	ics "github.com/arran4/golang-ical"
 	"github.com/gofiber/fiber/v2"
-	"github.com/arran4/golang-ical"
+	"github.com/google/uuid"
 )
 
 func getExistingEventCoverPhotos() []string {
@@ -156,6 +158,8 @@ func AddEvent(c *fiber.Ctx) error {
 	var body struct {
 		Name               string
 		Date               string
+		StartTime          string
+		EndTime            string
 		Location           string
 		Description        template.HTML
 		ExistingCoverPhoto string
@@ -166,7 +170,9 @@ func AddEvent(c *fiber.Ctx) error {
 		return err
 	}
 
-	date, error := time.ParseInLocation("2006-01-02", body.Date, time.Local)
+	date, error := time.ParseInLocation("2006-01-02", body.Date, utils.TZ)
+	startTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.StartTime), utils.TZ)
+	endTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.EndTime), utils.TZ)
 
 	if error != nil {
 		fmt.Println(error)
@@ -175,7 +181,7 @@ func AddEvent(c *fiber.Ctx) error {
 
 	photoUrl := getCoverPhotoUrl(body.ExistingCoverPhoto, c)
 
-	event := models.Event{Title: body.Name, Date: date, Description: body.Description, PictureUrl: photoUrl, Location: body.Location}
+	event := models.Event{Title: body.Name, Date: date, StartTime: startTime, EndTime: endTime, Description: body.Description, PictureUrl: photoUrl, Location: body.Location}
 
 	result := initializers.DB.Create(&event)
 
@@ -213,11 +219,9 @@ func EditEventPost(c *fiber.Ctx) error {
 		return err
 	}
 
-	date, error := time.ParseInLocation("2006-01-02", body.Date, time.Local)
-	startTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.StartTime), time.Local)
-	endTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.EndTime), time.Local)
-	log.Println(startTime)
-	log.Println(endTime)
+	date, error := time.ParseInLocation("2006-01-02", body.Date, utils.TZ)
+	startTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.StartTime), utils.TZ)
+	endTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.EndTime), utils.TZ)
 
 	filesToDelete := strings.Split(body.DeletedFiles, ",")
 
@@ -239,14 +243,8 @@ func EditEventPost(c *fiber.Ctx) error {
 	event.Description = body.Description
 	event.PictureUrl = photoUrl
 	event.Location = body.Location
-	log.Println(body.Location)
-	// event.Location = body.Location
-	// event.GoogleMapsIframe = body.GoogleMapsIframe
-	// event.Address = body.Address
 
 	result := initializers.DB.Save(&event)
-
-	log.Println("Saved")
 
 	if result.Error != nil {
 		log.Print("Error creating Event", result.Error)
@@ -271,20 +269,26 @@ func DeleteEventPost(c *fiber.Ctx) error {
 	return c.Next()
 }
 
-func createEventIcs (e models.Event, l models.Location) {
+func createEventIcs(e models.Event, l models.Location) {
 	cal := ics.NewCalendar()
 	cal.SetMethod(ics.MethodRequest)
-	event := cal.AddEvent("12345678")
+	event := cal.AddEvent(uuid.New().String())
+	event.SetCreatedTime(time.Now())
+	event.SetDtStampTime(time.Now())
+	event.SetModifiedAt(time.Now())
 	event.SetStartAt(e.StartTime)
 	event.SetEndAt(e.EndTime)
 	event.SetSummary(e.Title)
 	event.SetLocation(l.Name)
-	event.SetDescription(string(e.Description))
+	re := regexp.MustCompile(`\r?\n`)
+	desc := re.ReplaceAllString(string(e.Description), "<br />")
+	event.SetDescription(desc)
+	event.SetProperty("X-ALT-DESC;FMTTYPE=text/html", fmt.Sprintf("<!DOCTYPE HTML PUBLIC \"\"-//W3C//DTD HTML 3.2//EN\"\"><HTML><BODY>%s</BODY></HTML>", desc))
 	ics := cal.Serialize()
 	f, err := os.Create(fmt.Sprintf("%s/assets/event/%s/%s.ics", os.Getenv("UPLOAD_DIR"), strconv.FormatUint(uint64(e.ID), 10), e.Title))
-    if err != nil {
-        fmt.Println(err)
-		return 
-    }
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	f.WriteString(ics)
 }
