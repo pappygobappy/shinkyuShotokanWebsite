@@ -43,6 +43,10 @@ func addEngineFuncs(engine *html.Engine) {
 	engine.AddFunc("gmtRfc5545", func(t time.Time) string {
 		return t.In(time.FixedZone("GMT", 0)).Format("20060102T150405Z")
 	})
+
+	engine.AddFunc("startTimePSTString", func(t time.Time) string {
+		return t.In(utils.TZ).Format("15:04:05")
+	})
 }
 
 func main() {

@@ -18,11 +18,11 @@
             <label class="label">
                 <span class="text-base label-text">Start Time</span>
             </label>
-            <input type="time" placeholder="Start Time" class="w-full input input-bordered" value="{{ .Event.StartTime.Format "15:04:05" }}" name="StartTime" required />
+            <input type="time" placeholder="Start Time" class="w-full input input-bordered" value="{{ startTimePSTString .Event.StartTime  }}" name="StartTime" required />
             <label class="label">
                 <span class="text-base label-text">End Time</span>
             </label>
-            <input type="time" placeholder="End Time" class="w-full input input-bordered" value="{{ .Event.EndTime.Format "15:04:05" }}" name="EndTime" required />
+            <input type="time" placeholder="End Time" class="w-full input input-bordered" value="{{ startTimePSTString .Event.EndTime }}" name="EndTime" required />
             <label class="label">
                 <span class="text-base label-text">Event Location</span>
             </label>

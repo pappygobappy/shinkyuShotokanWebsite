@@ -139,11 +139,6 @@ func EditEventGet(c *fiber.Ctx) error {
 
 	eventImagePaths := getExistingEventCoverPhotos()
 
-	var events []models.Event
-	result := initializers.DB.Find(&events)
-	if result.Error != nil {
-		log.Print(result.Error)
-	}
 	return c.Render("edit_event", fiber.Map{
 		"Page":        page,
 		"Event":       event,
@@ -171,8 +166,8 @@ func AddEvent(c *fiber.Ctx) error {
 	}
 
 	date, error := time.ParseInLocation("2006-01-02", body.Date, utils.TZ)
-	startTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.StartTime), utils.TZ)
-	endTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.EndTime), utils.TZ)
+	startTime, error := time.ParseInLocation("2006-01-02 15:04:00", fmt.Sprintf("%s %s", body.Date, body.StartTime), utils.TZ)
+	endTime, error := time.ParseInLocation("2006-01-02 15:04:00", fmt.Sprintf("%s %s", body.Date, body.EndTime), utils.TZ)
 
 	if error != nil {
 		fmt.Println(error)
@@ -220,8 +215,8 @@ func EditEventPost(c *fiber.Ctx) error {
 	}
 
 	date, error := time.ParseInLocation("2006-01-02", body.Date, utils.TZ)
-	startTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.StartTime), utils.TZ)
-	endTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.EndTime), utils.TZ)
+	startTime, error := time.ParseInLocation("2006-01-02 15:04:00", fmt.Sprintf("%s %s", body.Date, body.StartTime), utils.TZ)
+	endTime, error := time.ParseInLocation("2006-01-02 15:04:00", fmt.Sprintf("%s %s", body.Date, body.EndTime), utils.TZ)
 
 	filesToDelete := strings.Split(body.DeletedFiles, ",")
 
