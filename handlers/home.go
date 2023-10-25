@@ -37,6 +37,7 @@ func Home(c *fiber.Ctx) error {
 		"ImagePaths":  imagePaths,
 		"EventPhotos": eventImagePaths,
 		"Locations":   utils.Locations,
+		"message": c.Locals("message"),
 	}
 
 	hxRequest, err := strconv.ParseBool(c.Get("hx-request"))

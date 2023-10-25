@@ -582,6 +582,36 @@ html {
   --tw-backdrop-sepia:  ;
 }
 
+.alert {
+  display: grid;
+  width: 100%;
+  grid-auto-flow: row;
+  align-content: flex-start;
+  align-items: center;
+  justify-items: center;
+  gap: 1rem;
+  text-align: center;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--b2) / var(--tw-border-opacity));
+  padding: 1rem;
+  --tw-text-opacity: 1;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  border-radius: var(--rounded-box, 1rem);
+  --alert-bg: hsl(var(--b2));
+  --alert-bg-mix: hsl(var(--b1));
+  background-color: var(--alert-bg);
+}
+
+@media (min-width: 640px) {
+  .alert {
+    grid-auto-flow: column;
+    grid-template-columns: auto minmax(auto,1fr);
+    justify-items: start;
+    text-align: left;
+  }
+}
+
 .avatar.placeholder > div {
   display: flex;
   align-items: center;
@@ -669,6 +699,13 @@ html {
 .btn-square {
   height: 3rem;
   width: 3rem;
+  padding: 0px;
+}
+
+.btn-circle {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 9999px;
   padding: 0px;
 }
 
@@ -1506,6 +1543,22 @@ html {
   box-shadow: var(--handleoffsetcalculator) 0 0 2px var(--tglbg) inset,
     0 0 0 2px var(--tglbg) inset,
     var(--togglehandleborder);
+}
+
+.alert-success {
+  border-color: hsl(var(--su) / 0.2);
+  --tw-text-opacity: 1;
+  color: hsl(var(--suc) / var(--tw-text-opacity));
+  --alert-bg: hsl(var(--su));
+  --alert-bg-mix: hsl(var(--b1));
+}
+
+.alert-error {
+  border-color: hsl(var(--er) / 0.2);
+  --tw-text-opacity: 1;
+  color: hsl(var(--erc) / var(--tw-text-opacity));
+  --alert-bg: hsl(var(--er));
+  --alert-bg-mix: hsl(var(--b1));
 }
 
 .btm-nav > *.disabled,
@@ -2581,9 +2634,30 @@ html {
   padding: 0px;
 }
 
+.btn-circle:where(.btn-xs) {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 9999px;
+  padding: 0px;
+}
+
+.btn-circle:where(.btn-sm) {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 9999px;
+  padding: 0px;
+}
+
 .btn-circle:where(.btn-md) {
   height: 3rem;
   width: 3rem;
+  border-radius: 9999px;
+  padding: 0px;
+}
+
+.btn-circle:where(.btn-lg) {
+  height: 4rem;
+  width: 4rem;
   border-radius: 9999px;
   padding: 0px;
 }
@@ -2843,10 +2917,6 @@ html {
   z-index: 1;
 }
 
-.m-1 {
-  margin: 0.25rem;
-}
-
 .m-2 {
   margin: 0.5rem;
 }
@@ -3098,8 +3168,12 @@ html {
   max-width: 20rem;
 }
 
-.grow {
-  flex-grow: 1;
+.max-w-md {
+  max-width: 28rem;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
 }
 
 .transform {
@@ -3126,18 +3200,6 @@ html {
   flex-wrap: wrap;
 }
 
-.place-content-end {
-  place-content: end;
-}
-
-.content-end {
-  align-content: flex-end;
-}
-
-.items-end {
-  align-items: flex-end;
-}
-
 .items-center {
   align-items: center;
 }
@@ -3152,10 +3214,6 @@ html {
 
 .justify-between {
   justify-content: space-between;
-}
-
-.justify-items-end {
-  justify-items: end;
 }
 
 .gap-2 {
@@ -3178,10 +3236,6 @@ html {
 
 .self-center {
   align-self: center;
-}
-
-.justify-self-end {
-  justify-self: end;
 }
 
 .overflow-hidden {
@@ -3303,6 +3357,10 @@ html {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.stroke-current {
+  stroke: currentColor;
 }
 
 .object-cover {
@@ -3560,6 +3618,12 @@ html {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-lg {
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -3698,36 +3762,15 @@ body {
     font-size: 0.875rem;
   }
 
-  .md\:btn-md {
-    height: 3rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    min-height: 3rem;
-    font-size: 0.875rem;
-  }
-
   .btn-square:where(.md\:btn-sm) {
     height: 2rem;
     width: 2rem;
     padding: 0px;
   }
 
-  .btn-square:where(.md\:btn-md) {
-    height: 3rem;
-    width: 3rem;
-    padding: 0px;
-  }
-
   .btn-circle:where(.md\:btn-sm) {
     height: 2rem;
     width: 2rem;
-    border-radius: 9999px;
-    padding: 0px;
-  }
-
-  .btn-circle:where(.md\:btn-md) {
-    height: 3rem;
-    width: 3rem;
     border-radius: 9999px;
     padding: 0px;
   }

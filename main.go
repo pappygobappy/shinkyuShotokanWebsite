@@ -94,6 +94,8 @@ func main() {
 	adminRoutes.Put("/events/:id", handlers.EditEventPost)
 	adminRoutes.Delete("/events/:id", handlers.DeleteEventPost)
 	adminRoutes.Post("/logout", handlers.LogoutPost)
+	adminRoutes.Get("/reset-password", handlers.ResetPasswordGet)
+	adminRoutes.Post("/reset-password", handlers.ResetPasswordPost)
 	//app.Get("/pre-karate-class", handlers.PreKarateClasses)
 
 	//Start App
