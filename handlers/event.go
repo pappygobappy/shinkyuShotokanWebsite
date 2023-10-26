@@ -166,8 +166,8 @@ func AddEvent(c *fiber.Ctx) error {
 	}
 
 	date, error := time.ParseInLocation("2006-01-02", body.Date, utils.TZ)
-	startTime, error := time.ParseInLocation("2006-01-02 15:04:00", fmt.Sprintf("%s %s", body.Date, body.StartTime), utils.TZ)
-	endTime, error := time.ParseInLocation("2006-01-02 15:04:00", fmt.Sprintf("%s %s", body.Date, body.EndTime), utils.TZ)
+	startTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.StartTime), utils.TZ)
+	endTime, error := time.ParseInLocation("2006-01-02 15:04", fmt.Sprintf("%s %s", body.Date, body.EndTime), utils.TZ)
 
 	if error != nil {
 		fmt.Println(error)
