@@ -276,9 +276,11 @@ func createEventIcs(e models.Event, l models.Location) {
 	event.SetSummary(e.Title)
 	event.SetLocation(l.Name)
 	re := regexp.MustCompile(`\r?\n`)
-	desc := re.ReplaceAllString(string(e.Description), "<br />")
+	htmlDesc := re.ReplaceAllString(string(e.Description), "\n")
+	desc := strings.Replace(htmlDesc, "<b>", "*", -1)
+	desc = strings.Replace(desc, "</b>", "*", -1)
 	event.SetDescription(desc)
-	event.SetProperty("X-ALT-DESC;FMTTYPE=text/html", fmt.Sprintf("<!DOCTYPE HTML PUBLIC \"\"-//W3C//DTD HTML 3.2//EN\"\"><HTML><BODY>%s</BODY></HTML>", desc))
+	event.SetProperty("X-ALT-DESC;FMTTYPE=text/html", fmt.Sprintf("<!DOCTYPE HTML PUBLIC \"\"-//W3C//DTD HTML 3.2//EN\"\"><HTML><BODY>%s</BODY></HTML>", htmlDesc))
 	ics := cal.Serialize()
 	f, err := os.Create(fmt.Sprintf("%s/assets/event/%s/%s.ics", os.Getenv("UPLOAD_DIR"), strconv.FormatUint(uint64(e.ID), 10), e.Title))
 	if err != nil {
