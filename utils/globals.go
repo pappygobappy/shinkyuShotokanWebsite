@@ -50,7 +50,7 @@ func Init() {
 			Bio:        `Patrick has been continuously studying Shotokan Karate since he was 6 years old. 
 						Even from the very beginning, he loved karate and now, almost 30 years later, he is a 5th degree black belt. 
 						What has always inspired him was looking up to people who have been taking karate for a long time and seeing how far he could go with his own karate. 
-						Today, Patrick is teaching Shotokan Karate in the adult and teen classes while actively continuing his own karate training. He also regularly competes successfully in karate tournaments representing Shinkyu Shotokan.`
+						Today, Patrick is teaching Shotokan Karate in the adult and teen classes while actively continuing his own karate training. He also regularly competes successfully in karate tournaments representing Shinkyu Shotokan.`,
 		},
 		{
 			Name:       "Senpai Alex Moreno",
