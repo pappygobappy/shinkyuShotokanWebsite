@@ -66,9 +66,26 @@ func Init() {
 		{Title: "Promotional", PictureUrl: "/assets/image_carousel/PXL_20221114_013356064.MP.jpg", Alt: "Promotional", Description: "Belt Testing Coming Up fast! Practice Hard!"},
 	}
 	Locations = map[string]models.Location{
-		"Municipal Services Building Social Hall": {Name: "Municipal Services Building Social Hall", Address: "33 Arroyo Dr\nSouth San Francisco, CA 94080", GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d370.2848693925495!2d-122.43671174104588!3d37.65611258699785!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7979c0e8e543%3A0xb9afc1672af1c20f!2sMunicipal%20Services%20Building!5e0!3m2!1sen!2sus!4v1697495645159!5m2!1sen!2sus"},
-		"Joseph A. Fernekes Recreation Building":  {Name: "Joseph A. Fernekes Recreation Building", Address: "781 Tennis Dr\nSouth San Francisco, CA 94080", GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d754.669097751462!2d-122.4269021943449!3d37.65438985945025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f799fc91c36df%3A0xcc99a9bb998b1cae!2sJoseph%20A.%20Fernekes%20Recreation%20Building!5e0!3m2!1sen!2sus!4v1697495721802!5m2!1sen!2sus"},
-		"Terrabay Gymnasium & Rec Center":         {Name: "Terrabay Gymnasium & Rec Center", Address: "1121 S San Francisco Dr\nSouth San Francisco, CA 94080", GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.141657123408!2d-122.41867442351607!3d37.669379072012134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7911a3751ad7%3A0x1d1ee69af964118e!2sTerrabay%20Gymnasium%20%26%20Rec%20Center!5e0!3m2!1sen!2sus!4v1697499112094!5m2!1sen!2sus"},
+		"Municipal Services Building Social Hall": {
+			Name: "Municipal Services Building Social Hall", 
+			Address: "33 Arroyo Dr\nSouth San Francisco, CA 94080", 
+			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d370.2848693925495!2d-122.43671174104588!3d37.65611258699785!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7979c0e8e543%3A0xb9afc1672af1c20f!2sMunicipal%20Services%20Building!5e0!3m2!1sen!2sus!4v1697495645159!5m2!1sen!2sus",
+		},
+		"Joseph A. Fernekes Recreation Building":  {
+			Name: "Joseph A. Fernekes Recreation Building", 
+			Address: "781 Tennis Dr\nSouth San Francisco, CA 94080", 
+			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d754.669097751462!2d-122.4269021943449!3d37.65438985945025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f799fc91c36df%3A0xcc99a9bb998b1cae!2sJoseph%20A.%20Fernekes%20Recreation%20Building!5e0!3m2!1sen!2sus!4v1697495721802!5m2!1sen!2sus",
+		},
+		"Westborough Recreation Building": {
+			Name: "Westborough Recreation Building",
+			Address: "2380 Galway Dr\nSouth San Francisco, CA 94080",
+			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3159.2318050301537!2d-122.45995728796625!3d37.64375397190207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7a2d9d450665%3A0x86c39d47310bd2e4!2sWestborough%20Recreation%20Building!5e0!3m2!1sen!2sus!4v1698348935868!5m2!1sen!2sus",
+		},
+		"Terrabay Gymnasium & Rec Center": {
+			Name: "Terrabay Gymnasium & Rec Center", 
+			Address: "1121 S San Francisco Dr\nSouth San Francisco, CA 94080", 
+			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.141657123408!2d-122.41867442351607!3d37.669379072012134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7911a3751ad7%3A0x1d1ee69af964118e!2sTerrabay%20Gymnasium%20%26%20Rec%20Center!5e0!3m2!1sen!2sus!4v1697499112094!5m2!1sen!2sus",
+		},
 	}
 	Classes = []models.Class{
 		{
