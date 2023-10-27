@@ -22,7 +22,7 @@ func Init() {
 
 	Instructors = []structs.Instructor{
 		{
-			Name:       "Leroy Rodrigues",
+			Name:       "Sensei Leroy Rodrigues",
 			PictureUrl: "/public/instructors/leroy.jpg",
 			Bio: 		`
 						Sensei Leroy Rodrigues has studied karate since 1961 and holds the rank of 10th Dan. 
@@ -31,7 +31,7 @@ func Init() {
 						He also has a book published as well as a video, containing older katas of Shorinji-Ryu.`,
 		},
 		{
-			Name:       "Sue Miller",
+			Name:       "Sensei Sue Miller",
 			PictureUrl: "/public/instructors/940489572.jpg",
 			Bio:        `Sensei Sue been training since 1972. 
 						In the beginning, she trained with Sensei Leroy Rodrigues as a Okinawan Stylist in Shorinji-Ryu. 
