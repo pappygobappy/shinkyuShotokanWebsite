@@ -10,7 +10,7 @@
     </div>
     {{ end }}
     {{ template "header" makeMap "Page" .Page  "user" .user }}
-    {{ template "image_carousel" .ImagePaths }}
+    {{ template "image_carousel" makeMap "ImagePaths" .ImagePaths "user" .user }}
     <div class="w-screen bg-base-100 p-7">
         <div class="flex flex-col sm:flex-row mx-auto w-fit">
             <h1 class="max-w-lg italic text-xl sm:text-2xl">Teaching Traditional Shotokan Karate in South San Francisco

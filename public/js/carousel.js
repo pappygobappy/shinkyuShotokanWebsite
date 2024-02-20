@@ -5,7 +5,16 @@ if (location.pathname == "/") {
     showSlides();
 }
 
-function showSlides() {
+function clickShowSlides(plus) {
+    clearTimeout(timeoutId)
+    if(plus) {
+        showSlides();
+    } else {
+        showSlides(false);
+    }
+}
+
+function showSlides(plus = true) {
     showingSlides = true
     let i;
     let slides = document.getElementsByClassName("mySlides");
@@ -13,8 +22,14 @@ function showSlides() {
     for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
-    slideIndex++;
+    if (plus) {
+        slideIndex++;
+    } else {
+        slideIndex--;
+    }
+    
     if (slideIndex > slides.length) { slideIndex = 1 }
+    if (slideIndex <= 0) { slideIndex = slides.length }
     for (i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" dot-active", "");
     }

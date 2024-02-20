@@ -1,14 +1,124 @@
 {{ define "image_carousel" }}
 <div class="slideshow-wrapper shadow-sm">
     <div class="slideshow-container flex items-center justify-center w-screen">
-        {{ range . }}
-            <img src="{{ . }}" class="mySlides slide-fade w-full">
+        {{ range .ImagePaths }}
+        <img src="{{ . }}" class="mySlides slide-fade w-full">
         {{ end }}
     </div>
     <div class="slide-dot-container" style="text-align:left">
-        {{ range . }}
+        {{ range .ImagePaths }}
         <span class="dot"></span>
         {{ end }}
     </div>
+    <button
+        class="btn btn-circle btn-sm md:btn-md btn-outline absolute left-2 top-1/2 text-white transform -translate-y-1/2"
+        onclick="clickShowSlides(false)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left"
+            viewBox="0 0 16 16">
+            <path
+                d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z" />
+        </svg>
+    </button>
+    <button class="btn btn-circle btn-sm md:btn-md btn-outline absolute right-2 top-1/2 text-white transform -translate-y-1/2"
+        onclick="clickShowSlides(true)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right"
+            viewBox="0 0 16 16">
+            <path
+                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+        </svg>
+    </button>
+    {{ if .user }}
+    <button class="ml-2 btn btn-warning btn-square shadow-xl absolute top-2 right-2"
+        onclick="edit_images_modal.showModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+            <path
+                d="M 19.171875 2 C 18.448125 2 17.724375 2.275625 17.171875 2.828125 L 16 4 L 20 8 L 21.171875 6.828125 C 22.275875 5.724125 22.275875 3.933125 21.171875 2.828125 C 20.619375 2.275625 19.895625 2 19.171875 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z">
+            </path>
+        </svg>
+    </button>
+    {{ end }}
 </div>
+{{ if .user }}
+<dialog id="edit_images_modal" class="modal">
+    <div class="modal-box max-w-6xl">
+        <h3 class="font-bold text-lg">Edit Images</h3>
+        <form id="edit_images_form" hx-post="/admin/image_carousel" hx-push-url="true" hx-target=".content" hx-swap="outerHTML"
+            enctype="multipart/form-data">
+            <div class="form-control">
+                <label class="cursor-pointer label">
+                    <span class="label-text">Add New Cover Photo</span>
+                    <input type="checkbox" class="toggle toggle-warning cover-selector" onchange="
+                      if (this.checked) {
+                        document.querySelector('.existing-cover-photos').classList.add('hidden')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').removeAttribute('required')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').value = null
+
+                        if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+                            document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
+                            document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
+                        }
+
+                        document.querySelector('.new-cover-photo').classList.remove('hidden')
+                        document.querySelector('input[name=\'NewCoverPhoto\']').setAttribute('required', true)
+                      } else {
+                        document.querySelector('.existing-cover-photos').classList.remove('hidden')
+                        document.querySelector('.new-cover-photo').classList.add('hidden')
+                        document.querySelector('input[name=\'NewCoverPhoto\']').value = null
+                        document.querySelector('input[name=\'NewCoverPhoto\']').removeAttribute('required')
+                        document.querySelector('input[name=\'ExistingCoverPhoto\']').setAttribute('required', true)
+                      }
+                  " />
+                </label>
+            </div>
+            <label class="label">
+                <span class="text-base label-text">Event Cover Photo</span>
+            </label>
+            <div class="existing-image-photos">
+                <div class="grid grid-cols-4 auto-cols-min">
+                        {{ range .ImagePaths }}
+                        <label class="swap">
+                            <input type="checkbox" />
+                                <img src="{{ . }}"
+                            class="swap-on h-44 rounded shadow-xl my-2.5 mx-1.5 grayscale"/>
+                                <img src="{{ . }}"
+                                class="swap-off h-44 rounded shadow-xl my-2.5 mx-1.5"/>
+                        </label>
+                        <img src="{{ . }}"
+                            class="cover-photo h-44 rounded border-4 border-sky-500 hover:border-yellow-500 shadow-xl my-2.5 mx-1.5"
+                            onclick="
+                if (event.target.classList.contains('border-yellow-500')){
+                    event.target.classList.remove('border-yellow-500')
+                    event.target.classList.add('border-sky-500')
+                    document.querySelector('input[name=\'ExistingCoverPhoto\']').value = ''
+                } else {
+                    if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+                        document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
+                        document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
+                    }
+                    event.target.classList.add('border-yellow-500');
+                    event.target.classList.remove('border-sky-500')
+                    document.querySelector('input[name=\'ExistingCoverPhoto\']').value = event.target.getAttribute('src')
+                }
+                " />
+                        {{ end }}
+                </div>
+                <div class="hidden">
+                    <input type="text" class="" name="ExistingImages"  />
+                </div>
+            </div>
+            <div class="new-images form-control">
+                <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full"
+                    name="NewImages" multiple/>
+            </div>
+        </form>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Close</button>
+            </form>
+            <input type="Submit" form="edit_images_form" class="btn btn-warning" />
+        </div>
+    </div>
+</dialog>
+{{ end }}
 {{ end }}

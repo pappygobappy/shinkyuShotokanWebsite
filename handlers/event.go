@@ -99,11 +99,13 @@ func getEventFilePaths(event models.Event) map[string]string {
 }
 
 func getCoverPhotoUrl(existingCoverPhoto string, c *fiber.Ctx) string {
+	log.Println("poop")
 	newCoverPhoto, err := c.FormFile("NewCoverPhoto")
 	if err != nil {
 		fmt.Println("No new cover photo")
 		return existingCoverPhoto
 	} else {
+		log.Println("poop")
 		os.MkdirAll(fmt.Sprintf("%s/assets/events/", os.Getenv("UPLOAD_DIR")), 0700)
 		c.SaveFile(newCoverPhoto, fmt.Sprintf("%s/assets/events/%s", os.Getenv("UPLOAD_DIR"), newCoverPhoto.Filename))
 		return fmt.Sprintf("/upload/assets/events/%s", newCoverPhoto.Filename)
@@ -159,7 +161,7 @@ func AddEvent(c *fiber.Ctx) error {
 		Description        template.HTML
 		ExistingCoverPhoto string
 	}
-
+	log.Println("poop")
 	if err := c.BodyParser(&body); err != nil {
 		log.Print(err)
 		return err

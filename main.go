@@ -93,6 +93,7 @@ func main() {
 	adminRoutes.Get("/events/:id", handlers.EditEventGet)
 	adminRoutes.Put("/events/:id", handlers.EditEventPost)
 	adminRoutes.Delete("/events/:id", handlers.DeleteEventPost)
+	adminRoutes.Post("/image_carousel", handlers.EditImageCarousel)
 	adminRoutes.Post("/logout", handlers.LogoutPost)
 	adminRoutes.Get("/reset-password", handlers.ResetPasswordGet)
 	adminRoutes.Post("/reset-password", handlers.ResetPasswordPost)

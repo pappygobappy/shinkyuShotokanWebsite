@@ -28,6 +28,17 @@ func Home(c *fiber.Ctx) error {
 		return nil
 	})
 
+	err = filepath.Walk(fmt.Sprintf("%s/assets/image_carousel/", os.Getenv("UPLOAD_DIR")), func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		}
+		if !info.IsDir() {
+			imagePaths = append(imagePaths, strings.Replace(path, os.Getenv("UPLOAD_DIR"), "/upload", 1))
+		}
+		return nil
+	})
+
 	eventImagePaths := getExistingEventCoverPhotos()
 
 	events := queries.GetUpcomingEvents()
