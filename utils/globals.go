@@ -86,16 +86,21 @@ func Init() {
 			Address: "1121 S San Francisco Dr\nSouth San Francisco, CA 94080", 
 			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.141657123408!2d-122.41867442351607!3d37.669379072012134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7911a3751ad7%3A0x1d1ee69af964118e!2sTerrabay%20Gymnasium%20%26%20Rec%20Center!5e0!3m2!1sen!2sus!4v1697499112094!5m2!1sen!2sus",
 		},
+		"Library | Parks & Recreation Center, Banquet Hall #130": {
+			Name: "Library | Parks & Recreation Center, Banquet Hall #130",
+			Address: "901 Civic Campus Wy\nSouth San Francisco, CA 94080",
+			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.7044330718954!2d-122.43764732412208!3d37.65615227201559!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f798c300cb3a1%3A0x2439615b79f50e47!2sLibrary%20%7C%20Parks%20%26%20Recreation%20Center!5e0!3m2!1sen!2sus!4v1708465837688!5m2!1sen!2sus",
+		},
 	}
 	Classes = []models.Class{
 		{
 			Name:        "Pre-Karate",
 			Description: "An introduction to the discipline of karate in a fun and positive environment.  Focus will be on hand and eye coordination, body awareness, following instructions and social interaction. Gi purchases are non-refundable. Level I students will learn commands in Japanese and become familiar with exercises, kicks and blocks.  Instructor approval is required for promotion to Level II, please note this often takes 3-4 seasons.",
-			Annotations: []string{"*Class will be held at the Joseph A. Fernekes Recreation Building on Saturday, October 28", "*Class will be held at the Joseph A. Fernekes Recreation Building on Saturday, November 4"},
+			Annotations: []string{"*Class will be held at the Joseph A. Fernekes Recreation Building on Saturday, April 6", "*Class will be held at the Joseph A. Fernekes Recreation Building on Saturday, April 13"},
 			GetUrl:      "/pre-karate-class",
 			StartAge:    4,
 			EndAge:      8,
-			Location:    Locations["Municipal Services Building Social Hall"],
+			Location:    Locations["Library | Parks & Recreation Center, Banquet Hall #130"],
 			Schedule: `Level 1 (Beginners) Session A: Saturday 8:30M - 9:15AM
 			Level 1 (Beginners) Session B:  Saturday 8:30AM - 9:15AM
 			Level 2 (White, Color Belts): Tuesday 6:00PM - 6:45PM, Saturday 10:30AM - 11:15AM
