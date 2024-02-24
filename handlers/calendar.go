@@ -164,7 +164,7 @@ func AddClassSession(c *fiber.Ctx) error {
 
 	//event := models.Event{Title: body.Name, Date: date, StartTime: startTime, EndTime: endTime, Description: body.Description, PictureUrl: photoUrl, Location: body.Location}
 
-	classPeriod := queries.GetClassPeriodByName(body.Period)
+	classPeriod := queries.GetClassPeriodById(body.Period)
 
 	for i := classPeriod.StartDate; i.Before(classPeriod.EndDate) || i.Equal(classPeriod.EndDate); i = i.AddDate(0, 0, 1) {
 		if selectedWeekdaysMap[i.Weekday().String()] {

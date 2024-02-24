@@ -14,3 +14,12 @@ func GetClassPeriodByName(period string) models.ClassPeriod {
 	}
 	return classPeriod
 }
+
+func GetClassPeriodById(id string) models.ClassPeriod {
+	var classPeriod models.ClassPeriod
+	result := initializers.DB.Where("id = ?", id).First(&classPeriod)
+	if result.Error != nil {
+		log.Print(result.Error)
+	}
+	return classPeriod
+}
