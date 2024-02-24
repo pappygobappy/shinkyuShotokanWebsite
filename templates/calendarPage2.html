@@ -31,7 +31,7 @@
                     {{ $currentMonth := .Month }}
                     {{ $filteredClass := .FilteredClass }}
                     <select class="select select-bordered w-xs ml-auto mr-1" name="class"
-                        hx-get="/calendar?month={{ formatTimePST $currentMonth " 2006-01" }}" hx-push-url="false"
+                        hx-get="/calendar?month={{ formatTimePST $currentMonth "2006-01" }}" hx-push-url="false"
                         hx-target=".content" hx-swap="outerHTML" hx-trigger="change">
                         <option selected value="">All Classes</option>
                         {{ range .Classes }}
