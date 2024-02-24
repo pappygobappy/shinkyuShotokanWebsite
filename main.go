@@ -39,13 +39,21 @@ func addEngineFuncs(engine *html.Engine) {
 	engine.AddFunc("htmlRender", func(s string) template.HTML {
 		return template.HTML(s)
 	})
-	
+
 	engine.AddFunc("gmtRfc5545", func(t time.Time) string {
 		return t.In(time.FixedZone("GMT", 0)).Format("20060102T150405Z")
 	})
 
 	engine.AddFunc("startTimePSTString", func(t time.Time) string {
 		return t.In(utils.TZ).Format("15:04:05")
+	})
+
+	engine.AddFunc("formatTimePST", func(t time.Time, format string) string {
+		return t.In(utils.TZ).Format(format)
+	})
+
+	engine.AddFunc("isToday", func(today time.Time, month time.Time, day int) bool {
+		return today.Year() == month.Year() && today.Month() == month.Month() && today.Day() == day
 	})
 }
 
@@ -78,7 +86,8 @@ func main() {
 	mainRoutes.Get("/events/:id", handlers.Event)
 	mainRoutes.Get("/requirements/:rank", handlers.Requirements)
 	mainRoutes.Get("/contact-us", handlers.ContactUs)
-
+	mainRoutes.Get("/calendar", handlers.Calendar)
+	mainRoutes.Get("/calendar/:id", handlers.CalendarItemView)
 	mainRoutes.Get("/login", handlers.LoginGet)
 	mainRoutes.Get("/signup", handlers.SignupGet)
 	mainRoutes.Post("/login", handlers.LoginPost)
@@ -89,6 +98,15 @@ func main() {
 
 	adminRoutes := app.Group("admin", middleware.RequireAuth)
 	adminRoutes.Get("/", handlers.AdminHome)
+	adminRoutes.Post("/classSession", handlers.AddClassSession)
+	adminRoutes.Get("/calendar/:id", handlers.EditClassSessionGet)
+	adminRoutes.Put("/calendar/:id", handlers.EditClassSessionPut)
+	adminRoutes.Delete("/calendar/:id", handlers.DeleteClassSession)
+	adminRoutes.Get("/classPeriod", handlers.AddClassPeriodGet)
+	adminRoutes.Post("/classPeriod", handlers.AddClassPeriodPost)
+	adminRoutes.Get("/classPeriod/:id/edit", handlers.EditClassPeriodGet)
+	adminRoutes.Put("/classPeriod/:id/edit", handlers.EditClassPeriodPut)
+	adminRoutes.Delete("/classPeriod/:id", handlers.DeleteClassPeriod)
 	adminRoutes.Post("/events", handlers.AddEvent)
 	adminRoutes.Get("/events/:id", handlers.EditEventGet)
 	adminRoutes.Put("/events/:id", handlers.EditEventPost)

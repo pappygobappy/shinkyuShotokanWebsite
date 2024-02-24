@@ -1,0 +1,45 @@
+{{ define "edit_classSession" }}
+<div class="history h-screen mx-auto p-7 max-w-7xl bg-base-100">
+    <h3 class="font-bold text-lg">Edit {{ .ClassSession.ClassName }} - {{ formatTimePST .ClassSession.StartTime
+        "Mon, Jan 02 2006 15:04 MST"}}</h3>
+    <form id="add_event_form" hx-put="/admin/calendar/{{ .ClassSession.ID }}" hx-target=".content"
+        hx-swap="outerHTML show:top" enctype="multipart/form-data">
+        <label class="label">
+            <span class="text-base label-text">Class</span>
+        </label>
+        <select class="select select-bordered w-full max-w-xs" name="Class">
+            {{ $selectedClass := .ClassSession.ClassName}}
+            {{ range .Classes }}
+            <option {{ if eq $selectedClass .Name }}selected{{end}}>{{ .Name }}</option>
+            {{ end }}
+        </select>
+        <label class="label">
+            <span class="text-base label-text">Location</span>
+        </label>
+        <select class="select select-bordered w-full max-w-xs" name="Location">
+            {{ $selectedLocation := .ClassSession.Location}}
+            {{ range .Locations }}
+            <option {{ if eq $selectedLocation .Name }}selected{{end}}>{{ .Name }}</option>
+            {{ end }}
+        </select>
+        <label class="label">
+            <span class="text-base label-text">Date</span>
+        </label>
+        <input type="date" placeholder="Class Date" class="w-full input input-bordered"
+            value="{{ formatTimePST .ClassSession.StartTime "2006-01-02" }}" name="Date" required />
+        <label class="label">
+            <span class="text-base label-text">Start Time</span>
+        </label>
+        <input type="time" placeholder="Start Time" value="{{ formatTimePST .ClassSession.StartTime "15:04" }}"
+            class="w-full input input-bordered" name="StartTime" required />
+        <label class="label">
+            <span class="text-base label-text">End Time</span>
+        </label>
+        <input type="time" placeholder="End Time" value="{{ formatTimePST .ClassSession.EndTime "15:04" }}"
+            class="w-full input input-bordered" name="EndTime" required />
+        <button class="btn" hx-get="/calendar/{{ .ClassSession.ID }}" hx-target=".content"
+            hx-swap="outerHTML show:top">Close</button>
+        <input type="Submit" form="add_event_form" class="btn btn-warning" />
+    </form>
+</div>
+{{ end }}

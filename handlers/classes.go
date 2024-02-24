@@ -12,7 +12,7 @@ import (
 func Classes(c *fiber.Ctx) error {
 
 	//Get selected Class
-	class := findClass(c.Path())
+	class := findClassByPath(c.Path())
 
 	//Build Page Data
 	classesPage := fiber.Map{
@@ -33,7 +33,7 @@ func Classes(c *fiber.Ctx) error {
 	}
 }
 
-func findClass(path string) models.Class {
+func findClassByPath(path string) models.Class {
 	for _, class := range utils.Classes {
 		if class.GetUrl == path {
 			return class

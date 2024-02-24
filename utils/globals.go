@@ -15,16 +15,55 @@ var Events []structs.Event
 var Classes []models.Class
 var Locations map[string]models.Location
 var TZ *time.Location
+var ActualClasses []structs.ActualClass
 
 func Init() {
 
 	TZ, _ = time.LoadLocation("America/Los_Angeles")
 
+	ActualClasses = []structs.ActualClass{
+		{
+			Name:  "Pre-Karate Level 1 Session A",
+			Color: "yellow",
+			Class: "Pre-Karate",
+		},
+		{
+			Name:  "Pre-Karate Level 1 Session B",
+			Color: "green",
+			Class: "Pre-Karate",
+		},
+		{
+			Name:  "Pre-Karate Level 2",
+			Color: "orange",
+			Class: "Pre-Karate",
+		},
+		{
+			Name: "Youth Level 1",
+			Color: "lime",
+			Class: "Youth",
+		},
+		{
+			Name: "Youth Level 2",
+			Color: "emerald",
+			Class: "Youth",
+		},
+		{
+			Name: "Teen",
+			Color: "cyan",
+			Class: "Teen",
+		},
+		{
+			Name: "Adult",
+			Color: "blue",
+			Class: "Adult",
+		},
+	}
+
 	Instructors = []structs.Instructor{
 		{
 			Name:       "Sensei Leroy Rodrigues",
 			PictureUrl: "/public/instructors/leroy.jpg",
-			Bio: 		`
+			Bio: `
 						Sensei Leroy Rodrigues has studied karate since 1961 and holds the rank of 10th Dan. 
 						He founded the Shinkyu Shotokan Dojo in 1983. 
 						Sensei Leroy knows approximately 50 karate katas and more than 15 weapons katas. 
@@ -33,21 +72,21 @@ func Init() {
 		{
 			Name:       "Sensei Sue Miller",
 			PictureUrl: "/public/instructors/940489572.jpg",
-			Bio:        `Sensei Sue been training since 1972. 
+			Bio: `Sensei Sue been training since 1972. 
 						In the beginning, she trained with Sensei Leroy Rodrigues as a Okinawan Stylist in Shorinji-Ryu. 
 						She is an 8th Dan and currently teaches the Pre-Karate Classes, Youth, Teen and Adults, as well as, Men and Women's Self Defense Classes and is the Head Instructor for our Tournaments and Promotional's.`,
 		},
 		{
 			Name:       "Sensei Nobu Kaji",
 			PictureUrl: "/public/instructors/854453422.jpg",
-			Bio:        `Sensei Nobu has been training in KobuJutsu and Karate since 1968. 
+			Bio: `Sensei Nobu has been training in KobuJutsu and Karate since 1968. 
 						He holds the rank of 6th Dan in KobuJutsu and 8th Dan with Shinkyu Shotokan.  
 						His Karate styles include Ryugo-ryu, Magai-ryu, Yamani-ryu, Shito-ryu and Shorin-ryu.`,
 		},
 		{
 			Name:       "Sensei Patrick Dunleavy",
 			PictureUrl: "/public/instructors/Patrick.jpg",
-			Bio:        `Patrick has been continuously studying Shotokan Karate since he was 6 years old. 
+			Bio: `Patrick has been continuously studying Shotokan Karate since he was 6 years old. 
 						Even from the very beginning, he loved karate and now, almost 30 years later, he is a 5th degree black belt. 
 						What has always inspired him was looking up to people who have been taking karate for a long time and seeing how far he could go with his own karate. 
 						Today, Patrick is teaching Shotokan Karate in the adult and teen classes while actively continuing his own karate training. He also regularly competes successfully in karate tournaments representing Shinkyu Shotokan.`,
@@ -55,7 +94,7 @@ func Init() {
 		{
 			Name:       "Senpai Alex Moreno",
 			PictureUrl: "/public/instructors/alex.jpeg",
-			Bio: 		`Senpai Alex has been training with Shinkyu Shotokan Karate for over 15 years and earned his Shodan in 2015. 
+			Bio: `Senpai Alex has been training with Shinkyu Shotokan Karate for over 15 years and earned his Shodan in 2015. 
 						Karate has been a constant in his life and he enjoys sharing his knowledge with the next generation of students.`,
 		},
 	}
@@ -67,28 +106,28 @@ func Init() {
 	}
 	Locations = map[string]models.Location{
 		"Municipal Services Building Social Hall": {
-			Name: "Municipal Services Building Social Hall", 
-			Address: "33 Arroyo Dr\nSouth San Francisco, CA 94080", 
+			Name:             "Municipal Services Building Social Hall",
+			Address:          "33 Arroyo Dr\nSouth San Francisco, CA 94080",
 			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d370.2848693925495!2d-122.43671174104588!3d37.65611258699785!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7979c0e8e543%3A0xb9afc1672af1c20f!2sMunicipal%20Services%20Building!5e0!3m2!1sen!2sus!4v1697495645159!5m2!1sen!2sus",
 		},
-		"Joseph A. Fernekes Recreation Building":  {
-			Name: "Joseph A. Fernekes Recreation Building", 
-			Address: "781 Tennis Dr\nSouth San Francisco, CA 94080", 
+		"Joseph A. Fernekes Recreation Building": {
+			Name:             "Joseph A. Fernekes Recreation Building",
+			Address:          "781 Tennis Dr\nSouth San Francisco, CA 94080",
 			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d754.669097751462!2d-122.4269021943449!3d37.65438985945025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f799fc91c36df%3A0xcc99a9bb998b1cae!2sJoseph%20A.%20Fernekes%20Recreation%20Building!5e0!3m2!1sen!2sus!4v1697495721802!5m2!1sen!2sus",
 		},
 		"Westborough Recreation Building": {
-			Name: "Westborough Recreation Building",
-			Address: "2380 Galway Dr\nSouth San Francisco, CA 94080",
+			Name:             "Westborough Recreation Building",
+			Address:          "2380 Galway Dr\nSouth San Francisco, CA 94080",
 			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3159.2318050301537!2d-122.45995728796625!3d37.64375397190207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7a2d9d450665%3A0x86c39d47310bd2e4!2sWestborough%20Recreation%20Building!5e0!3m2!1sen!2sus!4v1698348935868!5m2!1sen!2sus",
 		},
 		"Terrabay Gymnasium & Rec Center": {
-			Name: "Terrabay Gymnasium & Rec Center", 
-			Address: "1121 S San Francisco Dr\nSouth San Francisco, CA 94080", 
+			Name:             "Terrabay Gymnasium & Rec Center",
+			Address:          "1121 S San Francisco Dr\nSouth San Francisco, CA 94080",
 			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.141657123408!2d-122.41867442351607!3d37.669379072012134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7911a3751ad7%3A0x1d1ee69af964118e!2sTerrabay%20Gymnasium%20%26%20Rec%20Center!5e0!3m2!1sen!2sus!4v1697499112094!5m2!1sen!2sus",
 		},
 		"Library | Parks & Recreation Center, Banquet Hall #130": {
-			Name: "Library | Parks & Recreation Center, Banquet Hall #130",
-			Address: "901 Civic Campus Wy\nSouth San Francisco, CA 94080",
+			Name:             "Library | Parks & Recreation Center, Banquet Hall #130",
+			Address:          "901 Civic Campus Wy\nSouth San Francisco, CA 94080",
 			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.7044330718954!2d-122.43764732412208!3d37.65615227201559!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f798c300cb3a1%3A0x2439615b79f50e47!2sLibrary%20%7C%20Parks%20%26%20Recreation%20Center!5e0!3m2!1sen!2sus!4v1708465837688!5m2!1sen!2sus",
 		},
 	}
@@ -110,9 +149,9 @@ func Init() {
 			BannerAdjust: 65,
 		},
 		{
-			Name:        "Kids",
+			Name:        "Youth",
 			Description: "Although self-defense may be the primary reason for taking up karate, this training has much more to offer. A young child can develop self-confidence, concentration, perseverance, good sportsmanship, a respectful attitude, good health along with techniques of self-defense. Parents can stay for first and last classes only. Students will learn commands in Japanese, become familiar with exercises, blocks, kicks and more. Students will be promoted to Level II when ready and promoted by instructor (often it takes 3 - 4 sessions). Karate Gi (uniform) is required and may be purchased from instructors. Sensei Sue Miller has studied Karate since 1972 and holds the rank of 8th Dan degree black belt. ",
-			GetUrl:      "/kids-class",
+			GetUrl:      "/youth-class",
 			StartAge:    9,
 			EndAge:      12,
 			Location:    Locations["Joseph A. Fernekes Recreation Building"],
@@ -242,6 +281,26 @@ func CurrentTabs() []structs.Tab {
 		currentTabs = append(currentTabs, structs.Tab{Name: "Past Events", SubTabs: pastEventTabs})
 	}
 
+	currentTabs = append(currentTabs, structs.Tab{Name: "Calendar", GetUrl: "/calendar"})
+
 	currentTabs = append(currentTabs, structs.Tab{Name: "Contact Us", GetUrl: "/contact-us"})
 	return currentTabs
+}
+
+func FindClassByName(name string) models.Class {
+	for _, class := range Classes {
+		if class.Name == name {
+			return class
+		}
+	}
+	return models.Class{}
+}
+
+func FindActualClassByName(name string) structs.ActualClass {
+	for _, class := range ActualClasses {
+		if class.Name == name {
+			return class
+		}
+	}
+	return structs.ActualClass{}
 }

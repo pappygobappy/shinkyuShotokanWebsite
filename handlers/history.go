@@ -15,7 +15,7 @@ func History(c *fiber.Ctx) error {
 		hxRequest = false
 	}
 
-	if hxRequest == true {
+	if hxRequest {
 		return c.Render("historyPage", fiber.Map{
 			"Page": historyPage,
 		})

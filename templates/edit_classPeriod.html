@@ -1,0 +1,19 @@
+{{ define "edit_classPeriod" }}
+<form id="edit_classPeriod_form" hx-put="/admin/classPeriod/{{ .ID }}/edit" hx-target=".content" hx-swap="outerHTML show:top">
+    <label class="label">
+        <span class="text-base label-text">Period</span>
+    </label>
+    <input type="text" value="{{ .Name }}" placeholder="Period Name" class="w-full input input-bordered" name="Name" required />
+    <label class="label">
+        <span class="text-base label-text">Start Date</span>
+    </label>
+    <input type="date" value="{{ formatTimePST .StartDate "2006-01-02" }}" placeholder="Start Date" class="w-full input input-bordered" name="StartDate" required />
+    <label class="label">
+        <span class="text-base label-text">End Date</span>
+    </label>
+    <input type="date" value="{{ formatTimePST .EndDate "2006-01-02" }}" placeholder="End Date" class="w-full input input-bordered" name="EndDate" required />
+    <button class="btn" hx-get="/calendar" hx-target=".content"
+        hx-swap="outerHTML show:top">Close</button>
+    <input type="Submit" form="edit_classPeriod_form" class="btn btn-warning" />
+</form>
+{{ end }}

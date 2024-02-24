@@ -1,0 +1,228 @@
+{{ define "calendarPage2" }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    {{ $today := .Today}}
+    <div class="text-gray-700 calendar mx-auto md:p-7 max-w-7xl bg-base-100">
+
+        <!-- Component Start -->
+        <div class="flex flex-grow h-full overflow-auto">
+
+            <div class="flex flex-col flex-grow">
+                <div class="flex items-center mt-4">
+                    <div class="flex ml-6">
+                        <button hx-get="/calendar?month={{ .PrevMonth }}&class={{ .FilteredClass }}" hx-push-url="false"
+                            hx-target=".content" hx-swap="outerHTML show:top">
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button hx-get="/calendar?month={{ .NextMonth }}&class={{ .FilteredClass }}" hx-push-url="false"
+                            hx-target=".content" hx-swap="outerHTML show:top">
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h2 class="ml-2 text-xl font-bold leading-none">{{ formatTimePST .Month "January 2006" }}</h2>
+                    {{ $currentMonth := .Month }}
+                    {{ $filteredClass := .FilteredClass }}
+                    <select class="select select-bordered w-xs ml-auto mr-1" name="class"
+                        hx-get="/calendar?month={{ formatTimePST $currentMonth " 2006-01" }}" hx-push-url="false"
+                        hx-target=".content" hx-swap="outerHTML" hx-trigger="change">
+                        <option selected value="">All Classes</option>
+                        {{ range .Classes }}
+                        <option value="{{ .Name }}" {{ if eq $filteredClass .Name }}selected{{ end }}>{{ .Name }}
+                        </option>
+                        {{ end }}
+                    </select>
+                </div>
+                <div class="grid grid-cols-7 mt-4">
+                    <div class="pl-1 text-sm">Sun</div>
+                    <div class="pl-1 text-sm">Mon</div>
+                    <div class="pl-1 text-sm">Tue</div>
+                    <div class="pl-1 text-sm">Wed</div>
+                    <div class="pl-1 text-sm">Thu</div>
+                    <div class="pl-1 text-sm">Fri</div>
+                    <div class="pl-1 text-sm">Sat</div>
+                </div>
+                <div class="grid flex-grow w-full h-auto grid-cols-7 grid-rows-5 gap-px pt-px mt-1 bg-gray-200">
+                    {{ range .Weeks }}
+                    <div class="relative flex flex-col bg-white group min-h-16">
+                        <span
+                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Sunday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
+                            if gt .Sunday.Day 0 }}{{ .Sunday.Day }}{{ end }}</span>
+                        {{ range .Sunday.Events }}
+                        {{ template "calendarItem" . }}
+                        {{ end }}
+                    </div>
+                    <div class="relative flex flex-col bg-white group min-h-16">
+                        <span
+                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Monday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
+                            if gt .Monday.Day 0 }}{{ .Monday.Day }}{{ end }}</span>
+                        {{ range .Monday.Events }}
+                        {{ template "calendarItem" . }}
+                        {{ end }}
+                    </div>
+                    <div class="relative flex flex-col bg-white group min-h-16">
+                        <span
+                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Tuesday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
+                            if gt .Tuesday.Day 0 }}{{ .Tuesday.Day }}{{ end }}</span>
+                        {{ range .Tuesday.Events }}
+                        {{ template "calendarItem" . }}
+                        {{ end }}
+                    </div>
+                    <div class="relative flex flex-col bg-white group min-h-16">
+                        <span
+                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Wednesday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
+                            if gt .Wednesday.Day 0 }}{{ .Wednesday.Day }}{{ end }}</span>
+                        {{ range .Wednesday.Events }}
+                        {{ template "calendarItem" . }}
+                        {{ end }}
+                    </div>
+                    <div class="relative flex flex-col bg-white group min-h-16">
+                        <span
+                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Thursday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
+                            if gt .Thursday.Day 0 }}{{ .Thursday.Day }}{{ end }}</span>
+                        {{ range .Thursday.Events }}
+                        {{ template "calendarItem" . }}
+                        {{ end }}
+                    </div>
+                    <div class="relative flex flex-col bg-white group min-h-16">
+                        <span
+                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Friday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
+                            if gt .Friday.Day 0 }}{{ .Friday.Day }}{{ end }}</span>
+                        {{ range .Friday.Events }}
+                        {{ template "calendarItem" . }}
+                        {{ end }}
+                    </div>
+                    <div class="relative flex flex-col bg-white group min-h-16">
+                        <span
+                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Saturday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
+                            if gt .Saturday.Day 0 }}{{ .Saturday.Day }}{{ end }}</span>
+                        {{ range .Saturday.Events }}
+                        {{ template "calendarItem" . }}
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+        <!-- Component End  -->
+        {{ if .user }}
+        <form id="add_class_form" hx-post="/admin/classSession" hx-target=".content" hx-swap="outerHTML show:top">
+            <label class="label">
+                <span class="text-base label-text">Class</span>
+            </label>
+            <select class="select select-bordered w-full max-w-xs" name="Class">
+                <option disabled selected></option>
+                {{ range .Classes }}
+                <option>{{ .Name }}</option>
+                {{ end }}
+            </select>
+            <label class="label">
+                <span class="text-base label-text">Period</span>
+            </label>
+            <div class="flex">
+                <select class="select select-bordered w-full max-w-xs" name="Period" onchange="
+                    editButton = document.querySelector('#edit_period')
+                    deleteConfirm = document.querySelector('#deletePeriodConfirmation')
+                    editButton.setAttribute('hx-get', '/admin/classPeriod/' + this.value + '/edit');
+                    editButton.classList.remove('hidden');
+                    deleteConfirm.setAttribute('hx-delete', '/admin/classPeriod/' + this.value);
+                    document.querySelector('#deletePeriodButton').classList.remove('hidden');
+                    htmx.process(editButton);
+                    htmx.process(deleteConfirm)
+                    ">
+                    <option disabled selected></option>
+                    {{ range .Periods }}
+                    <option value="{{ .ID }}">{{ .Name }}</option>
+                    {{ end }}
+                </select>
+                <button hx-get="/admin/classPeriod" hx-target="#add_class_form" hx-swap="outerHTML"
+                    class="btn btn-warning ml-2" type="button">
+                    Add Period
+                </button>
+                <button hx-target="#add_class_form" hx-swap="outerHTML" class="btn btn-warning ml-2 hidden"
+                    id="edit_period" type="button">
+                    Edit Period
+                </button>
+                <button onclick="document.querySelector('#delete_classPeriod_modal').showModal()"
+                    class="ml-2 btn btn-md btn-warning btn-square shadow-xl hidden" id="deletePeriodButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                    </svg>
+                </button>
+            </div>
+            <label class="label">
+                <span class="text-base label-text">Location</span>
+            </label>
+            <select class="select select-bordered w-full max-w-xs" name="Location">
+                {{ range .Locations }}
+                <option>{{ .Name }}</option>
+                {{ end }}
+            </select>
+            <label class="label">
+                <span class="text-base label-text">Start Time</span>
+            </label>
+            <input type="time" placeholder="Start Time" class="w-full input input-bordered" name="StartTime" required />
+            <label class="label">
+                <span class="text-base label-text">End Time</span>
+            </label>
+            <input type="time" placeholder="End Time" class="w-full input input-bordered" name="EndTime" required />
+            <div class="md:flex">
+                <label class="label cursor-pointer">
+                    <span class="label-text">Sunday</span>
+                    <input type="checkbox" class="checkbox" name="Sunday" />
+                </label>
+                <label class="label cursor-pointer">
+                    <span class="label-text">Monday</span>
+                    <input type="checkbox" class="checkbox" name="Monday" />
+                </label>
+                <label class="label cursor-pointer">
+                    <span class="label-text">Tuesday</span>
+                    <input type="checkbox" class="checkbox" name="Tuesday" />
+                </label>
+                <label class="label cursor-pointer">
+                    <span class="label-text">Wednesday</span>
+                    <input type="checkbox" class="checkbox" name="Wednesday" />
+                </label>
+                <label class="label cursor-pointer">
+                    <span class="label-text">Thursday</span>
+                    <input type="checkbox" class="checkbox" name="Thursday" />
+                </label>
+                <label class="label cursor-pointer">
+                    <span class="label-text">Friday</span>
+                    <input type="checkbox" class="checkbox" name="Friday" />
+                </label>
+                <label class="label cursor-pointer">
+                    <span class="label-text">Saturday</span>
+                    <input type="checkbox" class="checkbox" name="Saturday" />
+                </label>
+            </div>
+            <input type="Submit" form="add_class_form" class="btn btn-warning" />
+
+        </form>
+        <dialog id="delete_classPeriod_modal" class="modal">
+            <div class="modal-box">
+                <h3 class="font-bold text-lg">Delete</h3>
+                <p class="py-4">Are you sure you want to delete this period?</p>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn">Cancel</button>
+                        <button class="btn btn-warning" hx-delete="/admin/classPeriod/"
+                            hx-target=".content" hx-swap="outerHTML show:top" hx-redirect="/" id="deletePeriodConfirmation">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+        {{ end }}
+
+    </div>
+    {{ end }}
