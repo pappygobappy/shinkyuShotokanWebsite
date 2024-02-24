@@ -69,7 +69,7 @@ func Calendar(c *fiber.Ctx) error {
 			}
 		}
 		for _, class := range classSessions {
-			if class.StartTime.Day() == i.Day() {
+			if class.StartTime.In(utils.TZ).Day() == i.Day() {
 				eventSlices = append(eventSlices, structs.CalendarItem{StartTime: class.StartTime, Title: class.ClassName, Color: utils.FindActualClassByName(class.ClassName).Color, Location: class.Location, Url: fmt.Sprintf("%s%d", "/calendar/", class.ID)})
 			}
 		}
@@ -120,6 +120,7 @@ func CalendarItemView(c *fiber.Ctx) error {
 	calendarItemMap := fiber.Map{
 		"Page":         page,
 		"ClassSession": classSession,
+		"Period":       queries.GetClassPeriodById(classSession.Period),
 		"Class":        class,
 		"Location":     utils.Locations[classSession.Location],
 	}
@@ -273,7 +274,7 @@ func AddClassPeriodPost(c *fiber.Ctx) error {
 	}
 
 	return c.
-	Redirect("/calendar")
+		Redirect("/calendar")
 }
 
 func EditClassPeriodGet(c *fiber.Ctx) error {

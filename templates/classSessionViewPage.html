@@ -26,7 +26,7 @@
             </button>
             {{ end }}
         </div>
-        <div><b>Session:</b>&nbsp;{{ .ClassSession.Period }}</div>
+        <div><b>Session:</b>&nbsp;{{ .Period.Name }}</div>
         {{ template "location" .Location }}
     </div>
     {{ if .user }}
