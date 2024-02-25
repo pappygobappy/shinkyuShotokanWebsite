@@ -14,7 +14,7 @@
                 <summary>{{ .Name }}</summary>
                 <ul class="p-2 z-10 font-normal">
                     {{ range .SubTabs }}
-                    <li><a hx-get="{{ .GetUrl }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML">{{ htmlRender .Name
+                    <li><a hx-get="{{ .GetUrl }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML{{ if .ScrollTo }} show:{{ .ScrollTo }}:top{{ end }}">{{ htmlRender .Name
                             }}</a></li>
                     {{ end }}
                 </ul>
@@ -22,7 +22,7 @@
         </li>
         {{ else }}
         <li><a hx-get="{{ .GetUrl }}"
-                hx-push-url="true" hx-target=".content" hx-swap="outerHTML">{{ .Name }}</a></li>
+                hx-push-url="true" hx-target=".content" hx-swap="outerHTML{{ if .ScrollTo }} show:{{ .ScrollTo }}:top{{ end }}">{{ .Name }}</a></li>
         {{ end }}
         {{ end }}
         {{ if .user }}

@@ -101,7 +101,7 @@
                     </div>
                     <div class="relative flex flex-col bg-white group min-h-16">
                         <span
-                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Saturday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
+                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Saturday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
                             if gt .Saturday.Day 0 }}{{ .Saturday.Day }}{{ end }}</span>
                         {{ range .Saturday.Events }}
                         {{ template "calendarItem" . }}

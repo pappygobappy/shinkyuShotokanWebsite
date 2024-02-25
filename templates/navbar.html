@@ -13,14 +13,14 @@
                     <ul class="p-2 z-10 font-normal">
                         {{ range .SubTabs }}
                         <li><a hx-get="{{ .GetUrl }}" hx-push-url="true" hx-target=".content"
-                                hx-swap="outerHTML" class="hover:bg-warning">{{ htmlRender .Name }}</a></li>
+                                hx-swap="outerHTML{{ if .ScrollTo }} show:{{ .ScrollTo }}:top{{ end }}" class="hover:bg-warning">{{ htmlRender .Name }}</a></li>
                         {{ end }}
                     </ul>
                 </details>
             </li>
             {{ else }}
             <li><a class="{{ if ne $activePageName .Name }} text-gray-400 {{ end }} hover:bg-warning" hx-get="{{ .GetUrl }}"
-                    hx-push-url="true" hx-target=".content" hx-swap="outerHTML">{{ .Name }}</a></li>
+                    hx-push-url="true" hx-target=".content" hx-swap="outerHTML{{ if .ScrollTo }} show:{{ .ScrollTo }}:top{{ end }}">{{ .Name }}</a></li>
             {{ end }}
             {{ end }}
             {{ if .user }}
