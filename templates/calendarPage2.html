@@ -1,116 +1,116 @@
 {{ define "calendarPage2" }}
-<div class="content">
+<div class="content flex flex-col h-screen">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     {{ $today := .Today}}
-    <div class="text-gray-700 calendar mx-auto md:p-7 max-w-7xl bg-base-100">
+    <div class="text-gray-700 calendar mx-auto w-screen max-w-7xl md:p-7 bg-base-100 flex flex-col grow overflow-auto">
 
         <!-- Component Start -->
-        <div class="flex flex-grow h-full overflow-auto">
 
-            <div class="flex flex-col flex-grow">
-                <div class="flex items-center mt-4">
-                    <div class="flex ml-6">
-                        <button hx-get="/calendar?month={{ .PrevMonth }}&class={{ .FilteredClass }}" hx-push-url="false"
-                            hx-target=".content" hx-swap="outerHTML show:top">
-                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <button hx-get="/calendar?month={{ .NextMonth }}&class={{ .FilteredClass }}" hx-push-url="false"
-                            hx-target=".content" hx-swap="outerHTML show:top">
-                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
+                <div class="calendar-top border-b">
+                    <div class="flex items-center mt-4 w-full">
+                        <div class="flex ml-6">
+                            <button hx-get="/calendar?month={{ .PrevMonth }}&class={{ .FilteredClass }}" hx-push-url="false"
+                                hx-target=".content" hx-swap="outerHTML show:top">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button hx-get="/calendar?month={{ .NextMonth }}&class={{ .FilteredClass }}" hx-push-url="false"
+                                hx-target=".content" hx-swap="outerHTML show:top">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                        <h2 class="ml-2 text-xl font-bold leading-none">{{ formatTimePST .Month "January 2006" }}</h2>
+                        {{ $currentMonth := .Month }}
+                        {{ $filteredClass := .FilteredClass }}
+                        <select class="select select-bordered w-full max-w-xs ml-2 md:ml-auto mr-1 text-ellipsis overflow-hidden" name="class"
+                            hx-get="/calendar?month={{ formatTimePST $currentMonth "2006-01" }}" hx-push-url="false"
+                            hx-target=".content" hx-swap="outerHTML" hx-trigger="change">
+                            <option selected value="">All Classes</option>
+                            {{ range .Classes }}
+                            <option value="{{ .Name }}" {{ if eq $filteredClass .Name }}selected{{ end }}>{{ .Name }}
+                            </option>
+                            {{ end }}
+                        </select>
                     </div>
-                    <h2 class="ml-2 text-xl font-bold leading-none">{{ formatTimePST .Month "January 2006" }}</h2>
-                    {{ $currentMonth := .Month }}
-                    {{ $filteredClass := .FilteredClass }}
-                    <select class="select select-bordered w-xs ml-auto mr-1" name="class"
-                        hx-get="/calendar?month={{ formatTimePST $currentMonth "2006-01" }}" hx-push-url="false"
-                        hx-target=".content" hx-swap="outerHTML" hx-trigger="change">
-                        <option selected value="">All Classes</option>
-                        {{ range .Classes }}
-                        <option value="{{ .Name }}" {{ if eq $filteredClass .Name }}selected{{ end }}>{{ .Name }}
-                        </option>
-                        {{ end }}
-                    </select>
+                    <div class="grid grid-cols-7 mt-4">
+                        <div class="pl-1 text-sm">Sun</div>
+                        <div class="pl-1 text-sm">Mon</div>
+                        <div class="pl-1 text-sm">Tue</div>
+                        <div class="pl-1 text-sm">Wed</div>
+                        <div class="pl-1 text-sm">Thu</div>
+                        <div class="pl-1 text-sm">Fri</div>
+                        <div class="pl-1 text-sm">Sat</div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-7 mt-4">
-                    <div class="pl-1 text-sm">Sun</div>
-                    <div class="pl-1 text-sm">Mon</div>
-                    <div class="pl-1 text-sm">Tue</div>
-                    <div class="pl-1 text-sm">Wed</div>
-                    <div class="pl-1 text-sm">Thu</div>
-                    <div class="pl-1 text-sm">Fri</div>
-                    <div class="pl-1 text-sm">Sat</div>
+                <div class="grow overflow-y-auto">
+                    <div class="grid w-full grid-cols-7 grid-rows-5 gap-px pt-px bg-gray-200">
+                        {{ range .Weeks }}
+                        <div class="relative flex flex-col bg-white group min-h-16">
+                            <span
+                                class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Sunday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
+                                if gt .Sunday.Day 0 }}{{ .Sunday.Day }}{{ end }}</span>
+                            {{ range .Sunday.Events }}
+                            {{ template "calendarItem" . }}
+                            {{ end }}
+                        </div>
+                        <div class="relative flex flex-col bg-white group min-h-16">
+                            <span
+                                class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Monday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
+                                if gt .Monday.Day 0 }}{{ .Monday.Day }}{{ end }}</span>
+                            {{ range .Monday.Events }}
+                            {{ template "calendarItem" . }}
+                            {{ end }}
+                        </div>
+                        <div class="relative flex flex-col bg-white group min-h-16">
+                            <span
+                                class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Tuesday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
+                                if gt .Tuesday.Day 0 }}{{ .Tuesday.Day }}{{ end }}</span>
+                            {{ range .Tuesday.Events }}
+                            {{ template "calendarItem" . }}
+                            {{ end }}
+                        </div>
+                        <div class="relative flex flex-col bg-white group min-h-16">
+                            <span
+                                class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Wednesday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
+                                if gt .Wednesday.Day 0 }}{{ .Wednesday.Day }}{{ end }}</span>
+                            {{ range .Wednesday.Events }}
+                            {{ template "calendarItem" . }}
+                            {{ end }}
+                        </div>
+                        <div class="relative flex flex-col bg-white group min-h-16">
+                            <span
+                                class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Thursday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
+                                if gt .Thursday.Day 0 }}{{ .Thursday.Day }}{{ end }}</span>
+                            {{ range .Thursday.Events }}
+                            {{ template "calendarItem" . }}
+                            {{ end }}
+                        </div>
+                        <div class="relative flex flex-col bg-white group min-h-16">
+                            <span
+                                class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Friday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
+                                if gt .Friday.Day 0 }}{{ .Friday.Day }}{{ end }}</span>
+                            {{ range .Friday.Events }}
+                            {{ template "calendarItem" . }}
+                            {{ end }}
+                        </div>
+                        <div class="relative flex flex-col bg-white group min-h-16">
+                            <span
+                                class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Saturday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
+                                if gt .Saturday.Day 0 }}{{ .Saturday.Day }}{{ end }}</span>
+                            {{ range .Saturday.Events }}
+                            {{ template "calendarItem" . }}
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </div>
                 </div>
-                <div class="grid flex-grow w-full h-auto grid-cols-7 grid-rows-5 gap-px pt-px mt-1 bg-gray-200">
-                    {{ range .Weeks }}
-                    <div class="relative flex flex-col bg-white group min-h-16">
-                        <span
-                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Sunday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
-                            if gt .Sunday.Day 0 }}{{ .Sunday.Day }}{{ end }}</span>
-                        {{ range .Sunday.Events }}
-                        {{ template "calendarItem" . }}
-                        {{ end }}
-                    </div>
-                    <div class="relative flex flex-col bg-white group min-h-16">
-                        <span
-                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Monday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
-                            if gt .Monday.Day 0 }}{{ .Monday.Day }}{{ end }}</span>
-                        {{ range .Monday.Events }}
-                        {{ template "calendarItem" . }}
-                        {{ end }}
-                    </div>
-                    <div class="relative flex flex-col bg-white group min-h-16">
-                        <span
-                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Tuesday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
-                            if gt .Tuesday.Day 0 }}{{ .Tuesday.Day }}{{ end }}</span>
-                        {{ range .Tuesday.Events }}
-                        {{ template "calendarItem" . }}
-                        {{ end }}
-                    </div>
-                    <div class="relative flex flex-col bg-white group min-h-16">
-                        <span
-                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Wednesday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
-                            if gt .Wednesday.Day 0 }}{{ .Wednesday.Day }}{{ end }}</span>
-                        {{ range .Wednesday.Events }}
-                        {{ template "calendarItem" . }}
-                        {{ end }}
-                    </div>
-                    <div class="relative flex flex-col bg-white group min-h-16">
-                        <span
-                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Thursday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
-                            if gt .Thursday.Day 0 }}{{ .Thursday.Day }}{{ end }}</span>
-                        {{ range .Thursday.Events }}
-                        {{ template "calendarItem" . }}
-                        {{ end }}
-                    </div>
-                    <div class="relative flex flex-col bg-white group min-h-16">
-                        <span
-                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Friday.Day }} bg-yellow-400 rounded-full w-fit p-1{{ end }}">{{
-                            if gt .Friday.Day 0 }}{{ .Friday.Day }}{{ end }}</span>
-                        {{ range .Friday.Events }}
-                        {{ template "calendarItem" . }}
-                        {{ end }}
-                    </div>
-                    <div class="relative flex flex-col bg-white group min-h-16">
-                        <span
-                            class="mx-2 my-1 text-xs font-bold {{ if isToday $today $currentMonth .Saturday.Day }} bg-yellow-400 rounded-full w-fit p-1 today{{ end }}">{{
-                            if gt .Saturday.Day 0 }}{{ .Saturday.Day }}{{ end }}</span>
-                        {{ range .Saturday.Events }}
-                        {{ template "calendarItem" . }}
-                        {{ end }}
-                    </div>
-                    {{ end }}
-                </div>
-            </div>
-        </div>
         <!-- Component End  -->
         {{ if .user }}
         <form id="add_class_form" hx-post="/admin/classSession" hx-target=".content" hx-swap="outerHTML show:top">

@@ -1,5 +1,5 @@
 {{ define "header" }}
-<header class="px-14 bg-base-100 border-b">
+<div class="px-14 bg-base-100 border-b flex flex-col">
     <div class="flex items-center justify-center h-full py-5 md:border-b lg:w-9/12 mx-auto">
         {{ template "hamburger_menu" .}}
         <img src="/public/ShinkyuShotokan.png" class="mr-3 h-16 md:h-20" alt="Shinkyu Shotokan Logo" />
@@ -7,5 +7,5 @@
         </div>
     </div>
     {{ template "navbar" . }}
-</header>
+</div>
 {{ end }}
