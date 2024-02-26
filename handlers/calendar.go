@@ -16,8 +16,9 @@ import (
 )
 
 type CalendarDay struct {
-	Day    int
-	Events []structs.CalendarItem
+	Day            int
+	NotInCurrentMonth bool
+	Events         []structs.CalendarItem
 }
 
 func Calendar(c *fiber.Ctx) error {
@@ -45,31 +46,44 @@ func Calendar(c *fiber.Ctx) error {
 
 	firstOfMonth := time.Date(currentYear, currentMonth, 1, 0, 0, 0, 0, currentLocation)
 	lastOfMonth := firstOfMonth.AddDate(0, 1, -1)
+	startDate := firstOfMonth
+	endDate := lastOfMonth
 
-	events := queries.GetEventsBetweenDates(firstOfMonth, lastOfMonth)
+	if int(startDate.Weekday()) > 0 {
+		startDate = firstOfMonth.AddDate(0, 0, -int(startDate.Weekday()))
+	}
+	if int(endDate.Weekday()) < 6 {
+		endDate = endDate.AddDate(0, 0, 6-int(endDate.Weekday()))
+	}
+
+	events := queries.GetEventsBetweenDates(startDate, endDate)
 
 	var classSessions []models.ClassSession
 	if filteredClass != "" {
-		classSessions = queries.GetClassSessionsByClassAndBetweenDates(filteredClass, firstOfMonth, lastOfMonth)
+		classSessions = queries.GetClassSessionsByClassAndBetweenDates(filteredClass, startDate, endDate)
 	} else {
-		classSessions = queries.GetClassSessionsBetweenDates(firstOfMonth, lastOfMonth)
+		classSessions = queries.GetClassSessionsBetweenDates(startDate, endDate)
 	}
 
 	weeks := []fiber.Map{}
 	weeks = append(weeks, emptyWeekMap())
 	weekIndex := 0
-	for i := firstOfMonth; i.Before(lastOfMonth) || i.Equal(lastOfMonth); i = i.AddDate(0, 0, 1) {
+	for i := startDate; i.Before(endDate) || i.Equal(endDate); i = i.AddDate(0, 0, 1) {
 		dayOfWeek := i.Weekday()
 		var dayMap CalendarDay
 		var eventSlices []structs.CalendarItem
 		dayMap.Day = i.Day()
+		dayMap.NotInCurrentMonth = i.Month() != firstOfMonth.Month()
 		for _, e := range events {
 			if e.Date.Equal(i) {
 				eventSlices = append(eventSlices, structs.CalendarItem{StartTime: e.StartTime, Title: e.Title, Color: "red", Location: e.Location, Url: fmt.Sprintf("%s%d", "/events/", e.ID)})
 			}
 		}
 		for _, class := range classSessions {
-			if class.StartTime.In(utils.TZ).Day() == i.Day() {
+			startYear := class.StartTime.In(utils.TZ).Year()
+			startMonth := class.StartTime.In(utils.TZ).Month()
+			startDay := class.StartTime.In(utils.TZ).Day()
+			if startYear == i.Year() && startMonth == i.Month() && startDay == i.Day() {
 				eventSlices = append(eventSlices, structs.CalendarItem{StartTime: class.StartTime, Title: class.ClassName, Color: utils.FindActualClassByName(class.ClassName).Color, Location: class.Location, Url: fmt.Sprintf("%s%d", "/calendar/", class.ID)})
 			}
 		}
@@ -82,7 +96,7 @@ func Calendar(c *fiber.Ctx) error {
 
 		dayMap.Events = eventSlices
 		weeks[weekIndex][dayOfWeek.String()] = dayMap
-		if dayOfWeek == time.Saturday && !i.Equal(lastOfMonth) {
+		if dayOfWeek == time.Saturday && !i.Equal(endDate) {
 			weeks = append(weeks, emptyWeekMap())
 			weekIndex += 1
 		}
@@ -130,6 +144,16 @@ func CalendarItemView(c *fiber.Ctx) error {
 	} else {
 		return c.Render("classSessionView", calendarItemMap)
 	}
+}
+
+func AddClassSessionForm(c *fiber.Ctx) error {
+	var periods []models.ClassPeriod
+	result := initializers.DB.Find(&periods)
+	if result.Error != nil {
+		log.Print(result.Error)
+	}
+
+	return c.Render("addClassSession", fiber.Map{"Locations": utils.Locations, "Classes": utils.ActualClasses, "Periods": periods})
 }
 
 func AddClassSession(c *fiber.Ctx) error {

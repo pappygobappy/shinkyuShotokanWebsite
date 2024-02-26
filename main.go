@@ -102,6 +102,7 @@ func main() {
 	adminRoutes.Get("/calendar/:id", handlers.EditClassSessionGet)
 	adminRoutes.Put("/calendar/:id", handlers.EditClassSessionPut)
 	adminRoutes.Delete("/calendar/:id", handlers.DeleteClassSession)
+	adminRoutes.Get("/classSessionForm", handlers.AddClassSessionForm)
 	adminRoutes.Get("/classPeriod", handlers.AddClassPeriodGet)
 	adminRoutes.Post("/classPeriod", handlers.AddClassPeriodPost)
 	adminRoutes.Get("/classPeriod/:id/edit", handlers.EditClassPeriodGet)
