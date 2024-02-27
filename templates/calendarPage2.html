@@ -42,7 +42,7 @@
                         <select onchange="
                             loadingDiv = document.querySelector('.loadingDiv')
                             loadingDiv.classList.add('flex');
-                            loadingDiv.classList.remove('invisible')
+                            loadingDiv.classList.remove('hidden')
                             " 
                             class="select select-bordered w-full max-w-xs ml-2 md:ml-auto mr-1 text-ellipsis overflow-hidden" name="class"
                             hx-get="/calendar?month={{ formatTimePST $currentMonth "2006-01" }}" hx-push-url="false"
