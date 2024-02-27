@@ -52,8 +52,8 @@ func addEngineFuncs(engine *html.Engine) {
 		return t.In(utils.TZ).Format(format)
 	})
 
-	engine.AddFunc("isToday", func(today time.Time, month time.Time, day int) bool {
-		return today.Year() == month.Year() && today.Month() == month.Month() && today.Day() == day
+	engine.AddFunc("isToday", func(today time.Time, day time.Time) bool {
+		return today.Year() == day.Year() && today.Month() == day.Month() && today.Day() == day.Day()
 	})
 }
 

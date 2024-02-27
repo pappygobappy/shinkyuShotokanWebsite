@@ -1,19 +1,26 @@
 {{ define "add_classPeriod" }}
-<form id="add_classPeriod_form" hx-post="/admin/classPeriod" hx-target=".content" hx-swap="outerHTML show:top">
-    <label class="label">
-        <span class="text-base label-text">Period</span>
-    </label>
-    <input type="text" placeholder="Period Name" class="w-full input input-bordered" name="Name" required />
-    <label class="label">
-        <span class="text-base label-text">Start Date</span>
-    </label>
-    <input type="date" placeholder="Start Date" class="w-full input input-bordered" name="StartDate" required />
-    <label class="label">
-        <span class="text-base label-text">End Date</span>
-    </label>
-    <input type="date" placeholder="End Date" class="w-full input input-bordered" name="EndDate" required />
-    <button class="btn" hx-get="/calendar" hx-target=".content"
-        hx-swap="outerHTML show:top">Close</button>
-    <input type="Submit" form="add_classPeriod_form" class="btn btn-warning" />
-</form>
+<div class="modal-box">
+    <h3 class="font-bold text-lg">Add Class Period</h3>
+    <form id="add_classPeriod_form" hx-post="/admin/classPeriod" hx-target=".content" hx-swap="outerHTML show:top">
+        <label class="label">
+            <span class="text-base label-text">Period</span>
+        </label>
+        <input type="text" placeholder="Period Name" class="w-full input input-bordered" name="Name" required />
+        <label class="label">
+            <span class="text-base label-text">Start Date</span>
+        </label>
+        <input type="date" placeholder="Start Date" class="w-full input input-bordered" name="StartDate" required />
+        <label class="label">
+            <span class="text-base label-text">End Date</span>
+        </label>
+        <input type="date" placeholder="End Date" class="w-full input input-bordered" name="EndDate" required />
+    </form>
+    <div class="modal-action">
+        <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
+        </form>
+        <input type="Submit" form="add_classPeriod_form" class="btn btn-warning" />
+    </div>
+</div>
 {{ end }}

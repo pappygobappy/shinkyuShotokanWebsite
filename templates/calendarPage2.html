@@ -2,6 +2,7 @@
 <div class="content flex flex-col h-screen">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     {{ $today := .Today}}
+    {{ $user := .user }}
     <div class="text-gray-700 calendar mx-auto w-screen max-w-7xl md:p-7 bg-base-100 flex flex-col grow overflow-auto">
 
         <!-- Component Start -->
@@ -41,7 +42,7 @@
                         <select onchange="
                             loadingDiv = document.querySelector('.loadingDiv')
                             loadingDiv.classList.add('flex');
-                            loadingDiv.classList.remove('hidden')
+                            loadingDiv.classList.remove('invisible')
                             " 
                             class="select select-bordered w-full max-w-xs ml-2 md:ml-auto mr-1 text-ellipsis overflow-hidden" name="class"
                             hx-get="/calendar?month={{ formatTimePST $currentMonth "2006-01" }}" hx-push-url="false"
@@ -69,60 +70,81 @@
                 <div class="grow overflow-y-auto calendarBody">
                     <div class="grid w-full grid-cols-7 grid-rows-5 gap-px pt-px bg-gray-200">
                         {{ range .Weeks }}
-                        <div class="relative flex flex-col bg-white group min-h-16">
+                        <div class="relative flex flex-col bg-white group min-h-16 group">
                             <span
-                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Sunday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today $currentMonth .Sunday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
-                                if gt .Sunday.Day 0 }}{{ .Sunday.Day }}{{ end }}</span>
+                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Sunday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today .Sunday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
+                                if gt .Sunday.Day.Day 0 }}{{ .Sunday.Day.Day }}{{ end }}</span>
                             {{ range .Sunday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
+                            {{ if $user }}
+                                <div class="grow py-3" onclick="alert('test')"></div>
+                            {{ end }}
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
-                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Monday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today $currentMonth .Monday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
-                                if gt .Monday.Day 0 }}{{ .Monday.Day }}{{ end }}</span>
+                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Monday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today .Monday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
+                                if gt .Monday.Day.Day 0 }}{{ .Monday.Day.Day }}{{ end }}</span>
                             {{ range .Monday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
+                            {{ if $user }}
+                                <div class="grow py-3" onclick="alert('test')"></div>
+                            {{ end }}
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
-                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Tuesday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today $currentMonth .Tuesday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
-                                if gt .Tuesday.Day 0 }}{{ .Tuesday.Day }}{{ end }}</span>
+                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Tuesday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today .Tuesday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
+                                if gt .Tuesday.Day.Day 0 }}{{ .Tuesday.Day.Day }}{{ end }}</span>
                             {{ range .Tuesday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
+                            {{ if $user }}
+                                <div class="grow py-3" onclick="alert('test')"></div>
+                            {{ end }}
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
-                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Wednesday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today $currentMonth .Wednesday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
-                                if gt .Wednesday.Day 0 }}{{ .Wednesday.Day }}{{ end }}</span>
+                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Wednesday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today .Wednesday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
+                                if gt .Wednesday.Day.Day 0 }}{{ .Wednesday.Day.Day }}{{ end }}</span>
                             {{ range .Wednesday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
+                            {{ if $user }}
+                                <div class="grow py-3" onclick="alert('test')"></div>
+                            {{ end }}
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
-                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Thursday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today $currentMonth .Thursday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
-                                if gt .Thursday.Day 0 }}{{ .Thursday.Day }}{{ end }}</span>
+                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Thursday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today .Thursday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
+                                if gt .Thursday.Day.Day 0 }}{{ .Thursday.Day.Day }}{{ end }}</span>
                             {{ range .Thursday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
-                        </div>
-                        <div class="relative flex flex-col bg-white group min-h-16">
-                            <span
-                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Friday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today $currentMonth .Friday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
-                                if gt .Friday.Day 0 }}{{ .Friday.Day }}{{ end }}</span>
-                            {{ range .Friday.Events }}
-                            {{ template "calendarItem" . }}
+                            {{ if $user }}
+                                <div class="grow py-3" onclick="alert('test')"></div>
                             {{ end }}
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
-                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Saturday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today $currentMonth .Saturday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
-                                if gt .Saturday.Day 0 }}{{ .Saturday.Day }}{{ end }}</span>
+                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Friday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today .Friday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
+                                if gt .Friday.Day.Day 0 }}{{ .Friday.Day.Day }}{{ end }}</span>
+                            {{ range .Friday.Events }}
+                            {{ template "calendarItem" . }}
+                            {{ end }}
+                            {{ if $user }}
+                                <div class="grow py-3" onclick="alert('test')"></div>
+                            {{ end }}
+                        </div>
+                        <div class="relative flex flex-col bg-white group min-h-16">
+                            <span
+                                class="mx-2 my-1 p-1 text-xs font-bold{{ if .Saturday.NotInCurrentMonth }} text-slate-400{{ end }}{{ if isToday $today .Saturday.Day }} bg-yellow-400 rounded-full w-fit today{{ end }}">{{
+                                if gt .Saturday.Day.Day 0 }}{{ .Saturday.Day.Day }}{{ end }}</span>
                             {{ range .Saturday.Events }}
                             {{ template "calendarItem" . }}
+                            {{ end }}
+                            {{ if $user }}
+                                <div class="grow py-3" onclick="alert('test')"></div>
                             {{ end }}
                         </div>
                         {{ end }}

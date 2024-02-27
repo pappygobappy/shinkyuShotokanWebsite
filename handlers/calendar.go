@@ -16,7 +16,7 @@ import (
 )
 
 type CalendarDay struct {
-	Day            int
+	Day            time.Time
 	NotInCurrentMonth bool
 	Events         []structs.CalendarItem
 }
@@ -72,7 +72,7 @@ func Calendar(c *fiber.Ctx) error {
 		dayOfWeek := i.Weekday()
 		var dayMap CalendarDay
 		var eventSlices []structs.CalendarItem
-		dayMap.Day = i.Day()
+		dayMap.Day = i.In(utils.TZ)
 		dayMap.NotInCurrentMonth = i.Month() != firstOfMonth.Month()
 		for _, e := range events {
 			if e.Date.Equal(i) {

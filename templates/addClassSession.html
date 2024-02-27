@@ -30,7 +30,7 @@
                 <option value="{{ .ID }}">{{ .Name }}</option>
                 {{ end }}
             </select>
-            <button hx-get="/admin/classPeriod" hx-target="#add_class_form" hx-swap="outerHTML"
+            <button hx-get="/admin/classPeriod" hx-target="#classSession_modal" hx-swap="innerHTML"
                 class="btn btn-warning ml-2" type="button">
                 Add Period
             </button>
