@@ -279,6 +279,13 @@ func createEventIcs(e models.Event, l models.Location) {
 	htmlDesc := re.ReplaceAllString(string(e.Description), "\n")
 	desc := strings.Replace(htmlDesc, "<b>", "*", -1)
 	desc = strings.Replace(desc, "</b>", "*", -1)
+	for strings.Contains(desc, "<a") {
+		start := strings.Index(desc, "<a")
+		end := strings.Index(desc, "</a>") + 4
+		newDesc := strings.TrimSpace(desc[0:start])
+		desc = newDesc + strings.TrimSpace(desc[end:])
+	}
+	desc = strings.Replace(desc, "<a>*</a>", "", -1)
 	event.SetDescription(desc)
 	event.SetProperty("X-ALT-DESC;FMTTYPE=text/html", fmt.Sprintf("<!DOCTYPE HTML PUBLIC \"\"-//W3C//DTD HTML 3.2//EN\"\"><HTML><BODY>%s</BODY></HTML>", htmlDesc))
 	ics := cal.Serialize()

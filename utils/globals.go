@@ -38,22 +38,22 @@ func Init() {
 			Class: "Pre-Karate",
 		},
 		{
-			Name: "Youth Level 1",
+			Name:  "Youth Level 1",
 			Color: "lime",
 			Class: "Youth",
 		},
 		{
-			Name: "Youth Level 2",
+			Name:  "Youth Level 2",
 			Color: "emerald",
 			Class: "Youth",
 		},
 		{
-			Name: "Teen",
+			Name:  "Teen",
 			Color: "cyan",
 			Class: "Teen",
 		},
 		{
-			Name: "Adult",
+			Name:  "Adult",
 			Color: "blue",
 			Class: "Adult",
 		},
@@ -268,14 +268,14 @@ func CurrentTabs() []structs.Tab {
 	var pastEventTabs []structs.Tab
 
 	for _, upcomingEvent := range upcomingEvents {
-		upcomingEventsTabs = append(upcomingEventsTabs, structs.Tab{Name: upcomingEvent.Title, GetUrl: "/events/" + strconv.FormatUint(uint64(upcomingEvent.ID), 10)})
+		upcomingEventsTabs = append(upcomingEventsTabs, structs.Tab{Name: upcomingEvent.Date.In(TZ).Format("April 2") + " - " + upcomingEvent.Title, GetUrl: "/events/" + strconv.FormatUint(uint64(upcomingEvent.ID), 10)})
 	}
 	if len(upcomingEventsTabs) != 0 {
 		currentTabs = append(currentTabs, structs.Tab{Name: "Upcoming Events", SubTabs: upcomingEventsTabs})
 	}
 
 	for _, pastEvent := range pastEvents {
-		pastEventTabs = append(pastEventTabs, structs.Tab{Name: pastEvent.Title, GetUrl: "/events/" + strconv.FormatUint(uint64(pastEvent.ID), 10)})
+		pastEventTabs = append(pastEventTabs, structs.Tab{Name: pastEvent.Date.In(TZ).Format("April 2, 2006") + " - " + pastEvent.Title, GetUrl: "/events/" + strconv.FormatUint(uint64(pastEvent.ID), 10)})
 	}
 	if len(pastEventTabs) != 0 {
 		currentTabs = append(currentTabs, structs.Tab{Name: "Past Events", SubTabs: pastEventTabs})
