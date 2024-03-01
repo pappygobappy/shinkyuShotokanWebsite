@@ -1,8 +1,8 @@
 {{ define "image_carousel" }}
-<div class="slideshow-wrapper shadow-sm">
+<div class="slideshow-wrapper shadow-sm" ontouchstart="handleTouchStart(event)" ontouchend="handleTouchEnd(event)">
     <div class="slideshow-container flex items-center justify-center w-screen">
         {{ range . }}
-            <img src="{{ . }}" class="mySlides slide-fade w-full">
+        <img src="{{ . }}" class="mySlides slide-fade w-full">
         {{ end }}
     </div>
     <div class="slide-dot-container" style="text-align:left">
@@ -10,5 +10,23 @@
         <span class="dot"></span>
         {{ end }}
     </div>
+    <button
+        class="btn btn-circle btn-sm md:btn-md btn-outline absolute left-2 top-1/2 text-white transform -translate-y-1/2"
+        onclick="clickShowSlides(false)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left"
+            viewBox="0 0 16 16">
+            <path
+                d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z" />
+        </svg>
+    </button>
+    <button
+        class="btn btn-circle btn-sm md:btn-md btn-outline absolute right-2 top-1/2 text-white transform -translate-y-1/2"
+        onclick="clickShowSlides(true)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right"
+            viewBox="0 0 16 16">
+            <path
+                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+        </svg>
+    </button>
 </div>
 {{ end }}

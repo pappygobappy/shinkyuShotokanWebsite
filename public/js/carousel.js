@@ -1,11 +1,25 @@
 let slideIndex = 0;
 let timeoutId = 0;
 let showingSlides = false;
+
+var startX;
+var startY;
+
 if (location.pathname == "/") {
+    slideIndex = 0
     showSlides();
 }
 
-function showSlides() {
+function clickShowSlides(plus) {
+    clearTimeout(timeoutId)
+    if(plus) {
+        showSlides();
+    } else {
+        showSlides(false);
+    }
+}
+
+function showSlides(plus = true) {
     showingSlides = true
     let i;
     let slides = document.getElementsByClassName("mySlides");
@@ -13,8 +27,15 @@ function showSlides() {
     for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
-    slideIndex++;
+
+    if (plus) {
+        slideIndex++;
+    } else {
+        slideIndex--;
+    }
+
     if (slideIndex > slides.length) { slideIndex = 1 }
+    if (slideIndex <= 0) { slideIndex = slides.length }
     for (i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" dot-active", "");
     }
@@ -35,9 +56,27 @@ htmx.on('htmx:afterRequest', (evt) => {
     if(evt.detail.pathInfo.requestPath == "/") {
         console.log(evt.detail.pathInfo.requestPath)
         clearTimeout(timeoutId)
+        slideIndex = 0
         showSlides()
     } else {
         showingSlides = false
     }
 
   })
+
+function handleTouchStart(event) {
+    startX = event.changedTouches[0].screenX;
+    startY = event.changedTouches[0].screenY;
+}
+
+function handleTouchEnd(event) {
+    endX = event.changedTouches[0].screenX;
+    endY = event.changedTouches[0].screenY;
+    if(Math.abs(startX - endX) > 30) {
+        if(endX < startX) {
+            clickShowSlides(true)
+        } else {
+            clickShowSlides(false)
+        }
+    }
+}
