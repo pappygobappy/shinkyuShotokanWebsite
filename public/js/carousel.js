@@ -72,7 +72,7 @@ function handleTouchStart(event) {
 function handleTouchEnd(event) {
     endX = event.changedTouches[0].screenX;
     endY = event.changedTouches[0].screenY;
-    if(Math.abs(startX - endX) > 30) {
+    if(Math.abs(startX - endX) > 30 && Math.abs(startY - endY) < 100) {
         if(endX < startX) {
             clickShowSlides(true)
         } else {
