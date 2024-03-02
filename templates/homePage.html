@@ -25,10 +25,10 @@
     <div class="w-screen upcoming-events-banner bg-base-100 py-10">
         <h1 class="mx-auto w-fit text-3xl font-bold">Upcoming Events</h1>
     </div>
-    <div class="upcoming-events w-screen overflow-x-auto max-h-72">
+    <div class="upcoming-events w-screen overflow-x-auto max-h-80">
         <div class="mx-auto w-fit flex flex-row items-center">
             {{ range .Events }}
-            <div class="card card-side h-60 bg-base-100 w-96 shadow-xl my-2.5 mx-1.5 ">
+            <div class="card card-side h-60 lg:h-fit bg-base-100 w-96 shadow-xl my-2.5 mx-1.5 ">
                 <figure><img class="object-cover w-48 h-full" src="{{ .PictureUrl }}" alt="{{ .Alt }}" /></figure>
                 <div class="card-body">
                     <h2 class="card-title">{{ .Title }}</h2>

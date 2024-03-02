@@ -3174,6 +3174,10 @@ html {
   max-height: 18rem;
 }
 
+.max-h-80 {
+  max-height: 20rem;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -4285,6 +4289,11 @@ body {
 
   .lg\:hidden {
     display: none;
+  }
+
+  .lg\:h-fit {
+    height: -moz-fit-content;
+    height: fit-content;
   }
 
   .lg\:w-9\/12 {
