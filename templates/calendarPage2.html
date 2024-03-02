@@ -9,7 +9,7 @@
                 <div class="calendar-top border-b">
                     <div class="flex items-center pt-4 w-full relative">
                         <div class="flex ml-6">
-                            <button onclick="
+                            <button id="PrevMonth" onclick="
                                 loadingDiv = document.querySelector('.loadingDiv')
                                 loadingDiv.classList.add('flex');
                                 loadingDiv.classList.remove('hidden')
@@ -22,7 +22,7 @@
                                         d="M15 19l-7-7 7-7" />
                                 </svg>
                             </button>
-                            <button onclick="
+                            <button id="NextMonth" onclick="
                                 loadingDiv = document.querySelector('.loadingDiv')
                                 loadingDiv.classList.add('flex');
                                 loadingDiv.classList.remove('hidden')
@@ -67,7 +67,7 @@
                         <div class="pl-1 text-sm">Sat</div>
                     </div>
                 </div>
-                <div class="grow overflow-y-auto calendarBody">
+                <div class="grow overflow-y-auto calendarBody" ontouchstart="handleTouchStart(event)" ontouchend="handleCalendarTouchEnd(event)">
                     <div class="grid w-full grid-cols-7 grid-rows-5 gap-px pt-px bg-gray-200">
                         {{ range .Weeks }}
                         <div class="relative flex flex-col bg-white group min-h-16 group">

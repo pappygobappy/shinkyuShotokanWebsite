@@ -80,3 +80,15 @@ function handleTouchEnd(event) {
         }
     }
 }
+
+function handleCalendarTouchEnd(event) {
+    endX = event.changedTouches[0].screenX;
+    endY = event.changedTouches[0].screenY;
+    if(Math.abs(startX - endX) > 50 && Math.abs(startY - endY) < 100) {
+        if(endX < startX) {
+            document.querySelector("#NextMonth").click();
+        } else {
+            document.querySelector("#PrevMonth").click();
+        }
+    }
+}
