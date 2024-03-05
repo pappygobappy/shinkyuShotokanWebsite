@@ -3166,6 +3166,14 @@ html {
   height: 33.333333%;
 }
 
+.h-64 {
+  height: 16rem;
+}
+
+.h-7 {
+  height: 1.75rem;
+}
+
 .max-h-52 {
   max-height: 13rem;
 }
