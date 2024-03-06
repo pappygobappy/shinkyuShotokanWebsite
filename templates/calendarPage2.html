@@ -46,7 +46,7 @@
                             " 
                             class="select select-bordered w-full max-w-xs ml-2 md:ml-auto mr-1 text-ellipsis overflow-hidden" name="class"
                             hx-get="/calendar?month={{ formatTimePST $currentMonth "2006-01" }}" hx-push-url="false"
-                            hx-target=".content" hx-swap="outerHTML" hx-trigger="change">
+                            hx-target=".content" hx-swap="outerHTML show:.today:top" hx-trigger="change">
                             <option selected value="">All Classes</option>
                             {{ range .Classes }}
                             <option value="{{ .Name }}" {{ if eq $filteredClass .Name }}selected{{ end }}>{{ .Name }}
