@@ -63,7 +63,7 @@
         {{ if .Files }}
         <div class="text-l font-bold mt-7 flex">Downloads</div>
         {{ range $key, $value := .Files }}
-        <a class="btn btn-warning shadow-md text-sm md:text-base my-1.5 normal-case h-fit" href="{{ $value }}"
+        <a class="btn btn-warning shadow-md text-sm w-full md:w-auto md:text-base my-1.5 normal-case h-fit" href="{{ $value }}"
             target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-download" width="24"
                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
