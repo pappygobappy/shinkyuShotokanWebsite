@@ -6,7 +6,7 @@
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     {{ template "banner_image" makeMap "Banner" .Event.PictureUrl "BannerAdjust" 32 "BannerAspectRatio" "16/4" }}
-    <div class="event pb-9 mx-auto p-7 max-w-7xl bg-base-100">
+    <div class="event pb-9 mx-auto p-3 md:p-7 max-w-7xl bg-base-100">
         <div class="border-b pt-10 flex flex-col md:flex-row md:items-end">
             <div class="text-3xl md:grow">{{ .Event.Title }}<br />{{ .Event.Date.Format "Monday, January 2, 2006" }}</div>
             <div class="dropdown md:mx-5">

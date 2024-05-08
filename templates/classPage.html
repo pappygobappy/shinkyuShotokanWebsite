@@ -2,7 +2,7 @@
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust}}
-    <div class="class mx-auto p-7 max-w-7xl bg-base-100">
+    <div class="class mx-auto p-3 md:p-7 max-w-7xl bg-base-100">
         <h1 class="text-3xl border-b my-10">{{ .Class.Name }} Class</h1>
         <div><b>Ages:</b> {{ .Class.StartAge }}{{ if .Class.EndAge }}-{{ .Class.EndAge }}yr{{ else }}/up{{ end }}</div>
         <div><b>Schedule:</b></div>

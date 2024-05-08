@@ -2,7 +2,7 @@
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust}}
-    <div class="view mx-auto px-4 pb-4 lg:px-7 lb:pb-7 max-w-7xl bg-base-100">
+    <div class="view mx-auto px-3 pb-4 lg:px-7 lb:pb-7 max-w-7xl bg-base-100">
         <div class="text-3xl border-b py-5 flex flex-col items-left">
             <div>{{ .ClassSession.ClassName }}</div>
             <div>{{ formatTimePST .ClassSession.StartTime "Monday, Jan 02 2006 03:04 PM" }} - {{ formatTimePST
