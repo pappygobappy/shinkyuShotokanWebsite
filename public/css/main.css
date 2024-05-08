@@ -2598,6 +2598,10 @@ html {
   border-radius: var(--rounded-box, 1rem);
 }
 
+.min-h-12 {
+  min-height: 3rem;
+}
+
 .min-h-16 {
   min-height: 4rem;
 }
@@ -2953,6 +2957,10 @@ html {
   margin: 0.625rem;
 }
 
+.m-auto {
+  margin: auto;
+}
+
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
@@ -3150,6 +3158,14 @@ html {
   height: 100vh;
 }
 
+.h-auto {
+  height: auto;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
 .max-h-52 {
   max-height: 13rem;
 }
@@ -3162,8 +3178,24 @@ html {
   max-height: 20rem;
 }
 
+.max-h-24 {
+  max-height: 6rem;
+}
+
+.max-h-16 {
+  max-height: 4rem;
+}
+
+.max-h-12 {
+  max-height: 3rem;
+}
+
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-full {
+  min-height: 100%;
 }
 
 .w-1\/2 {
@@ -3215,6 +3247,43 @@ html {
   width: 100vw;
 }
 
+.w-1\/6 {
+  width: 16.666667%;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
+.w-min {
+  width: -moz-min-content;
+  width: min-content;
+}
+
+.w-max {
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.w-10 {
+  width: 2.5rem;
+}
+
+.min-w-fit {
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
+.min-w-max {
+  min-width: -moz-max-content;
+  min-width: max-content;
+}
+
+.min-w-min {
+  min-width: -moz-min-content;
+  min-width: min-content;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -3233,6 +3302,28 @@ html {
 
 .max-w-xs {
   max-width: 20rem;
+}
+
+.max-w-sm {
+  max-width: 24rem;
+}
+
+.max-w-fit {
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+}
+
+.max-w-prose {
+  max-width: 65ch;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.max-w-min {
+  max-width: -moz-min-content;
+  max-width: min-content;
 }
 
 .shrink-0 {
@@ -3278,6 +3369,10 @@ html {
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.content-center {
+  align-content: center;
 }
 
 .items-center {
@@ -3657,6 +3752,10 @@ html {
 
 .text-center {
   text-align: center;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 .text-3xl {
@@ -4146,6 +4245,14 @@ body {
     margin-left: auto;
   }
 
+  .md\:block {
+    display: block;
+  }
+
+  .md\:inline-flex {
+    display: inline-flex;
+  }
+
   .md\:h-20 {
     height: 5rem;
   }
@@ -4270,6 +4377,10 @@ body {
   .lg\:w-fit {
     width: -moz-fit-content;
     width: fit-content;
+  }
+
+  .lg\:w-5\/6 {
+    width: 83.333333%;
   }
 
   .lg\:max-w-lg {
