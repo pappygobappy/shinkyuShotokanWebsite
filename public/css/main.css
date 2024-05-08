@@ -3021,6 +3021,11 @@ html {
   margin-bottom: auto;
 }
 
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 .-mr-1 {
   margin-right: -0.25rem;
 }
@@ -4260,6 +4265,10 @@ body {
 
   .md\:block {
     display: block;
+  }
+
+  .md\:flex {
+    display: flex;
   }
 
   .md\:inline-flex {
