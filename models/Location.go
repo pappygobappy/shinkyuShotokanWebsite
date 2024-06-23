@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Location struct {
 	gorm.Model
-	Name             string
+	Name             string `gorm:"uniqueIndex"`
 	Address          string
 	GoogleMapsIframe string
 }

@@ -129,7 +129,7 @@ func CalendarItemView(c *fiber.Ctx) error {
 
 	page := structs.Page{PageName: "Calendar", Tabs: utils.CurrentTabs(), Classes: utils.Classes}
 
-	class := utils.FindClassByName(utils.FindActualClassByName(classSession.ClassName).Class)
+	class := queries.FindClassByName(utils.FindActualClassByName(classSession.ClassName).Class)
 
 	calendarItemMap := fiber.Map{
 		"Page":         page,

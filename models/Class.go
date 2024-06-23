@@ -1,10 +1,14 @@
 package models
 
+import "gorm.io/gorm"
+
 type Class struct {
+	gorm.Model
 	Name         string
 	Description  string
-	Annotations  []string
-	Location     Location
+	Annotations  []ClassAnnotation
+	LocationID   string
+	Location     Location `gorm:"references:Name"`
 	GetUrl       string
 	StartAge     int
 	EndAge       int
