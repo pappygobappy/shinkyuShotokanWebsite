@@ -26,6 +26,7 @@
         {{ end }}
         {{ end }}
         {{ if .user }}
+        <li><a hx-get="/admin" hx-target=".content" hx-push-url="true" hx-swap="outerHTML">Admin</a></li>
         <li><a hx-post="/admin/logout" hx-target=".content" hx-swap="outerHTML">Logout</a></li>
         {{ end }}
     </ul>

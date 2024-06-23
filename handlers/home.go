@@ -36,7 +36,7 @@ func Home(c *fiber.Ctx) error {
 		"Events":      events,
 		"ImagePaths":  imagePaths,
 		"EventPhotos": eventImagePaths,
-		"Locations":   utils.Locations,
+		"Locations":   queries.GetLocations(),
 		"message": c.Locals("message"),
 	}
 

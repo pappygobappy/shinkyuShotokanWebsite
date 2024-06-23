@@ -104,33 +104,7 @@ func Init() {
 		{Title: "Promotional", PictureUrl: "/assets/image_carousel/PXL_20221114_013356064.MP.jpg", Alt: "Promotional", Description: "Belt Testing Coming Up fast! Practice Hard!"},
 		{Title: "Promotional", PictureUrl: "/assets/image_carousel/PXL_20221114_013356064.MP.jpg", Alt: "Promotional", Description: "Belt Testing Coming Up fast! Practice Hard!"},
 	}
-	Locations = map[string]models.Location{
-		"Municipal Services Building Social Hall": {
-			Name:             "Municipal Services Building Social Hall",
-			Address:          "33 Arroyo Dr\nSouth San Francisco, CA 94080",
-			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d370.2848693925495!2d-122.43671174104588!3d37.65611258699785!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7979c0e8e543%3A0xb9afc1672af1c20f!2sMunicipal%20Services%20Building!5e0!3m2!1sen!2sus!4v1697495645159!5m2!1sen!2sus",
-		},
-		"Joseph A. Fernekes Recreation Building": {
-			Name:             "Joseph A. Fernekes Recreation Building",
-			Address:          "781 Tennis Dr\nSouth San Francisco, CA 94080",
-			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d754.669097751462!2d-122.4269021943449!3d37.65438985945025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f799fc91c36df%3A0xcc99a9bb998b1cae!2sJoseph%20A.%20Fernekes%20Recreation%20Building!5e0!3m2!1sen!2sus!4v1697495721802!5m2!1sen!2sus",
-		},
-		"Westborough Recreation Building": {
-			Name:             "Westborough Recreation Building",
-			Address:          "2380 Galway Dr\nSouth San Francisco, CA 94080",
-			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3159.2318050301537!2d-122.45995728796625!3d37.64375397190207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7a2d9d450665%3A0x86c39d47310bd2e4!2sWestborough%20Recreation%20Building!5e0!3m2!1sen!2sus!4v1698348935868!5m2!1sen!2sus",
-		},
-		"Terrabay Gymnasium & Rec Center": {
-			Name:             "Terrabay Gymnasium & Rec Center",
-			Address:          "1121 S San Francisco Dr\nSouth San Francisco, CA 94080",
-			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.141657123408!2d-122.41867442351607!3d37.669379072012134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7911a3751ad7%3A0x1d1ee69af964118e!2sTerrabay%20Gymnasium%20%26%20Rec%20Center!5e0!3m2!1sen!2sus!4v1697499112094!5m2!1sen!2sus",
-		},
-		"Library | Parks & Recreation Center, Banquet Hall #130": {
-			Name:             "Library | Parks & Recreation Center, Banquet Hall #130",
-			Address:          "901 Civic Campus Wy\nSouth San Francisco, CA 94080",
-			GoogleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.7044330718954!2d-122.43764732412208!3d37.65615227201559!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f798c300cb3a1%3A0x2439615b79f50e47!2sLibrary%20%7C%20Parks%20%26%20Recreation%20Center!5e0!3m2!1sen!2sus!4v1708465837688!5m2!1sen!2sus",
-		},
-	}
+	
 	Classes = []models.Class{
 		{
 			Name:        "Pre-Karate",
@@ -139,7 +113,7 @@ func Init() {
 			GetUrl:      "/pre-karate-class",
 			StartAge:    4,
 			EndAge:      8,
-			Location:    Locations["Library | Parks & Recreation Center, Banquet Hall #130"],
+			Location:    queries.GetLocationyName("Library | Parks & Recreation Center, Banquet Hall #130"),
 			Schedule: `Level 1 (Beginners) Session A: Saturday 8:30M - 9:15AM
 			Level 1 (Beginners) Session B:  Saturday 8:30AM - 9:15AM
 			Level 2 (White, Color Belts): Tuesday 6:00PM - 6:45PM, Saturday 10:30AM - 11:15AM
@@ -154,7 +128,7 @@ func Init() {
 			GetUrl:      "/youth-class",
 			StartAge:    9,
 			EndAge:      12,
-			Location:    Locations["Joseph A. Fernekes Recreation Building"],
+			Location:    queries.GetLocationyName("Joseph A. Fernekes Recreation Building"),
 			Schedule: `Level 1 (Beginners, Yellow, Blue Belts): Monday/Wednesday 5:30PM - 6:30PM
 			Level 2 (Green First Level): Monday/Wednesday 6:00PM - 7:00PM
 			Advanced Level (Green, Purple, Brown): Monday/Wednesday 6:00PM - 7:30PM`,
@@ -168,7 +142,7 @@ func Init() {
 			GetUrl:       "/teen-class",
 			StartAge:     13,
 			EndAge:       17,
-			Location:     Locations["Joseph A. Fernekes Recreation Building"],
+			Location:     queries.GetLocationyName("Joseph A. Fernekes Recreation Building"),
 			Schedule:     "Tuesday/Thursday 6:00PM - 7:00PM",
 			CardPhoto:    "/public/classes/teen/card.jpg",
 			BannerPhoto:  "/public/classes/teen/banner.jpg",
@@ -179,7 +153,7 @@ func Init() {
 			Description:  "Learn Karate as an ancient art form, the traditional way of Shotokan. Attain knowledge of self-defense in a spiritual, mental and physical way. Develop confidence; build up your endurance, focus and self-awareness. This is a great way to keep in shape, in a friendly atmosphere. Students should wear loose clothing. Sensei Leroy Rodriques started this program in 1965. Sensei Sue Miller has studied Karate since 1972 and holds the rank of 8th Dan degree black belt. She will be assisted by Nobu Kaji, 8th degree black belt. ",
 			GetUrl:       "/adult-class",
 			StartAge:     18,
-			Location:     Locations["Joseph A. Fernekes Recreation Building"],
+			Location:     queries.GetLocationyName("Joseph A. Fernekes Recreation Building"),
 			Schedule:     "Tuesday/Thursday 7:00PM - 8:30PM",
 			CardPhoto:    "/public/classes/adult/card.jpg",
 			BannerPhoto:  "/public/classes/adult/banner.jpg",

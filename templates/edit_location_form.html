@@ -1,0 +1,25 @@
+{{ define "edit_location_form" }}
+<div class="location">
+    <form id="edit_location_form" hx-put="/admin/locations/{{ .Location.ID }}" hx-target="closest .location" hx-swap="outerHTML"
+        enctype="multipart/form-data">
+        <label class="label">
+            <span class="text-base label-text">Location Name</span>
+        </label>
+        <input type="text" placeholder="Location Name" class="w-full input input-bordered" value="{{ .Location.Name }}" name="Name" required />
+        <label class="label">
+            <span class="text-base label-text">Address</span>
+        </label>
+        <textarea placeholder="Address" class="textarea textarea-bordered textarea-lg w-full" name="Address"
+            required>{{ .Location.Address }}</textarea>
+        <label class="label">
+            <span class="text-base label-text">Google Maps Iframe Url</span>
+        </label>
+        <input type="text" placeholder="Google Maps" class="w-full input input-bordered" value="{{ .Location.GoogleMapsIframe }}" name="GoogleMaps" required />
+    </form>
+    <div class="modal-action">
+        <button class="btn" hx-get="/admin/locations/{{ .Location.ID }}" hx-target="closest .location"
+                hx-swap="outerHTML">Close</button>
+        <input type="Submit" form="edit_location_form" class="btn btn-warning" />
+    </div>
+</div>
+{{ end }}

@@ -1,0 +1,30 @@
+{{ define "add_location_modal" }}
+<dialog id="add_location_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Add Location</h3>
+        <form id="add_location_form" hx-post="/admin/locations" hx-push-url="true" hx-target=".content" hx-swap="outerHTML"
+            enctype="multipart/form-data">
+            <label class="label">
+                <span class="text-base label-text">Location Name</span>
+            </label>
+            <input type="text" placeholder="Location Name" class="w-full input input-bordered" name="Name" required />
+            <label class="label">
+                <span class="text-base label-text">Address</span>
+            </label>
+            <textarea placeholder="Address" class="textarea textarea-bordered textarea-lg w-full" name="Address"
+                required></textarea>
+            <label class="label">
+                <span class="text-base label-text">Google Maps Iframe Url</span>
+            </label>
+            <input type="text" placeholder="Google Maps" class="w-full input input-bordered" name="GoogleMaps" required />
+        </form>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Close</button>
+            </form>
+            <input type="Submit" form="add_location_form" class="btn btn-warning" />
+        </div>
+    </div>
+</dialog>
+{{ end }}

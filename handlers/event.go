@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
+	"shinkyuShotokan/queries"
 	"shinkyuShotokan/structs"
 	"shinkyuShotokan/utils"
 	"strconv"
@@ -126,7 +127,7 @@ func Event(c *fiber.Ctx) error {
 		"Event":       event,
 		"Description": event.Description,
 		"Files":       files,
-		"Location":    utils.Locations[event.Location],
+		"Location":    queries.GetLocationyName(event.Location),
 	})
 }
 
@@ -145,7 +146,7 @@ func EditEventGet(c *fiber.Ctx) error {
 		"EventPhotos": eventImagePaths,
 		"Description": event.Description,
 		"Files":       files,
-		"Locations":   utils.Locations,
+		"Locations":   queries.GetLocations(),
 	})
 }
 
@@ -187,7 +188,7 @@ func AddEvent(c *fiber.Ctx) error {
 
 	//Handle Files
 	uploadEventFiles(event, c)
-	createEventIcs(event, utils.Locations[event.Location])
+	createEventIcs(event, queries.GetLocationyName(event.Location))
 
 	return c.Redirect("/")
 }
@@ -248,7 +249,7 @@ func EditEventPost(c *fiber.Ctx) error {
 
 	//Handle Files
 	uploadEventFiles(event, c)
-	createEventIcs(event, utils.Locations[event.Location])
+	createEventIcs(event, queries.GetLocationyName(event.Location))
 
 	//files := getEventFilePaths(event)
 	c.Set("HX-Redirect", "/events/"+strconv.FormatUint(uint64(event.ID), 10))

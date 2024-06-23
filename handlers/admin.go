@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
+	"shinkyuShotokan/queries"
 	"shinkyuShotokan/structs"
 	"shinkyuShotokan/utils"
 	"strconv"
@@ -64,4 +65,85 @@ func AdminHome(c *fiber.Ctx) error {
 	} else {
 		return c.Render("home", homePage)
 	}
+}
+
+func AdminPage(c *fiber.Ctx) error {
+	persistedLocations := queries.GetLocations()
+	adminPage := fiber.Map{
+		"Page":      structs.Page{PageName: "Admin", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Locations": persistedLocations,
+	}
+
+	return c.Render("adminPage", adminPage)
+}
+
+func AddLocation(c *fiber.Ctx) error {
+	var body struct {
+		Name       string
+		Address    string
+		GoogleMaps string
+	}
+
+	if err := c.BodyParser(&body); err != nil {
+		log.Print(err)
+		return err
+	}
+
+	location := models.Location{Name: body.Name, Address: body.Address, GoogleMapsIframe: body.GoogleMaps}
+	result := initializers.DB.Create(&location)
+
+	if result.Error != nil {
+		log.Print("Error creating Location", result.Error)
+		return result.Error
+	}
+
+	return c.Redirect("/admin")
+}
+
+func LocationGet(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var location models.Location
+	initializers.DB.First(&location, id)
+
+	return c.Render("location", location)
+}
+
+func EditLocationGet(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var location models.Location
+	initializers.DB.First(&location, id)
+
+	return c.Render("edit_location_form", fiber.Map{
+		"Location": location,
+	})
+}
+
+func EditLocationPut(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var location models.Location
+	initializers.DB.First(&location, id)
+
+	var body struct {
+		Name       string
+		Address    string
+		GoogleMaps string
+	}
+
+	if err := c.BodyParser(&body); err != nil {
+		log.Print(err)
+		return err
+	}
+
+	location.Name = body.Name
+	location.Address = body.Address
+	location.GoogleMapsIframe = body.GoogleMaps
+
+	result := initializers.DB.Save(&location)
+
+	if result.Error != nil {
+		log.Print("Error updating Location", result.Error)
+		return result.Error
+	}
+
+	return c.Render("location", location)
 }

@@ -97,7 +97,11 @@ func main() {
 	}
 
 	adminRoutes := app.Group("admin", middleware.RequireAuth)
-	adminRoutes.Get("/", handlers.AdminHome)
+	adminRoutes.Get("/", handlers.AdminPage)
+	adminRoutes.Post("/locations", handlers.AddLocation)
+	adminRoutes.Get("/locations/:id", handlers.LocationGet)
+	adminRoutes.Get("/locations/:id/edit", handlers.EditLocationGet)
+	adminRoutes.Put("/locations/:id", handlers.EditLocationPut)
 	adminRoutes.Post("/classSession", handlers.AddClassSession)
 	adminRoutes.Get("/calendar/:id", handlers.EditClassSessionGet)
 	adminRoutes.Put("/calendar/:id", handlers.EditClassSessionPut)

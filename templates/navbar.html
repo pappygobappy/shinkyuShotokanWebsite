@@ -24,8 +24,10 @@
             {{ end }}
             {{ end }}
             {{ if .user }}
-        <li><a class="text-gray-400 hover:bg-warning" hx-post="/admin/logout"
-           hx-target=".content" hx-swap="outerHTML">Logout</a></li>
+            <li><a class="text-gray-400 hover:bg-warning" hx-get="/admin" hx-push-url="true"
+                hx-target=".content" hx-swap="outerHTML">Admin</a></li>
+            <li><a class="text-gray-400 hover:bg-warning" hx-post="/admin/logout"
+            hx-target=".content" hx-swap="outerHTML">Logout</a></li>
            {{ end }}
         </ul>
     </div>

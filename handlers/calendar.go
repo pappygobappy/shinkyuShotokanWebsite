@@ -107,7 +107,7 @@ func Calendar(c *fiber.Ctx) error {
 		log.Print(result.Error)
 	}
 
-	calendarMap := fiber.Map{"Page": calendarPage, "Month": firstOfMonth, "Today": time.Now().In(utils.TZ), "Weeks": weeks, "PrevMonth": prevMonth.Format("2006-01"), "NextMonth": nextMonth.Format("2006-01"), "Locations": utils.Locations, "Classes": utils.ActualClasses, "Periods": periods, "FilteredClass": filteredClass}
+	calendarMap := fiber.Map{"Page": calendarPage, "Month": firstOfMonth, "Today": time.Now().In(utils.TZ), "Weeks": weeks, "PrevMonth": prevMonth.Format("2006-01"), "NextMonth": nextMonth.Format("2006-01"), "Locations": queries.GetLocations(), "Classes": utils.ActualClasses, "Periods": periods, "FilteredClass": filteredClass}
 
 	if hxRequest {
 		return c.Render("calendarPage2", calendarMap)
@@ -136,7 +136,7 @@ func CalendarItemView(c *fiber.Ctx) error {
 		"ClassSession": classSession,
 		"Period":       queries.GetClassPeriodById(classSession.Period),
 		"Class":        class,
-		"Location":     utils.Locations[classSession.Location],
+		"Location":     queries.GetLocationyName(classSession.Location),
 	}
 
 	if hxRequest {
@@ -153,7 +153,7 @@ func AddClassSessionForm(c *fiber.Ctx) error {
 		log.Print(result.Error)
 	}
 
-	return c.Render("addClassSession", fiber.Map{"Locations": utils.Locations, "Classes": utils.ActualClasses, "Periods": periods})
+	return c.Render("addClassSession", fiber.Map{"Locations": queries.GetLocations(), "Classes": utils.ActualClasses, "Periods": periods})
 }
 
 func AddClassSession(c *fiber.Ctx) error {
@@ -213,7 +213,7 @@ func EditClassSessionGet(c *fiber.Ctx) error {
 	var classSession models.ClassSession
 	initializers.DB.First(&classSession, id)
 
-	return c.Render("edit_classSession", fiber.Map{"ClassSession": classSession, "Locations": utils.Locations, "Classes": utils.ActualClasses})
+	return c.Render("edit_classSession", fiber.Map{"ClassSession": classSession, "Locations": queries.GetLocations(), "Classes": utils.ActualClasses})
 }
 
 func EditClassSessionPut(c *fiber.Ctx) error {
