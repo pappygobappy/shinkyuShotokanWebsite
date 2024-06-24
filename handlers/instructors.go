@@ -18,7 +18,7 @@ func Instructors(c *fiber.Ctx) error {
 		hxRequest = false
 	}
 
-	if hxRequest == true {
+	if hxRequest {
 		return c.Render("instructorsPage", instructorsPage)
 	} else {
 		return c.Render("instructors", instructorsPage)

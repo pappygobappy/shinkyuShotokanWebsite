@@ -60,7 +60,7 @@ func AdminHome(c *fiber.Ctx) error {
 		hxRequest = false
 	}
 
-	if hxRequest == true {
+	if hxRequest {
 		return c.Render("homePage", homePage)
 	} else {
 		return c.Render("home", homePage)

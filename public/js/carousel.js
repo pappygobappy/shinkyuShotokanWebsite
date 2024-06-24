@@ -92,3 +92,20 @@ function handleCalendarTouchEnd(event) {
         }
     }
 }
+
+function addNewAnnotationForm() {
+    newAnnotationRow = `<tr>
+                <td>
+                    <input type="text" placeholder="Class Annotation" class="input input-bordered w-full"
+                        name="Annotations" />
+                </td>
+                <td>
+                    <div class="btn btn-warning btn-sm md:btn-md" onclick="this.parentElement.parentElement.remove()">
+                        <svg class="Q6yead QJZfhe " width="24" height="24" viewBox="0 0 24 24" focusable="false">
+                            <path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path>
+                        </svg>
+                    </div>
+                </td>
+            </tr>`
+    document.querySelector('tbody').insertAdjacentHTML("beforeend", newAnnotationRow)
+}

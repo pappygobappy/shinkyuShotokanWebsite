@@ -1,0 +1,69 @@
+{{ define "edit_class_form" }}
+<div class="classBody">
+    <form id="edit_class_form" hx-put="/admin/classes/{{ .Class.ID }}" hx-target=".content" hx-swap="outerHTML"
+        enctype="multipart/form-data">
+        <label class="label">
+            <span class="text-base label-text">Min - Max Age</span>
+        </label>
+        <input type="number" placeholder="Minimum Age" class="input input-bordered" value="{{ .Class.StartAge }}"
+            name="MinAge" required />
+        <input type="number" placeholder="Maximum Age" class="input input-bordered" value="{{ .Class.EndAge }}"
+            name="MaxAge" />
+        <label class="label">
+            <span class="text-base label-text">Schedule</span>
+        </label>
+        <textarea placeholder="Schedule" class="textarea textarea-bordered textarea-lg w-full h-36" name="Schedule"
+            required>{{ .Class.Schedule }}</textarea>
+        <div class="btn btn-warning btn-sm md:btn-md" onclick="addNewAnnotationForm(this)">
+            <svg class="Q6yead QJZfhe " width="24" height="24" viewBox="0 0 24 24" focusable="false">
+                <path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path>
+            </svg>
+            Add Annotation
+        </div>
+        <table class="table table-sm table-zebra" style="min-width: 500px;">
+            <thead>
+                <tr>
+                    <th>Annotation</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Class.Annotations }}
+                <tr>
+                    <td>
+                        <input type="text" placeholder="Class Annotation" class="input input-bordered w-full"
+                            value="{{ .Annotation }}" name="Annotations" />
+                    </td>
+                    <td>
+                        <div class="btn btn-warning btn-sm md:btn-md"
+                            onclick="this.parentElement.parentElement.remove()">
+                            <svg class="Q6yead QJZfhe " width="24" height="24" viewBox="0 0 24 24" focusable="false">
+                                <path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path>
+                            </svg>
+                        </div>
+                    </td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+        <label class="label">
+            <span class="text-base label-text">Description</span>
+        </label>
+        <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full h-64"
+            name="Description" required>{{ .Class.Description }}</textarea>
+        <label class="label">
+            <span class="text-base label-text">Location</span>
+        </label>
+        <select class="select select-bordered w-full max-w-xs" name="Location">
+            {{ $selectedLocation := .Class.Location.Name}}
+            {{ range .Locations }}
+            <option {{ if eq $selectedLocation .Name }}selected{{end}}>{{ .Name }}</option>
+            {{ end }}
+        </select>
+    </form>
+    <div class="modal-action">
+        <button class="btn" hx-get="{{ .GetUrl }}" hx-target=".content" hx-swap="outerHTML">Close</button>
+        <input type="Submit" form="edit_class_form" class="btn btn-warning" />
+    </div>
+</div>
+{{ end }}

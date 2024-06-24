@@ -102,6 +102,8 @@ func main() {
 	adminRoutes.Get("/locations/:id", handlers.LocationGet)
 	adminRoutes.Get("/locations/:id/edit", handlers.EditLocationGet)
 	adminRoutes.Put("/locations/:id", handlers.EditLocationPut)
+	adminRoutes.Get("/classes/:id", handlers.EditClassGet)
+	adminRoutes.Put("/classes/:id", handlers.EditClassPut)
 	adminRoutes.Post("/classSession", handlers.AddClassSession)
 	adminRoutes.Get("/calendar/:id", handlers.EditClassSessionGet)
 	adminRoutes.Put("/calendar/:id", handlers.EditClassSessionPut)

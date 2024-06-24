@@ -15,9 +15,18 @@ func GetClasses() []models.Class {
 	return classes
 }
 
+func FindClassByID(id string) models.Class {
+	var class models.Class
+	result := initializers.DB.Preload("Location").Preload("Annotations").First(&class, id)
+	if result.Error != nil {
+		log.Print(result.Error)
+	}
+	return class
+}
+
 func FindClassByPath(path string) models.Class {
 	var class models.Class
-	result := initializers.DB.Preload("Location").Where("get_url = ?", path).First(&class)
+	result := initializers.DB.Preload("Location").Preload("Annotations").Where("get_url = ?", path).First(&class)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}
@@ -26,7 +35,7 @@ func FindClassByPath(path string) models.Class {
 
 func FindClassByName(name string) models.Class {
 	var class models.Class
-	result := initializers.DB.Preload("Location").Where("name = ?", name).First(&class)
+	result := initializers.DB.Preload("Location").Preload("Annotations").Where("name = ?", name).First(&class)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}
