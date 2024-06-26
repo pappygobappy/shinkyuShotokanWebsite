@@ -44,6 +44,14 @@ func addEngineFuncs(engine *html.Engine) {
 		return t.In(time.FixedZone("GMT", 0)).Format("20060102T150405Z")
 	})
 
+	engine.AddFunc("yahooDateFormat", func(t time.Time) string {
+		return t.Format("20060102T150405Z")
+	})
+
+	engine.AddFunc("outlookDateFormat", func(t time.Time) string {
+		return t.Format("2006-01-02T15:04:05")
+	})
+
 	engine.AddFunc("startTimePSTString", func(t time.Time) string {
 		return t.In(utils.TZ).Format("15:04:05")
 	})

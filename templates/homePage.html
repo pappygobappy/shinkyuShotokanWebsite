@@ -11,7 +11,7 @@
     {{ end }}
     {{ template "header" makeMap "Page" .Page  "user" .user }}
     {{ template "image_carousel" .ImagePaths }}
-    <div class="w-screen bg-base-100 p-7">
+    <div class="w-full bg-base-100 p-7">
         <div class="flex flex-col sm:flex-row mx-auto w-fit">
             <h1 class="max-w-lg italic text-xl sm:text-2xl">Teaching Traditional Shotokan Karate in South San Francisco
                 for over 50
@@ -22,10 +22,10 @@
     </div>
     {{ if and (not .Events) (not .user) }}
     {{else}}
-    <div class="w-screen upcoming-events-banner bg-base-100 py-10">
+    <div class="w-full upcoming-events-banner bg-base-100 py-10">
         <h1 class="mx-auto w-fit text-3xl font-bold">Upcoming Events</h1>
     </div>
-    <div class="upcoming-events w-screen overflow-x-auto max-h-80">
+    <div class="upcoming-events w-full overflow-x-auto max-h-80">
         <div class="mx-auto w-fit flex flex-row items-center">
             {{ range .Events }}
             <div class="card card-side h-72 bg-base-100 w-96 shadow-xl my-2.5 mx-1.5 ">
@@ -54,7 +54,7 @@
     {{ if .user }}
         {{ template "add_event_modal" . }}
     {{ end }}
-    <div class="w-screen upcoming-events-banner bg-base-100 py-10">
+    <div class="w-full upcoming-events-banner bg-base-100 py-10">
         <h1 class="mx-auto w-fit text-3xl font-bold">Classes</h1>
     </div>
     <div class="classes-wrapper grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 md:p-5">

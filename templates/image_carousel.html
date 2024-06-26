@@ -1,6 +1,6 @@
 {{ define "image_carousel" }}
 <div class="slideshow-wrapper shadow-sm" ontouchstart="handleTouchStart(event)" ontouchend="handleTouchEnd(event)">
-    <div class="slideshow-container flex items-center justify-center w-screen">
+    <div class="slideshow-container flex items-center justify-center w-full">
         {{ range . }}
         <img src="{{ . }}" class="mySlides slide-fade w-full">
         {{ end }}
