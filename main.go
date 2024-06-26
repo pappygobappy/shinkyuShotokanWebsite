@@ -49,7 +49,7 @@ func addEngineFuncs(engine *html.Engine) {
 	})
 
 	engine.AddFunc("outlookDateFormat", func(t time.Time) string {
-		return t.Format("2006-01-02T15:04:05")
+		return t.In(utils.TZ).Format("2006-01-02T15:04:05")
 	})
 
 	engine.AddFunc("startTimePSTString", func(t time.Time) string {
