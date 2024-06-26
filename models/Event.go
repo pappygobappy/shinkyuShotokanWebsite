@@ -38,16 +38,16 @@ func (event Event) SafeDescription() string {
 }
 
 func (event Event) GoogleDescription() template.HTML {
-	desc := event.Description + 
-`
+	desc := event.Description +
+		`
 
 For more information, visit <a href="https://shinkyushotokan.us/events/` + template.HTML(strconv.FormatUint(uint64(event.ID), 10)) + `">https://shinkyushotokan.us/events/` + template.HTML(strconv.FormatUint(uint64(event.ID), 10)) + `</a>`
 	return desc
 }
 
 func (event Event) OutlookDescription() template.HTML {
-	desc := event.Description + 
-`
+	desc := event.Description +
+		`
 
 For more information, visit <a href="https://shinkyushotokan.us/events/` + template.HTML(strconv.FormatUint(uint64(event.ID), 10)) + `">https://shinkyushotokan.us/events/` + template.HTML(strconv.FormatUint(uint64(event.ID), 10)) + `</a>`
 	desc = template.HTML(strings.Replace(string(desc), "\n", "<br />", -1))

@@ -3,10 +3,12 @@ package main
 import (
 	"html/template"
 	"log"
+	"net/url"
 	"os"
 	"shinkyuShotokan/handlers"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/middleware"
+	"shinkyuShotokan/models"
 	"shinkyuShotokan/utils"
 	"time"
 
@@ -48,8 +50,16 @@ func addEngineFuncs(engine *html.Engine) {
 		return t.In(utils.TZ).Format("20060102T150405Z")
 	})
 
-	engine.AddFunc("outlookDateFormat", func(t time.Time) string {
-		return t.In(utils.TZ).Format("2006-01-02T15:04:05")
+	engine.AddFunc("outlookCalInvite", func(event models.Event) string {
+		baseURL := "https://outlook.live.com/calendar/0/deeplink/compose?"
+		params := url.Values{}
+		params.Add("subject", event.Title)
+		params.Add("startdt", event.StartTime.In(utils.TZ).Format("2006-01-02T15:04:05"))
+		params.Add("enddt", event.EndTime.In(utils.TZ).Format("2006-01-02T15:04:05"))
+		params.Add("location", event.Location)
+		params.Add("body", string(event.OutlookDescription()))
+
+		return baseURL + params.Encode()
 	})
 
 	engine.AddFunc("startTimePSTString", func(t time.Time) string {
