@@ -45,7 +45,7 @@ func addEngineFuncs(engine *html.Engine) {
 	})
 
 	engine.AddFunc("yahooDateFormat", func(t time.Time) string {
-		return t.Format("20060102T150405Z")
+		return t.In(utils.TZ).Format("20060102T150405Z")
 	})
 
 	engine.AddFunc("outlookDateFormat", func(t time.Time) string {
