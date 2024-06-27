@@ -3410,6 +3410,14 @@ html {
   width: 100vw;
 }
 
+.w-80 {
+  width: 20rem;
+}
+
+.w-9 {
+  width: 2.25rem;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }

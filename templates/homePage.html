@@ -30,8 +30,8 @@
             {{ range .Events }}
             <div class="card card-side h-72 bg-base-100 w-96 shadow-xl my-2.5 mx-1.5 ">
                 <figure><img class="object-cover w-60 h-full" src="{{ .GetCardPicUrl }}" alt="{{ .Alt }}" /></figure>
-                <div class="card-body">
-                    <h2 class="card-title">{{ .Title }}</h2>
+                <div class="card-body w-96">
+                    <h2 class="card-title text-base">{{ .Title }}</h2>
                     <p class="">{{ .Date.Format "1/2/2006" }}<br/>{{ .Location }}</p>
                     <div class="card-actions justify-end">
                         <button class="btn btn-warning shadow-md" hx-get="/events/{{ .ID }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML show:top">Learn More</button>
