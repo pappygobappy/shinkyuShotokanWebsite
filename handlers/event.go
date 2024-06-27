@@ -61,6 +61,30 @@ func getExistingEventCoverPhotos() []string {
 	return eventImagePaths
 }
 
+func getExistingEventCardPhotos() []string {
+	var eventImagePaths []string
+
+	uploadedCoverPhotosPath := fmt.Sprintf("%s/assets/events/cards", os.Getenv("UPLOAD_DIR"))
+
+	err := filepath.Walk(uploadedCoverPhotosPath, func(path string, info os.FileInfo, err error) error {
+
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		}
+		if !info.IsDir() {
+			eventImagePaths = append(eventImagePaths, strings.Replace(path, os.Getenv("UPLOAD_DIR"), "/upload", 1))
+		}
+		return nil
+	})
+
+	if err != nil {
+		log.Println("Failed to get uploaded card photos")
+	}
+
+	return eventImagePaths
+}
+
 func uploadEventFiles(event models.Event, c *fiber.Ctx) {
 	if form, err := c.MultipartForm(); err == nil {
 		// Get all files from "Files" key:
@@ -111,6 +135,18 @@ func getCoverPhotoUrl(existingCoverPhoto string, c *fiber.Ctx) string {
 	}
 }
 
+func getCardPhotoUrl(existingCardPhoto string, c *fiber.Ctx) string {
+	newCardPhoto, err := c.FormFile("NewCardPhoto")
+	if err != nil {
+		fmt.Println("No new card photo")
+		return existingCardPhoto
+	} else {
+		os.MkdirAll(fmt.Sprintf("%s/assets/events/cards", os.Getenv("UPLOAD_DIR")), 0700)
+		c.SaveFile(newCardPhoto, fmt.Sprintf("%s/assets/events/cards/%s", os.Getenv("UPLOAD_DIR"), newCardPhoto.Filename))
+		return fmt.Sprintf("/upload/assets/events/cards/%s", newCardPhoto.Filename)
+	}
+}
+
 func Event(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var event models.Event
@@ -139,14 +175,16 @@ func EditEventGet(c *fiber.Ctx) error {
 	files := getEventFilePaths(event)
 
 	eventImagePaths := getExistingEventCoverPhotos()
+	eventCardImagePaths := getExistingEventCardPhotos()
 
 	return c.Render("edit_event", fiber.Map{
-		"Page":        page,
-		"Event":       event,
-		"EventPhotos": eventImagePaths,
-		"Description": event.Description,
-		"Files":       files,
-		"Locations":   queries.GetLocations(),
+		"Page":            page,
+		"Event":           event,
+		"EventPhotos":     eventImagePaths,
+		"EventCardPhotos": eventCardImagePaths,
+		"Description":     event.Description,
+		"Files":           files,
+		"Locations":       queries.GetLocations(),
 	})
 }
 
@@ -159,6 +197,7 @@ func AddEvent(c *fiber.Ctx) error {
 		Location           string
 		Description        template.HTML
 		ExistingCoverPhoto string
+		ExistingCardPhoto  string
 	}
 
 	if err := c.BodyParser(&body); err != nil {
@@ -177,7 +216,9 @@ func AddEvent(c *fiber.Ctx) error {
 
 	photoUrl := getCoverPhotoUrl(body.ExistingCoverPhoto, c)
 
-	event := models.Event{Title: body.Name, Date: date, StartTime: startTime, EndTime: endTime, Description: body.Description, PictureUrl: photoUrl, Location: body.Location}
+	cardPicUrl := getCardPhotoUrl(body.ExistingCardPhoto, c)
+
+	event := models.Event{Title: body.Name, Date: date, StartTime: startTime, EndTime: endTime, Description: body.Description, PictureUrl: photoUrl, CardPicUrl: cardPicUrl, Location: body.Location}
 
 	result := initializers.DB.Create(&event)
 
@@ -207,6 +248,7 @@ func EditEventPost(c *fiber.Ctx) error {
 		Location           string
 		Description        template.HTML
 		ExistingCoverPhoto string
+		ExistingCardPhoto  string
 		DeletedFiles       string
 	}
 
@@ -239,6 +281,7 @@ func EditEventPost(c *fiber.Ctx) error {
 	}
 
 	photoUrl := getCoverPhotoUrl(body.ExistingCoverPhoto, c)
+	cardPhotoUrl := getCardPhotoUrl(body.ExistingCardPhoto, c)
 
 	event.Title = body.Name
 	event.Date = date
@@ -246,6 +289,7 @@ func EditEventPost(c *fiber.Ctx) error {
 	event.EndTime = endTime
 	event.Description = body.Description
 	event.PictureUrl = photoUrl
+	event.CardPicUrl = cardPhotoUrl
 	event.Location = body.Location
 
 	result := initializers.DB.Save(&event)

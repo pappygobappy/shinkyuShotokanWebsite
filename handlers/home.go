@@ -29,6 +29,7 @@ func Home(c *fiber.Ctx) error {
 	})
 
 	eventImagePaths := getExistingEventCoverPhotos()
+	eventCardImagePaths := getExistingEventCardPhotos()
 
 	events := queries.GetUpcomingEvents()
 	homePage := fiber.Map{
@@ -36,6 +37,7 @@ func Home(c *fiber.Ctx) error {
 		"Events":      events,
 		"ImagePaths":  imagePaths,
 		"EventPhotos": eventImagePaths,
+		"EventCardPhotos": eventCardImagePaths,
 		"Locations":   queries.GetLocations(),
 		"message": c.Locals("message"),
 	}

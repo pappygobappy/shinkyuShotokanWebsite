@@ -41,26 +41,26 @@
                 <label class="cursor-pointer label">
                     <span class="label-text">Add New Cover Photo</span>
                     <input type="checkbox" class="toggle toggle-warning cover-selector" onchange="
-                      if (this.checked) {
-                        document.querySelector('.existing-cover-photos').classList.add('hidden')
-                        document.querySelector('input[name=\'ExistingCoverPhoto\']').removeAttribute('required')
-                        document.querySelector('input[name=\'ExistingCoverPhoto\']').value = null
-    
-                        if (document.querySelector('.cover-photo.border-yellow-500') != null) {
-                            document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
-                            document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
-                        }
-    
-                        document.querySelector('.new-cover-photo').classList.remove('hidden')
-                        document.querySelector('input[name=\'NewCoverPhoto\']').setAttribute('required', true)
-                      } else {
-                        document.querySelector('.existing-cover-photos').classList.remove('hidden')
-                        document.querySelector('.new-cover-photo').classList.add('hidden')
-                        document.querySelector('input[name=\'NewCoverPhoto\']').value = null
-                        document.querySelector('input[name=\'NewCoverPhoto\']').removeAttribute('required')
-                        document.querySelector('input[name=\'ExistingCoverPhoto\']').setAttribute('required', true)
-                      }
-                  " />
+                                          if (this.checked) {
+                                            document.querySelector('.existing-cover-photos').classList.add('hidden')
+                                            document.querySelector('input[name=\'ExistingCoverPhoto\']').removeAttribute('required')
+                                            document.querySelector('input[name=\'ExistingCoverPhoto\']').value = null
+                        
+                                            if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+                                                document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
+                                                document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
+                                            }
+                        
+                                            document.querySelector('.new-cover-photo').classList.remove('hidden')
+                                            document.querySelector('input[name=\'NewCoverPhoto\']').setAttribute('required', true)
+                                          } else {
+                                            document.querySelector('.existing-cover-photos').classList.remove('hidden')
+                                            document.querySelector('.new-cover-photo').classList.add('hidden')
+                                            document.querySelector('input[name=\'NewCoverPhoto\']').value = null
+                                            document.querySelector('input[name=\'NewCoverPhoto\']').removeAttribute('required')
+                                            document.querySelector('input[name=\'ExistingCoverPhoto\']').setAttribute('required', true)
+                                          }
+                                      " />
                 </label>
             </div>
             <label class="label">
@@ -74,20 +74,20 @@
                         <img src="{{ . }}"
                             class="cover-photo h-44 rounded border-4 {{ if eq $picUrl . }}border-yellow-500{{ else }}border-sky-500{{end}} hover:border-yellow-500 shadow-xl my-2.5 mx-1.5"
                             onclick="
-                if (event.target.classList.contains('border-yellow-500')){
-                    event.target.classList.remove('border-yellow-500')
-                    event.target.classList.add('border-sky-500')
-                    document.querySelector('input[name=\'ExistingCoverPhoto\']').value = ''
-                } else {
-                    if (document.querySelector('.cover-photo.border-yellow-500') != null) {
-                        document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
-                        document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
-                    }
-                    event.target.classList.add('border-yellow-500');
-                    event.target.classList.remove('border-sky-500')
-                    document.querySelector('input[name=\'ExistingCoverPhoto\']').value = event.target.getAttribute('src')
-                }
-                " />
+                                        if (event.target.classList.contains('border-yellow-500')){
+                                            event.target.classList.remove('border-yellow-500')
+                                            event.target.classList.add('border-sky-500')
+                                            document.querySelector('input[name=\'ExistingCoverPhoto\']').value = ''
+                                        } else {
+                                            if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+                                                document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
+                                                document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
+                                            }
+                                            event.target.classList.add('border-yellow-500');
+                                            event.target.classList.remove('border-sky-500')
+                                            document.querySelector('input[name=\'ExistingCoverPhoto\']').value = event.target.getAttribute('src')
+                                        }
+                                        " />
                         {{ end }}
                     </div>
                 </div>
@@ -98,6 +98,68 @@
             <div class="new-cover-photo form-control hidden">
                 <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full"
                     name="NewCoverPhoto" />
+            </div>
+            <div class="form-control">
+                <label class="cursor-pointer label">
+                    <span class="label-text">Add New Card Photo</span>
+                    <input type="checkbox" class="toggle toggle-warning card-selector" onchange="
+                                          if (this.checked) {
+                                            document.querySelector('.existing-card-photos').classList.add('hidden')
+                                            document.querySelector('input[name=\'ExistingCardPhoto\']').removeAttribute('required')
+                                            document.querySelector('input[name=\'ExistingCardPhoto\']').value = null
+                        
+                                            if (document.querySelector('.card-photo.border-yellow-500') != null) {
+                                                document.querySelector('.card-photo.border-yellow-500').classList.add('border-sky-500')
+                                                document.querySelector('.card-photo.border-yellow-500').classList.remove('border-yellow-500')
+                                            }
+                        
+                                            document.querySelector('.new-card-photo').classList.remove('hidden')
+                                            document.querySelector('input[name=\'NewCardPhoto\']').setAttribute('required', true)
+                                          } else {
+                                            document.querySelector('.existing-card-photos').classList.remove('hidden')
+                                            document.querySelector('.new-card-photo').classList.add('hidden')
+                                            document.querySelector('input[name=\'NewCardPhoto\']').value = null
+                                            document.querySelector('input[name=\'NewCardPhoto\']').removeAttribute('required')
+                                            document.querySelector('input[name=\'ExistingCardPhoto\']').setAttribute('required', true)
+                                          }
+                                      " />
+                </label>
+            </div>
+            <label class="label">
+                <span class="text-base label-text">Event Card Photo</span>
+            </label>
+            <div class="existing-card-photos">
+                <div class="upcoming-events w-full overflow-x-auto max-h-72">
+                    <div class="mx-auto w-fit flex flex-row items-center">
+                        {{ $picUrl := .Event.CardPicUrl }}
+                        {{ range .EventCardPhotos }}
+                        <img src="{{ . }}"
+                            class="card-photo h-44 rounded border-4 {{ if eq $picUrl . }}border-yellow-500{{ else }}border-sky-500{{end}} hover:border-yellow-500 shadow-xl my-2.5 mx-1.5"
+                            onclick="
+                                        if (event.target.classList.contains('border-yellow-500')){
+                                            event.target.classList.remove('border-yellow-500')
+                                            event.target.classList.add('border-sky-500')
+                                            document.querySelector('input[name=\'ExistingCardPhoto\']').value = ''
+                                        } else {
+                                            if (document.querySelector('.card-photo.border-yellow-500') != null) {
+                                                document.querySelector('.card-photo.border-yellow-500').classList.add('border-sky-500')
+                                                document.querySelector('.card-photo.border-yellow-500').classList.remove('border-yellow-500')
+                                            }
+                                            event.target.classList.add('border-yellow-500');
+                                            event.target.classList.remove('border-sky-500')
+                                            document.querySelector('input[name=\'ExistingCardPhoto\']').value = event.target.getAttribute('src')
+                                        }
+                                        " />
+                        {{ end }}
+                    </div>
+                </div>
+                <div class="">
+                    <input type="text" class="" name="ExistingCardPhoto" value="{{ .Event.CardPicUrl }}" required />
+                </div>
+            </div>
+            <div class="new-card-photo form-control hidden">
+                <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full"
+                    name="NewCardPhoto" />
             </div>
             {{ if .Files }}
             <label class="label">

@@ -5,10 +5,10 @@
 {{ $loc := .Event.StartTime.In .Event.StartTime.Location }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    {{ template "banner_image" makeMap "Banner" .Event.PictureUrl "BannerAdjust" 32 "BannerAspectRatio" "16/4" }}
+    {{ template "banner_image" makeMap "Banner" .Event.PictureUrl "BannerAdjust" 32 }}
     <div class="event pb-9 mx-auto p-3 md:p-7 max-w-7xl bg-base-100">
-        <div class="border-b pt-10 flex flex-col md:flex-row md:items-end">
-            <div class="text-3xl md:grow">{{ .Event.Title }}<br />{{ .Event.Date.Format "Monday, January 2, 2006" }}</div>
+        <div class="border-b pt-3 flex flex-col md:flex-row md:items-end">
+            <div class="text-2xl md:text-3xl md:grow">{{ .Event.Title }}<br />{{ .Event.Date.Format "Monday, January 2, 2006" }}</div>
             <div class="dropdown md:mx-5">
                 <label tabindex="0" class="btn btn-warning my-1 shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-plus"
@@ -52,7 +52,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="https://calendar.yahoo.com/?desc={{.Event.SafeDescription }}&dur=false&et={{ yahooDateFormat .Event.EndTime }}&in_loc={{ .Location.Name }}&st={{ yahooDateFormat .Event.StartTime }}&title={{ .Event.Title }}&v=60"
+                        <a href="https://calendar.yahoo.com/?desc={{ .Event.SafeDescription }}&dur=false&et={{ yahooDateFormat .Event.EndTime }}&in_loc={{ .Location.Name }}&st={{ yahooDateFormat .Event.StartTime }}&title={{ .Event.Title }}&v=60"
                             target="_blank" rel="nofollow">
                             <svg xmlns="http://www.w3.org/2000/svg" aria-label="Yahoo!" role="img" width="24" height="24"
                                 viewBox="0 0 512 512" fill="#000000">

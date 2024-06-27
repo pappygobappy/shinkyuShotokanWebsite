@@ -18,6 +18,7 @@ type Event struct {
 	EndTime     time.Time
 	Location    string
 	PictureUrl  string
+	CardPicUrl  string
 	Alt         string
 	Description template.HTML
 }
@@ -52,4 +53,11 @@ func (event Event) OutlookDescription() template.HTML {
 For more information, visit <a href="https://shinkyushotokan.us/events/` + template.HTML(strconv.FormatUint(uint64(event.ID), 10)) + `">https://shinkyushotokan.us/events/` + template.HTML(strconv.FormatUint(uint64(event.ID), 10)) + `</a>`
 	desc = template.HTML(strings.Replace(string(desc), "\n", "<br />", -1))
 	return desc
+}
+
+func (event Event) GetCardPicUrl() string {
+	if event.CardPicUrl != "" {
+		return event.CardPicUrl
+	}
+	return event.PictureUrl
 }

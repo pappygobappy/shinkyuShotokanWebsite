@@ -3,7 +3,7 @@
     {{ template "header" makeMap "Page" .Page "user" .user }}
     {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust}}
     <div class="class mx-auto p-3 md:p-7 max-w-7xl bg-base-100">
-        <h1 class="text-3xl border-b my-10">
+        <h1 class="text-3xl border-b mt-3 mb-10">
             {{ .Class.Name }} Class 
             {{ if .user }}
             <button hx-get="/admin/classes/{{ .Class.ID }}" hx-target=".classBody" hx-swap="outerHTML"
