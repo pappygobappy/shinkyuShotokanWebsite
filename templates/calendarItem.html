@@ -1,8 +1,14 @@
 {{ define "calendarItem" }}
 <button class="flex flex-col p-1 md:px-2 md:mx-1 my-1 text-slate text-xs hover:bg-{{ .Color }}-200/50  bg-{{ .Color }}-400 text-left rounded drop-shadow-lg" hx-get="{{ .Url }}"
 hx-push-url="true" hx-target=".content" hx-swap="outerHTML">
-    <span class="md:ml-1 font-bold leading-none">{{ formatTimePST .StartTime "3:04 PM"}}</span>
-    <span class="md:ml-1 font-bold leading-none text-ellipsis overflow-hidden w-full">{{.Title}}</span>
-    <span class="mt-2 md:ml-1 font-light leading-none text-ellipsis overflow-hidden w-full">{{.Location}}</span>
+    <span class="{{ if .IsCancelled }}line-through{{ end }}">
+        <span class="md:ml-1 font-bold leading-none">{{ formatTimePST .StartTime "3:04 PM"}}</span>
+        <span class="md:ml-1 font-bold leading-none text-ellipsis overflow-hidden w-full">{{.Title}}</span>
+        <span class="md:ml-1 font-bold leading-none text-ellipsis overflow-hidden w-full">{{.Title}}</span>
+        <span class="mt-2 md:ml-1 font-light leading-none text-ellipsis overflow-hidden w-full">{{.Location}}</span>
+    </span>
+    {{ if .IsCancelled }}
+    <span class="font-bold"> CANCELLED</span>
+    {{ end }}
 </button>
 {{ end }}

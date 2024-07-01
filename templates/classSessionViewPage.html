@@ -4,9 +4,14 @@
     {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust}}
     <div class="view mx-auto px-3 pb-4 lg:px-7 lb:pb-7 max-w-7xl bg-base-100">
         <div class="text-3xl border-b py-5 flex flex-col items-left">
-            <div>{{ .ClassSession.ClassName }}</div>
-            <div>{{ formatTimePST .ClassSession.StartTime "Monday, Jan 02 2006 03:04 PM" }} - {{ formatTimePST
-                .ClassSession.EndTime "03:04 PM" }}</div>
+            <span {{ if .ClassSession.IsCancelled }}class="line-through"{{ end }}>
+                <div>{{ .ClassSession.ClassName }}</div>
+                <div>{{ formatTimePST .ClassSession.StartTime "Monday, Jan 02 2006 03:04 PM" }} - {{ formatTimePST
+                    .ClassSession.EndTime "03:04 PM" }}</div>
+            </span>
+            {{ if .ClassSession.IsCancelled }}
+            <span class="font-bold"> CANCELLED</span>
+            {{ end }}
             {{ if .user }}
             <button hx-get="/admin/calendar/{{ .ClassSession.ID }}" hx-target=".view" hx-swap="outerHTML"
                 class="ml-2 btn btn-md md:btn-sm btn-warning btn-square shadow-xl">

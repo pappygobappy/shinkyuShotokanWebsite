@@ -52,11 +52,11 @@ func EditClassPut(c *fiber.Ctx) error {
 	initializers.DB.First(&class, id)
 
 	var body struct {
-		MinAge       int
-		MaxAge    int
-		Schedule string
+		MinAge      int
+		MaxAge      int
+		Schedule    string
 		Description string
-		Location string
+		Location    string
 		Annotations []string
 	}
 
@@ -86,7 +86,7 @@ func EditClassPut(c *fiber.Ctx) error {
 		classAnnotations = append(classAnnotations, classAnnotation)
 	}
 
-	class.Annotations = classAnnotations;
+	class.Annotations = classAnnotations
 
 	result := initializers.DB.Save(&class)
 

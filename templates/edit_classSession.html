@@ -14,6 +14,10 @@
             {{ end }}
         </select>
         <label class="label">
+            <span class="text-base label-text">Cancelled</span>
+        </label>
+        <input type="checkbox" {{ if .ClassSession.IsCancelled }}checked{{ end }} class="checkbox checkbox-warning" name="IsCancelled" />
+        <label class="label">
             <span class="text-base label-text">Location</span>
         </label>
         <select class="select select-bordered w-full max-w-xs" name="Location">

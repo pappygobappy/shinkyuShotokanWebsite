@@ -16,9 +16,9 @@ import (
 )
 
 type CalendarDay struct {
-	Day            time.Time
+	Day               time.Time
 	NotInCurrentMonth bool
-	Events         []structs.CalendarItem
+	Events            []structs.CalendarItem
 }
 
 func Calendar(c *fiber.Ctx) error {
@@ -84,7 +84,7 @@ func Calendar(c *fiber.Ctx) error {
 			startMonth := class.StartTime.In(utils.TZ).Month()
 			startDay := class.StartTime.In(utils.TZ).Day()
 			if startYear == i.Year() && startMonth == i.Month() && startDay == i.Day() {
-				eventSlices = append(eventSlices, structs.CalendarItem{StartTime: class.StartTime, Title: class.ClassName, Color: utils.FindActualClassByName(class.ClassName).Color, Location: class.Location, Url: fmt.Sprintf("%s%d", "/calendar/", class.ID)})
+				eventSlices = append(eventSlices, structs.CalendarItem{StartTime: class.StartTime, Title: class.ClassName, Color: utils.FindActualClassByName(class.ClassName).Color, Location: class.Location, Url: fmt.Sprintf("%s%d", "/calendar/", class.ID), IsCancelled: class.IsCancelled})
 			}
 		}
 		sort.Slice(eventSlices, func(i, j int) bool {
@@ -222,11 +222,12 @@ func EditClassSessionPut(c *fiber.Ctx) error {
 	initializers.DB.First(&classSession, id)
 
 	var body struct {
-		Class     string
-		Date      string
-		StartTime string
-		EndTime   string
-		Location  string
+		Class       string
+		Date        string
+		StartTime   string
+		EndTime     string
+		Location    string
+		IsCancelled bool
 	}
 
 	if err := c.BodyParser(&body); err != nil {
@@ -250,6 +251,7 @@ func EditClassSessionPut(c *fiber.Ctx) error {
 	classSession.StartTime = classStartTime
 	classSession.EndTime = classEndTime
 	classSession.Location = body.Location
+	classSession.IsCancelled = body.IsCancelled
 
 	result := initializers.DB.Save(&classSession)
 

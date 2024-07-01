@@ -8,9 +8,10 @@ import (
 
 type ClassSession struct {
 	gorm.Model
-	ClassName string
-	Period   string
-	StartTime time.Time
-	EndTime   time.Time
-	Location  string
+	ClassName   string
+	Period      string
+	StartTime   time.Time
+	EndTime     time.Time
+	Location    string
+	IsCancelled bool
 }
