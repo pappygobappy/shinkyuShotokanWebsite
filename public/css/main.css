@@ -4726,6 +4726,10 @@ body {
     font-size: 1.25rem;
     line-height: 1.75rem;
   }
+
+  .md\:font-extrabold {
+    font-weight: 800;
+  }
 }
 
 @media (min-width: 1024px) {
