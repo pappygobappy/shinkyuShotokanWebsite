@@ -1,6 +1,6 @@
 {{ define "banner_image" }}
 <div class="overflow-hidden">
-    <img class="mx-auto max-h-52 w-screen max-w-7xl md:max-h-full md:aspect-{{ if .BannerAspectRatio }}{{ .BannerAspectRatio }}{{ else }}16/6{{ end }} object-cover scale-{{ if .BannerScale }}{{ .BannerScale }}{{ else}}150{{ end }} md:scale-100"
+    <img class="md:rounded-xl mx-auto max-h-52 w-screen max-w-full md:max-h-full md:aspect-{{ if .BannerAspectRatio }}{{ .BannerAspectRatio }}{{ else }}16/6{{ end }} object-cover scale-{{ if .BannerScale }}{{ .BannerScale }}{{ else}}150{{ end }} md:scale-100"
         style="object-position: left {{ .BannerAdjust }}%;" src="{{ .Banner }}">
 </div>
 {{ end }}

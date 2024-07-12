@@ -68,6 +68,10 @@ func AdminHome(c *fiber.Ctx) error {
 }
 
 func AdminPage(c *fiber.Ctx) error {
+	return c.Redirect("/admin/locations")
+}
+
+func AdminLocationPage(c *fiber.Ctx) error {
 	persistedLocations := queries.GetLocations()
 	adminPage := fiber.Map{
 		"Page":      structs.Page{PageName: "Admin", Tabs: utils.CurrentTabs(), Classes: utils.Classes},

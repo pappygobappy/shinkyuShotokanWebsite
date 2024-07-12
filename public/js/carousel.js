@@ -2,8 +2,8 @@ let slideIndex = 0;
 let timeoutId = 0;
 let showingSlides = false;
 
-var startX;
-var startY;
+var touchStartX;
+var touchStartY;
 
 if (location.pathname == "/") {
     slideIndex = 0
@@ -64,16 +64,32 @@ htmx.on('htmx:afterRequest', (evt) => {
 
   })
 
+function handleHoverStart(event) {
+    if (!event.currentTarget.getAttribute('open')) {
+        event.currentTarget.setAttribute('open', true)
+    }
+}
+
+function handleMenuHoverOut(event) {
+    hoverEndX = event.pageX
+    hoverEndY = event.pageY
+    var elementRect = event.currentTarget.getBoundingClientRect()
+    
+    if (hoverEndX >= elementRect.right - 2 || hoverEndX <= elementRect.left || hoverEndY  <= elementRect.top || hoverEndY >= elementRect.bottom + 10) {
+        event.currentTarget.removeAttribute('open')
+    }
+}
+
 function handleTouchStart(event) {
-    startX = event.changedTouches[0].screenX;
-    startY = event.changedTouches[0].screenY;
+    touchStartX = event.changedTouches[0].screenX;
+    touchStartY = event.changedTouches[0].screenY;
 }
 
 function handleTouchEnd(event) {
     endX = event.changedTouches[0].screenX;
     endY = event.changedTouches[0].screenY;
-    if(Math.abs(startX - endX) > 30 && Math.abs(startY - endY) < 100) {
-        if(endX < startX) {
+    if(Math.abs(touchStartX - endX) > 30 && Math.abs(touchStartY - endY) < 100) {
+        if(endX < touchStartX) {
             clickShowSlides(true)
         } else {
             clickShowSlides(false)
@@ -84,8 +100,8 @@ function handleTouchEnd(event) {
 function handleCalendarTouchEnd(event) {
     endX = event.changedTouches[0].screenX;
     endY = event.changedTouches[0].screenY;
-    if(Math.abs(startX - endX) > 50 && Math.abs(startY - endY) < 100) {
-        if(endX < startX) {
+    if(Math.abs(touchStartX - endX) > 50 && Math.abs(touchStartY - endY) < 100) {
+        if(endX < touchStartX) {
             document.querySelector("#NextMonth").click();
         } else {
             document.querySelector("#PrevMonth").click();

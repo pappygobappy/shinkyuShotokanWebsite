@@ -4,10 +4,10 @@
 {{ end }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="mx-auto p-3 lg:p-7 max-w-7xl bg-base-100">
-        <div class="text-3xl border-b py-5 flex flex-row items-center">
+    <div class="mx-auto p-3 lg:p-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5 printable">
+        <div class="text-3xl border-b py-5 flex flex-row items-center requirements-header">
             <div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 20 120 80" class="w-1/2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 20 120 80" class="w-1/2 requirements-belt-single">
                     <rect width="100" height="20" x="10" y="37" fill="black" rx="5" class="color2A2A2A svgShape"
                         stroke="white" stroke-width="3"></rect>
                     <rect width="53.898" height="20" x="18.574" y="75.284" fill="black" rx="5"
@@ -20,171 +20,200 @@
                         stroke="white" stroke-width="3"></rect>
                 </svg>
             </div>
-            <div>1st Dan Black Belt Requirements</div>
+            <div class="requirements-title text-center">1st Dan Black Belt Requirements</div>
+            <button class="btn btn-warning my-1 shadow-md non-printable self-end ml-auto hidden md:flex" onclick="window.print()">
+                <svg viewBox="0 0 20 20" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path fill-rule="evenodd"
+                            d="M3.99995 2.5C3.99995 1.67157 4.67152 1 5.49995 1H14.4999C15.3284 1 15.9999 1.67157 15.9999 2.5V5H17.5005C18.3289 5 19.0005 5.67157 19.0005 6.5V12.5C19.0005 13.3284 18.3289 14 17.5005 14H15.9999V18C15.9999 18.5523 15.5522 19 15 19H4.99995C4.44767 19 3.99995 18.5523 3.99995 18V14H2.50002C1.67159 14 1.00002 13.3284 1.00002 12.5L1 6.5C0.999997 5.67158 1.67157 5 2.5 5H3.99995V2.5ZM14 17V12H5.99995V17H14ZM16.9999 9C16.9999 9.55228 16.5522 10 16 10C15.4477 10 15 9.55228 15 9C15 8.44771 15.4477 8 16 8C16.5522 8 16.9999 8.44771 16.9999 9ZM14 3H6V5H14V3Z"
+                            fill="#000000"></path>
+                    </g>
+                </svg>
+                Print
+            </button>
         </div>
-        <div class="font-bold underline my-5 text-lg">KIHON - PUSH TECHNIQUES</div>
-
-        <div class="font-semibold mt-5 text-sm">Kamae - Fighting Stance</div>
-        <div class="overflow-x-auto">
-            <table class="table table-sm table-zebra" style="min-width: 500px;">
-                <thead>
-                    <tr>
-                        <th>Direction</th>
-                        <th>Technique</th>
-                        <th>English Name</th>
-                        <th>Number of times</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Kizami-Zuki</td>
-                        <td>Jab</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Gyaku-Zuki</td>
-                        <td>Reverse Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Oi-Suki</td>
-                        <td>Lunge Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Oi-Suki, Uraken</td>
-                        <td>Lunge Punch, half-step Back Fist</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Gyaku-Zuki</td>
-                        <td>Lunging Reverse Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Gyaku-Zuki, Gyaku-Zuki</td>
-                        <td>Reverse Punch, full-step Reverse Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Oi-Suki, Kizami-Zuki</td>
-                        <td>Lunge Punch, Jab</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Kizami-Zuki, half-step Gyaku-Zuki</td>
-                        <td>Jab, half-step Reverse Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Kizami-Zuki, Oi-Suki</td>
-                        <td>Jab, Lunge Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Oi-Suki, Gyaku-Zuki</td>
-                        <td>Lunge Punch, half-step Reverse Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Kizami-Zuki, Oi-Suki, Gyaku-Zuki</td>
-                        <td>Jab, Lunge Punch, Reverse Punch</td>
-                        <td>2 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Kizami-Zuki, Oi-Suki, Gyaku-Zuki</td>
-                        <td>Jab, Lunge Punch, Reverse Punch</td>
-                        <td>2 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Mae-Geri Keage, Oi-Suki</td>
-                        <td>Front Snap Kick, Lunge Punch (keep hand in punching position)</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Gyaku-Zuki, Mae-Geri Keage</td>
-                        <td>Reverse Punch, Front Snap Kick (keep hand in punching position)</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Mae-Geri Keage, Oi-Suki, Gyaku-Zuki</td>
-                        <td>Front Snap Kick, Lunge Punch, Reverse Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Mae-Geri Keage, Oi-Suki, Gyaku-Zuki</td>
-                        <td>Front Snap Kick, Lunge Punch, Reverse Punch</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Any Punch Combination</td>
-                        <td></td>
-                        <td>turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Any Punch Combination</td>
-                        <td></td>
-                        <td>turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Any Kick Combination</td>
-                        <td></td>
-                        <td>turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Any Punch, Kick Combination</td>
-                        <td></td>
-                        <td>turn</td>
-                    </tr>
-                </tbody>
-            </table>
+        <button class="btn btn-warning my-1 shadow-md non-printable md:hidden" onclick="window.print()">
+            <svg viewBox="0 0 20 20" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path fill-rule="evenodd"
+                        d="M3.99995 2.5C3.99995 1.67157 4.67152 1 5.49995 1H14.4999C15.3284 1 15.9999 1.67157 15.9999 2.5V5H17.5005C18.3289 5 19.0005 5.67157 19.0005 6.5V12.5C19.0005 13.3284 18.3289 14 17.5005 14H15.9999V18C15.9999 18.5523 15.5522 19 15 19H4.99995C4.44767 19 3.99995 18.5523 3.99995 18V14H2.50002C1.67159 14 1.00002 13.3284 1.00002 12.5L1 6.5C0.999997 5.67158 1.67157 5 2.5 5H3.99995V2.5ZM14 17V12H5.99995V17H14ZM16.9999 9C16.9999 9.55228 16.5522 10 16 10C15.4477 10 15 9.55228 15 9C15 8.44771 15.4477 8 16 8C16.5522 8 16.9999 8.44771 16.9999 9ZM14 3H6V5H14V3Z"
+                        fill="#000000"></path>
+                </g>
+            </svg>
+            Print
+        </button>
+        <div class="section">
+            <div class="font-bold underline my-5 text-lg requirements-section">KIHON - PUSH TECHNIQUES</div>
+            <div class="font-semibold mt-5 text-sm kihon-stance">Kamae - Fighting Stance</div>
+            <div class="overflow-x-auto">
+                <table class="table table-sm table-zebra" style="min-width: 500px;">
+                    <thead>
+                        <tr>
+                            <th>Direction</th>
+                            <th>Technique</th>
+                            <th>English Name</th>
+                            <th>Number of times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Kizami-Zuki</td>
+                            <td>Jab</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Gyaku-Zuki</td>
+                            <td>Reverse Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Oi-Suki</td>
+                            <td>Lunge Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Oi-Suki, Uraken</td>
+                            <td>Lunge Punch, half-step Back Fist</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Gyaku-Zuki</td>
+                            <td>Lunging Reverse Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Gyaku-Zuki, Gyaku-Zuki</td>
+                            <td>Reverse Punch, full-step Reverse Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Oi-Suki, Kizami-Zuki</td>
+                            <td>Lunge Punch, Jab</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Kizami-Zuki, half-step Gyaku-Zuki</td>
+                            <td>Jab, half-step Reverse Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Kizami-Zuki, Oi-Suki</td>
+                            <td>Jab, Lunge Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Oi-Suki, Gyaku-Zuki</td>
+                            <td>Lunge Punch, half-step Reverse Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Kizami-Zuki, Oi-Suki, Gyaku-Zuki</td>
+                            <td>Jab, Lunge Punch, Reverse Punch</td>
+                            <td>2 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Kizami-Zuki, Oi-Suki, Gyaku-Zuki</td>
+                            <td>Jab, Lunge Punch, Reverse Punch</td>
+                            <td>2 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Mae-Geri Keage, Oi-Suki</td>
+                            <td>Front Snap Kick, Lunge Punch (keep hand in punching position)</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Gyaku-Zuki, Mae-Geri Keage</td>
+                            <td>Reverse Punch, Front Snap Kick (keep hand in punching position)</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Mae-Geri Keage, Oi-Suki, Gyaku-Zuki</td>
+                            <td>Front Snap Kick, Lunge Punch, Reverse Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Mae-Geri Keage, Oi-Suki, Gyaku-Zuki</td>
+                            <td>Front Snap Kick, Lunge Punch, Reverse Punch</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Any Punch Combination</td>
+                            <td></td>
+                            <td>turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Any Punch Combination</td>
+                            <td></td>
+                            <td>turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Any Kick Combination</td>
+                            <td></td>
+                            <td>turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Any Punch, Kick Combination</td>
+                            <td></td>
+                            <td>turn</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="font-bold underline mt-7 text-sm">STATIONARY KICKS</div>
-        <div class="font-semibold mt-5 text-sm">Kamae - Fighting Stance</div>
-        <div class="overflow-x-auto">
-            <table class="table table-sm table-zebra" style="min-width: 500px;">
-                <thead>
-                    <tr>
-                        <th>Technique</th>
-                        <th>English Name</th>
-                        <th>Number of times</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Mae-Geri Keage, Yoko-Geri Keage, Mawashi-Geri, Ushiro-Geri</td>
-                        <td>Front Snap Kick, Side Snap Kick, Roundhouse Kick, Back Kick</td>
-                        <td>5 times each leg</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="section">
+            <div class="font-bold underline mt-7 text-sm requirements-section">STATIONARY KICKS</div>
+            <div class="font-semibold mt-5 text-sm kihon-stance">Kamae - Fighting Stance</div>
+            <div class="overflow-x-auto">
+                <table class="table table-sm table-zebra" style="min-width: 500px;">
+                    <thead>
+                        <tr>
+                            <th>Technique</th>
+                            <th>English Name</th>
+                            <th>Number of times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mae-Geri Keage, Yoko-Geri Keage, Mawashi-Geri, Ushiro-Geri</td>
+                            <td>Front Snap Kick, Side Snap Kick, Roundhouse Kick, Back Kick</td>
+                            <td>5 times each leg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <hr class="my-5">
-        <div class="font-bold underline my-5 text-lg">KATA</div>
-        <div>1st dan: Bassai Dai, Jion, Kanku Dai, Hangetsu, Empi, Tekki Nidan</div>
-        <hr class="my-5">
-        <div class="font-bold underline my-5 text-lg">JIYU KUMITE</div>
-        <div>Free-style sparring between all brown and black belts.</div>
+        <hr class="my-5 section-line">
+        <div class="section">
+            <div class="font-bold underline my-5 text-lg requirements-section">KATA</div>
+            <div class="kata-name">1st dan: Bassai Dai, Jion, Kanku Dai, Hangetsu, Empi, Tekki Nidan</div>
+        </div>
+        <hr class="my-5 section-line">
+        <div class="font-bold underline my-5 text-lg requirements-section">JIYU KUMITE</div>
+        <div class="kata-name">Free-style sparring between all brown and black belts.</div>
     </div>
     {{ if not .hxRequest }}
     {{ template "footer" }}

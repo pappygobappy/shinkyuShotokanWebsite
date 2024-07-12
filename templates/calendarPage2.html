@@ -3,7 +3,7 @@
     {{ template "header" makeMap "Page" .Page "user" .user }}
     {{ $today := .Today}}
     {{ $user := .user }}
-    <div class="text-gray-700 calendar mx-auto w-screen max-w-7xl md:p-7 bg-base-100 flex flex-col grow overflow-auto">
+    <div class="text-gray-700 calendar mx-auto w-screen max-w-7xl md:p-7 bg-base-100 flex flex-col grow overflow-auto md:rounded-xl md:my-5">
 
         <!-- Component Start -->
                 <div class="calendar-top border-b">

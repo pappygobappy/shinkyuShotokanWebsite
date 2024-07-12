@@ -1,13 +1,15 @@
 {{ define "historyPage" }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    {{ template "banner_image" makeMap "Banner" "/public/history/banner.jpeg" "BannerAdjust" 32 "BannerAspectRatio" "16/4" "BannerScale" 110}}
-    <div class="history mx-auto p-3 md:p-7 max-w-7xl bg-base-100">
-        <h1 class="text-3xl border-b mt-3 mb-10">History of Shinkyu Shotokan</h1>
-        <p>The Shinkyu Shotokan Karate dojo practices traditional Shotokan, as well as elements from the older martial
-            arts of Shorinji Ryu. Students attain knowledge and proficiency of self-defense in a spiritual, mental and
-            physical way. They develop confidence, build up endurance, focus and self-awareness in a friendly
-            atmosphere. Shinkyu Shotokan Karate was established in 1965 by Sensei Leroy Rodrigues.</p>
+    <div class="history mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
+        {{ template "banner_image" makeMap "Banner" "/public/history/banner.jpeg" "BannerAdjust" 32 "BannerAspectRatio" "16/4" "BannerScale" 110}}
+        <div class="history-page p-3 md:p-0">
+            <h1 class="text-3xl border-b mt-3 mb-10">History of Shinkyu Shotokan</h1>
+            <p>The Shinkyu Shotokan Karate dojo practices traditional Shotokan, as well as elements from the older martial
+                arts of Shorinji Ryu. Students attain knowledge and proficiency of self-defense in a spiritual, mental and
+                physical way. They develop confidence, build up endurance, focus and self-awareness in a friendly
+                atmosphere. Shinkyu Shotokan Karate was established in 1965 by Sensei Leroy Rodrigues.</p>
+        </div>
     </div>
 </div>
 {{ end }}

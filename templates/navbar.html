@@ -8,7 +8,7 @@
             {{ range .Page.Tabs }}
             {{ if .SubTabs }}
             <li tabindex="0">
-                <details>
+                <details onmouseover="handleHoverStart(event)" onmouseout="handleMenuHoverOut(event)">
                     <summary class="{{ if ne $activePageName .Name }} text-gray-400 {{ end }} hover:bg-warning">{{ .Name }}</summary>
                     <ul class="p-2 z-10 font-normal">
                         {{ range .SubTabs }}

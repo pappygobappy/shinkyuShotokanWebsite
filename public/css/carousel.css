@@ -123,3 +123,101 @@ body {
 .md\:aspect-16\/6 {
     aspect-ratio: 16 / 6;
 }
+
+@media print {
+    .non-printable {
+      visibility: hidden;
+    }
+    .printable {
+      visibility: visible;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
+    .page-break {
+        page-break-before: always;
+    }
+    .requirements-header {
+        padding: 0;
+    }
+    .kihon {
+        margin-top: 0;
+    }
+    .btn {
+        display: none;
+    }
+    .no-stripe-belt {
+        display: flex;
+    }
+    .requirements-belt-single {
+        width: 25%;
+    }
+    .requirements-belt {
+        width: 40%;
+    }
+    .requirements-belt-mobile {
+        display: none;
+    }
+    .requirements-title {
+        font-size: large;
+    }
+    .requirements-section {
+        font-size: medium;
+        margin: 0;
+    }
+    .section-line {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+    }
+    .kihon-sub-section {
+        font-size: small;
+        margin-top: 0;
+    }
+    .kihon-stance {
+        margin-top: 0;
+    }
+    .kata-name {
+        font-size: smaller;
+    }
+    thead {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    tbody {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    table {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    tr {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    th {
+        font-size: smaller;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    td {
+        font-size: smaller;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    body {
+        zoom: 93%;
+    }
+    .section {
+        page-break-inside: avoid;
+    }
+    table {
+        page-break-inside: avoid;
+    }
+  }
+  

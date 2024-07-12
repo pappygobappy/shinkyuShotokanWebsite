@@ -116,6 +116,7 @@ func main() {
 
 	adminRoutes := app.Group("admin", middleware.RequireAuth)
 	adminRoutes.Get("/", handlers.AdminPage)
+	adminRoutes.Get("/locations", handlers.AdminLocationPage)
 	adminRoutes.Post("/locations", handlers.AddLocation)
 	adminRoutes.Get("/locations/:id", handlers.LocationGet)
 	adminRoutes.Get("/locations/:id/edit", handlers.EditLocationGet)

@@ -4,192 +4,86 @@
 {{ end }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="mx-auto px-3 pb-4 lg:px-7 lb:pb-7 max-w-7xl bg-base-100">
-        <div class="text-3xl border-b py-5 flex flex-row items-center">
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 20 120 80" class="w-1/2">
-                    <rect width="100" height="20" x="10" y="37" fill="#990099" rx="5" class="color2A2A2A svgShape"
-                        stroke="black" stroke-width="3"></rect>
-                    <rect width="53.898" height="20" x="18.574" y="75.284" fill="#990099" rx="5"
-                        transform="rotate(-45 18.574 75.284)" class="color393939 svgShape" stroke="black"
-                        stroke-width="3"></rect>
-                    <rect width="53.898" height="20" fill="#990099" rx="5"
-                        transform="scale(-1 1) rotate(-45 40.463 159.351)" class="color393939 svgShape" stroke="black"
-                        stroke-width="3"></rect>
-                    <rect width="34" height="30" x="43" y="32" fill="#990099" rx="15" class="color393939 svgShape"
-                        stroke="black" stroke-width="3"></rect>
-                    <rect width="18" height="5" fill="black" rx="0" transform="scale(-1 1) rotate(-45 75 90)"
-                        stroke="black" stroke-width="3"></rect>
-                    <rect width="18" height="5" fill="black" rx="0" transform="scale(-1 1) rotate(45 -126 -76)"
-                        stroke="black" stroke-width="3"></rect>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 20 120 80" class="w-1/2">
-                    <rect width="100" height="20" x="10" y="37" fill="#990099" rx="5" class="color2A2A2A svgShape"
-                        stroke="black" stroke-width="3"></rect>
-                    <rect width="53.898" height="20" x="18.574" y="75.284" fill="#990099" rx="5"
-                        transform="rotate(-45 18.574 75.284)" class="color393939 svgShape" stroke="black"
-                        stroke-width="3"></rect>
-                    <rect width="53.898" height="20" fill="#990099" rx="5"
-                        transform="scale(-1 1) rotate(-45 40.463 159.351)" class="color393939 svgShape" stroke="black"
-                        stroke-width="3"></rect>
-                    <rect width="34" height="30" x="43" y="32" fill="#990099" rx="15" class="color393939 svgShape"
-                        stroke="black" stroke-width="3"></rect>
-                </svg>
+    <div class="mx-auto px-3 pb-4 lg:px-7 lb:pb-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5 printable">
+        <div class="text-3xl border-b py-5 requirements-header">
+            <div class="flex flex-row items-center">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 20 120 80" class="w-1/2 requirements-belt">
+                        <rect width="100" height="20" x="10" y="37" fill="#990099" rx="5" class="color2A2A2A svgShape"
+                            stroke="black" stroke-width="3"></rect>
+                        <rect width="53.898" height="20" x="18.574" y="75.284" fill="#990099" rx="5"
+                            transform="rotate(-45 18.574 75.284)" class="color393939 svgShape" stroke="black"
+                            stroke-width="3"></rect>
+                        <rect width="53.898" height="20" fill="#990099" rx="5"
+                            transform="scale(-1 1) rotate(-45 40.463 159.351)" class="color393939 svgShape" stroke="black"
+                            stroke-width="3"></rect>
+                        <rect width="34" height="30" x="43" y="32" fill="#990099" rx="15" class="color393939 svgShape"
+                            stroke="black" stroke-width="3"></rect>
+                        <rect width="18" height="5" fill="black" rx="0" transform="scale(-1 1) rotate(-45 75 90)"
+                            stroke="black" stroke-width="3"></rect>
+                        <rect width="18" height="5" fill="black" rx="0" transform="scale(-1 1) rotate(45 -126 -76)"
+                            stroke="black" stroke-width="3"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 20 120 80" class="w-1/2 requirements-belt-mobile md:hidden">
+                        <rect width="100" height="20" x="10" y="37" fill="#990099" rx="5" class="color2A2A2A svgShape"
+                            stroke="black" stroke-width="3"></rect>
+                        <rect width="53.898" height="20" x="18.574" y="75.284" fill="#990099" rx="5"
+                            transform="rotate(-45 18.574 75.284)" class="color393939 svgShape" stroke="black"
+                            stroke-width="3"></rect>
+                        <rect width="53.898" height="20" fill="#990099" rx="5"
+                            transform="scale(-1 1) rotate(-45 40.463 159.351)" class="color393939 svgShape" stroke="black"
+                            stroke-width="3"></rect>
+                        <rect width="34" height="30" x="43" y="32" fill="#990099" rx="15" class="color393939 svgShape"
+                            stroke="black" stroke-width="3"></rect>
+                    </svg>
+                </div>
+                <div class="requirements-title text-center">5th and 4th Kyu Purple Belt Requirements</div>
+                <div class="hidden md:flex no-stripe-belt">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 20 120 80" class="w-1/2 requirements-belt ml-auto">
+                        <rect width="100" height="20" x="10" y="37" fill="#990099" rx="5" class="color2A2A2A svgShape"
+                            stroke="black" stroke-width="3"></rect>
+                        <rect width="53.898" height="20" x="18.574" y="75.284" fill="#990099" rx="5"
+                            transform="rotate(-45 18.574 75.284)" class="color393939 svgShape" stroke="black"
+                            stroke-width="3"></rect>
+                        <rect width="53.898" height="20" fill="#990099" rx="5"
+                            transform="scale(-1 1) rotate(-45 40.463 159.351)" class="color393939 svgShape" stroke="black"
+                            stroke-width="3"></rect>
+                        <rect width="34" height="30" x="43" y="32" fill="#990099" rx="15" class="color393939 svgShape"
+                            stroke="black" stroke-width="3"></rect>
+                    </svg>
+                </div>
             </div>
-            <div>5th and 4th Kyu Purple Belt Requirements</div>
+            <button class="btn btn-warning my-1 shadow-md non-printable self-end ml-auto hidden md:flex" onclick="window.print()">
+                <svg viewBox="0 0 20 20" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path fill-rule="evenodd"
+                            d="M3.99995 2.5C3.99995 1.67157 4.67152 1 5.49995 1H14.4999C15.3284 1 15.9999 1.67157 15.9999 2.5V5H17.5005C18.3289 5 19.0005 5.67157 19.0005 6.5V12.5C19.0005 13.3284 18.3289 14 17.5005 14H15.9999V18C15.9999 18.5523 15.5522 19 15 19H4.99995C4.44767 19 3.99995 18.5523 3.99995 18V14H2.50002C1.67159 14 1.00002 13.3284 1.00002 12.5L1 6.5C0.999997 5.67158 1.67157 5 2.5 5H3.99995V2.5ZM14 17V12H5.99995V17H14ZM16.9999 9C16.9999 9.55228 16.5522 10 16 10C15.4477 10 15 9.55228 15 9C15 8.44771 15.4477 8 16 8C16.5522 8 16.9999 8.44771 16.9999 9ZM14 3H6V5H14V3Z"
+                            fill="#000000"></path>
+                    </g>
+                </svg>
+                Print
+            </button>
         </div>
-        <div class="font-bold underline my-5 text-lg">KIHON - TRIPLE MOVES</div>
+        <button class="btn btn-warning my-1 shadow-md non-printable md:hidden" onclick="window.print()">
+            <svg viewBox="0 0 20 20" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path fill-rule="evenodd"
+                        d="M3.99995 2.5C3.99995 1.67157 4.67152 1 5.49995 1H14.4999C15.3284 1 15.9999 1.67157 15.9999 2.5V5H17.5005C18.3289 5 19.0005 5.67157 19.0005 6.5V12.5C19.0005 13.3284 18.3289 14 17.5005 14H15.9999V18C15.9999 18.5523 15.5522 19 15 19H4.99995C4.44767 19 3.99995 18.5523 3.99995 18V14H2.50002C1.67159 14 1.00002 13.3284 1.00002 12.5L1 6.5C0.999997 5.67158 1.67157 5 2.5 5H3.99995V2.5ZM14 17V12H5.99995V17H14ZM16.9999 9C16.9999 9.55228 16.5522 10 16 10C15.4477 10 15 9.55228 15 9C15 8.44771 15.4477 8 16 8C16.5522 8 16.9999 8.44771 16.9999 9ZM14 3H6V5H14V3Z"
+                        fill="#000000"></path>
+                </g>
+            </svg>
+            Print
+        </button>
+        <div class="font-bold underline my-5 text-lg requirements-section">KIHON - TRIPLE MOVES</div>
 
-        <div class="font-semibold mt-5 text-sm">Zenkutsu-Dachi - Front Stance</div>
-        <div class="overflow-x-auto">
-            <table class="table table-sm table-zebra" style="min-width: 500px;">
-                <thead>
-                    <tr>
-                        <th>Direction</th>
-                        <th>Technique</th>
-                        <th>English Name</th>
-                        <th>Number of times</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Oi-Suki, Gyaku-Zuki, Oi-Suki</td>
-                        <td>Triple Punch</td>
-                        <td>(4 times)</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Oi-Suki, Gyaku-Zuki, Oi-Suki</td>
-                        <td>Triple Punch</td>
-                        <td>(4 times)</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Jodan-Uke, Gyaku-Zuki, Oi-Suki</td>
-                        <td>Rising Block, Two Punches</td>
-                        <td>(4 times)</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Soto-Uke, Gyaku-Zuki, Oi-Suki</td>
-                        <td>Outside Center Block, Two Punches</td>
-                        <td>(4 times)</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Chudan-Uke, Gyaku-Zuki, Oi-Suki</td>
-                        <td>Inside Center Block, Two Punches</td>
-                        <td>(4 times)</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Gedan-Barai, Gyaku-Zuki, Oi-Suki</td>
-                        <td>Downward Block, Two Punches</td>
-                        <td>(4 times)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="font-semibold mb-1.5 mt-5 text-sm">Kokutsu-Dachi - Back Stance</div>
-        <div class="overflow-x-auto">
-            <table class="table table-sm table-zebra" style="min-width: 500px;">
-                <thead>
-                    <tr>
-                        <th>Direction</th>
-                        <th>Technique</th>
-                        <th>English Name</th>
-                        <th>Number of times</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Shuto-Uke, Mae-Geri, Nukite (Zenkutsu-Dachi)</td>
-                        <td>Knife Hand Block, Front Snap Kick, Spear Hand Thrust (Front Stance)</td>
-                        <td>(4 times)</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Shuto-Uke, Mae-Geri, Nukite (Zenkutsu-Dachi)</td>
-                        <td>Knife Hand Block, Front Snap Kick, Spear Hand Thrust (Front Stance)</td>
-                        <td>(4 times)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="font-semibold mt-5 text-sm">Zenkutsu-Dachi - Front Stance</div>
-        <div class="overflow-x-auto">
-            <table class="table table-sm table-zebra" style="min-width: 500px;">
-                <thead>
-                    <tr>
-                        <th>Direction</th>
-                        <th>Technique</th>
-                        <th>English Name</th>
-                        <th>Number of times</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Soto-Uke, Empi Uchi (Kiba-Dachi)</td>
-                        <td>Outside Center Block, Elbow Strike (Horse Stance)</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Soto-Uke, Empi Uchi (Kiba-Dachi)</td>
-                        <td>Outside Center Block, Elbow Strike (Horse Stance)</td>
-                        <td>4 times, turn</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="font-bold underline mt-7 text-sm">KICKS - ALTERNATING LEG</div>
-        <div class="font-semibold mt-5 text-sm">Kamae - Fighting Position</div>
-        <div class="overflow-x-auto">
-            <table class="table table-sm table-zebra" style="min-width: 500px;">
-                <thead>
-                    <tr>
-                        <th>Direction</th>
-                        <th>Technique</th>
-                        <th>English Name</th>
-                        <th>Number of times</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Mae-Geri Keage, Mae-Geri Kekomi</td>
-                        <td>Front Snap Kick, Front Thrust Kick</td>
-                        <td>2 sets, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Mae-Geri Keage, Mawashi-Geri</td>
-                        <td>Front Snap Kick, Roundhouse Kick</td>
-                        <td>2 sets, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Mae-Geri Keage, Yoko-Geri Kekomi</td>
-                        <td>Front Snap Kick, Side Thrust Kick</td>
-                        <td>2 sets, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Mawashi-Geri, Ushiro-Geri</td>
-                        <td>Roundhouse Kick, Spinning Back Kick</td>
-                        <td>2 sets, turn</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="font-semibold mt-5 text-sm">Kiba-Dachi - Horse Stance</div>
-        <div class="overflow-x-auto">
-            <table class="table table-sm table-zebra" style="min-width: 500px;">
-                <tbody>
+        <div class="section">
+            <div class="font-semibold mt-5 text-sm kihon-stance">Zenkutsu-Dachi - Front Stance</div>
+            <div class="overflow-x-auto">
+                <table class="table table-sm table-zebra" style="min-width: 500px;">
                     <thead>
                         <tr>
                             <th>Direction</th>
@@ -198,86 +92,246 @@
                             <th>Number of times</th>
                         </tr>
                     </thead>
-                    <tr>
-                        <th>Forward</th>
-                        <td>Yoko-Geri Keage, Yoko-Geri Kekomi</td>
-                        <td>Side Snap Kick, Side Thrust Kick</td>
-                        <td>2 sets, turn</td>
-                    </tr>
-                    <tr>
-                        <th>Backward</th>
-                        <td>Yoko-Geri Keage, Yoko-Geri Kekomi</td>
-                        <td>Side Snap Kick, Side Thrust Kick</td>
-                        <td>2 sets, turn</td>
-                    </tr>
-                </tbody>
-            </table>
+                    <tbody>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Oi-Suki, Gyaku-Zuki, Oi-Suki</td>
+                            <td>Triple Punch</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Oi-Suki, Gyaku-Zuki, Oi-Suki</td>
+                            <td>Triple Punch</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Jodan-Uke, Gyaku-Zuki, Oi-Suki</td>
+                            <td>Rising Block, Two Punches</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Soto-Uke, Gyaku-Zuki, Oi-Suki</td>
+                            <td>Outside Center Block, Two Punches</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Chudan-Uke, Gyaku-Zuki, Oi-Suki</td>
+                            <td>Inside Center Block, Two Punches</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Gedan-Barai, Gyaku-Zuki, Oi-Suki</td>
+                            <td>Downward Block, Two Punches</td>
+                            <td>(4 times)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <hr class="my-5">
-        <div class="font-bold underline my-5 text-lg">KATA</div>
-        <div>5th kyu: Heian Godan</div>
-        <div>4th kyu: Tekki Shodan</div>
-        <hr class="my-5">
-        <div class="font-bold underline my-5 text-lg">ONE STEP PRE-ARRANGED KUMITE</div>
-        <div class="overflow-x-auto">
-            <table class="table table-sm table-zebra ">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Attack</th>
-                        <th>Defense</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>1</th>
-                        <td>Jodan-Oi-Suki - Face Punch</td>
-                        <td>Jodan-Uke - Rising Block, Reverse Punch to Stomach (Kiai).</td>
-                    </tr>
-                    <tr>
-                        <th>2</th>
-                        <td>Jodan-Oi-Suki - Face Punch</td>
-                        <td>Reverse Rising Block with your right hand, left leg forward, and right leg back. Grab their
-                            wrist, shift into a horse stance while pulling them towards your back leg, and perform a
-                            vertical punch to their head (Kiai).</td>
-                    </tr>
-                    <tr>
-                        <th>3</th>
-                        <td>Chudan-Oi-Suki - Stomach Punch</td>
-                        <td>Step to your right side and block the punch with a left hand Shuto-Uke. Mae-Geri and Nukite
-                            with your front leg and hand (Kiai), and land in Neko-Ashi-Dachi (Cat Stance).</td>
-                    </tr>
-                    <tr>
-                        <th>4</th>
-                        <td>Chudan-Oi-Suki - Stomach Punch</td>
-                        <td>Parry the punch from the outside with your left hand. Step into Kiba-Dachi with the left
-                            leg, striking low with your left hand (Kiai), and blocking the punch with a right hand
-                            Chudan-Uke.</td>
-                    </tr>
-                    <tr>
-                        <th>5</th>
-                        <td>Jodan-Oi-Suki - Face Punch</td>
-                        <td>Step forward with your right leg, blocking the punch with a high left hand Shuto-Uke,
-                            striking with a right Shuto to the neck (Kiai).</td>
-                    </tr>
-                    <tr>
-                        <th>6</th>
-                        <td>Mae-Geri - Front Snap Kick</td>
-                        <td>Step in with your left leg, catching the attacker's shin in an X-block before their kick
-                            extends. Pull back slightly and perform an X-Shuto Strike to their neck before their foot
-                            lands (Kiai).</td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th>4th kyu only</th>
-                    </tr>
-                    <tr>
-                        <th>7</th>
-                        <td>Chudan-Oi-Suki - Stomach Punch</td>
-                        <td>Step back and turn with the right leg, parrying with your right hand. Grab their wrist, and
-                            strike with a left hand Shuto to their neck (Kiai).</td>
-                    </tr>
-            </table>
+        <div class="section">
+            <div class="font-semibold mb-1.5 mt-5 text-sm kihon-stance">Kokutsu-Dachi - Back Stance</div>
+            <div class="overflow-x-auto">
+                <table class="table table-sm table-zebra" style="min-width: 500px;">
+                    <thead>
+                        <tr>
+                            <th>Direction</th>
+                            <th>Technique</th>
+                            <th>English Name</th>
+                            <th>Number of times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Shuto-Uke, Mae-Geri, Nukite (Zenkutsu-Dachi)</td>
+                            <td>Knife Hand Block, Front Snap Kick, Spear Hand Thrust (Front Stance)</td>
+                            <td>(4 times)</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Shuto-Uke, Mae-Geri, Nukite (Zenkutsu-Dachi)</td>
+                            <td>Knife Hand Block, Front Snap Kick, Spear Hand Thrust (Front Stance)</td>
+                            <td>(4 times)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="font-semibold mt-5 text-sm kihon-stance">Zenkutsu-Dachi - Front Stance</div>
+            <div class="overflow-x-auto">
+                <table class="table table-sm table-zebra" style="min-width: 500px;">
+                    <thead>
+                        <tr>
+                            <th>Direction</th>
+                            <th>Technique</th>
+                            <th>English Name</th>
+                            <th>Number of times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Soto-Uke, Empi Uchi (Kiba-Dachi)</td>
+                            <td>Outside Center Block, Elbow Strike (Horse Stance)</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Soto-Uke, Empi Uchi (Kiba-Dachi)</td>
+                            <td>Outside Center Block, Elbow Strike (Horse Stance)</td>
+                            <td>4 times, turn</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="font-bold underline mt-7 text-sm kihon-sub-section">KICKS - ALTERNATING LEG</div>
+            <div class="font-semibold mt-5 text-sm kihon-stance">Kamae - Fighting Position</div>
+            <div class="overflow-x-auto">
+                <table class="table table-sm table-zebra" style="min-width: 500px;">
+                    <thead>
+                        <tr>
+                            <th>Direction</th>
+                            <th>Technique</th>
+                            <th>English Name</th>
+                            <th>Number of times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Mae-Geri Keage, Mae-Geri Kekomi</td>
+                            <td>Front Snap Kick, Front Thrust Kick</td>
+                            <td>2 sets, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Mae-Geri Keage, Mawashi-Geri</td>
+                            <td>Front Snap Kick, Roundhouse Kick</td>
+                            <td>2 sets, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Mae-Geri Keage, Yoko-Geri Kekomi</td>
+                            <td>Front Snap Kick, Side Thrust Kick</td>
+                            <td>2 sets, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Mawashi-Geri, Ushiro-Geri</td>
+                            <td>Roundhouse Kick, Spinning Back Kick</td>
+                            <td>2 sets, turn</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="font-semibold mt-5 text-sm kihon-stance">Kiba-Dachi - Horse Stance</div>
+            <div class="overflow-x-auto">
+                <table class="table table-sm table-zebra" style="min-width: 500px;">
+                    <tbody>
+                        <thead>
+                            <tr>
+                                <th>Direction</th>
+                                <th>Technique</th>
+                                <th>English Name</th>
+                                <th>Number of times</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <th>Forward</th>
+                            <td>Yoko-Geri Keage, Yoko-Geri Kekomi</td>
+                            <td>Side Snap Kick, Side Thrust Kick</td>
+                            <td>2 sets, turn</td>
+                        </tr>
+                        <tr>
+                            <th>Backward</th>
+                            <td>Yoko-Geri Keage, Yoko-Geri Kekomi</td>
+                            <td>Side Snap Kick, Side Thrust Kick</td>
+                            <td>2 sets, turn</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr class="my-5 section-line">
+        <div class="section">
+            <div class="font-bold underline my-5 text-lg requirements-section">KATA</div>
+            <div>5th kyu: Heian Godan</div>
+            <div>4th kyu: Tekki Shodan</div>
+        </div>
+        <hr class="my-5 section-line">
+        <div class="section">
+            <div class="font-bold underline my-5 text-lg requirements-section">ONE STEP PRE-ARRANGED KUMITE</div>
+            <div class="overflow-x-auto">
+                <table class="table table-sm table-zebra ">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Attack</th>
+                            <th>Defense</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>Jodan-Oi-Suki - Face Punch</td>
+                            <td>Jodan-Uke - Rising Block, Reverse Punch to Stomach (Kiai).</td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>Jodan-Oi-Suki - Face Punch</td>
+                            <td>Reverse Rising Block with your right hand, left leg forward, and right leg back. Grab their
+                                wrist, shift into a horse stance while pulling them towards your back leg, and perform a
+                                vertical punch to their head (Kiai).</td>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <td>Chudan-Oi-Suki - Stomach Punch</td>
+                            <td>Step to your right side and block the punch with a left hand Shuto-Uke. Mae-Geri and Nukite
+                                with your front leg and hand (Kiai), and land in Neko-Ashi-Dachi (Cat Stance).</td>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <td>Chudan-Oi-Suki - Stomach Punch</td>
+                            <td>Parry the punch from the outside with your left hand. Step into Kiba-Dachi with the left
+                                leg, striking low with your left hand (Kiai), and blocking the punch with a right hand
+                                Chudan-Uke.</td>
+                        </tr>
+                        <tr>
+                            <th>5</th>
+                            <td>Jodan-Oi-Suki - Face Punch</td>
+                            <td>Step forward with your right leg, blocking the punch with a high left hand Shuto-Uke,
+                                striking with a right Shuto to the neck (Kiai).</td>
+                        </tr>
+                        <tr>
+                            <th>6</th>
+                            <td>Mae-Geri - Front Snap Kick</td>
+                            <td>Step in with your left leg, catching the attacker's shin in an X-block before their kick
+                                extends. Pull back slightly and perform an X-Shuto Strike to their neck before their foot
+                                lands (Kiai).</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>4th kyu only</th>
+                        </tr>
+                        <tr>
+                            <th>7</th>
+                            <td>Chudan-Oi-Suki - Stomach Punch</td>
+                            <td>Step back and turn with the right leg, parrying with your right hand. Grab their wrist, and
+                                strike with a left hand Shuto to their neck (Kiai).</td>
+                        </tr>
+                </table>
+            </div>
         </div>
     </div>
     {{ if not .hxRequest }}

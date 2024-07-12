@@ -57,7 +57,7 @@
     <div class="w-full upcoming-events-banner bg-base-100 py-10">
         <h1 class="mx-auto w-fit text-3xl font-bold">Classes</h1>
     </div>
-    <div class="classes-wrapper grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 md:p-5">
+    <div class="classes-wrapper grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 md:p-5 md:w-11/12 md:mx-auto">
         {{ range .Page.Classes }}
             {{ template "class_card" .}}
         {{ end }}
