@@ -100,30 +100,6 @@ body {
     opacity: 0.35;
 }
 
-.aspect-16\/4 {
-    aspect-ratio: 16 / 4;
-}
-
-.aspect-16\/5 {
-    aspect-ratio: 16 / 5;
-}
-
-.aspect-16\/6 {
-    aspect-ratio: 16 / 6;
-}
-
-.md\:aspect-16\/4 {
-    aspect-ratio: 16 / 4;
-}
-
-.md\:aspect-16\/5 {
-    aspect-ratio: 16 / 5;
-}
-
-.md\:aspect-16\/6 {
-    aspect-ratio: 16 / 6;
-}
-
 @media print {
     .non-printable {
       visibility: hidden;

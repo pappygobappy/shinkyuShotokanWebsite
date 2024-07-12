@@ -1,6 +1,14 @@
 {{ define "banner_image" }}
-<div class="overflow-hidden">
-    <img class="md:rounded-xl mx-auto max-h-52 w-screen max-w-full md:max-h-full md:aspect-{{ if .BannerAspectRatio }}{{ .BannerAspectRatio }}{{ else }}16/6{{ end }} object-cover scale-{{ if .BannerScale }}{{ .BannerScale }}{{ else}}150{{ end }} md:scale-100"
+<div class="overflow-hidden flex flex-col relative md:rounded-xl">
+    <img class="md:rounded-xl mx-auto max-h-96 w-screen max-w-full md:max-h-full aspect-video md:aspect-{{ if .BannerAspectRatio }}{{ .BannerAspectRatio }}{{ else }}16/6{{ end }} object-cover scale-{{ if .BannerScale }}{{ .BannerScale }}{{ else}}150{{ end }} md:scale-100"
         style="object-position: left {{ .BannerAdjust }}%;" src="{{ .Banner }}">
+        {{ if .BannerTitle }}
+        <div class="bg-gradient-to-b from-transparent to-black/70 text-white absolute bottom-0 w-full h-full md:h-3/4 grid grid-cols-1 content-end px-2 py-1 md:px-10 md:py-5">
+            <div class="text-3xl md:text-5xl w-10/12 md:w-1/2">{{ .BannerTitle }}</div>
+            {{ if .BannerSubTitle }}
+            <div class="text-lg md:text-2xl">{{ .BannerSubTitle }}</div>
+            {{ end }}
+        </div>
+        {{ end }}
 </div>
 {{ end }}
