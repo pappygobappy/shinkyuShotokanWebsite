@@ -4,9 +4,9 @@
         style="object-position: left {{ .BannerAdjust }}%;" src="{{ .Banner }}">
         {{ if .BannerTitle }}
         <div class="bg-gradient-to-b from-transparent to-black/70 text-white absolute bottom-0 w-full h-full md:h-3/4 grid grid-cols-1 content-end px-2 py-1 md:px-10 md:py-5">
-            <div class="text-3xl font-bold md:text-5xl w-10/12 md:w-1/2">{{ .BannerTitle }}</div>
+            <div class="text-3xl font-bold lg:text-5xl w-10/12 md:w-1/2">{{ .BannerTitle }}</div>
             {{ if .BannerSubTitle }}
-            <div class="text-lg md:text-2xl">{{ .BannerSubTitle }}</div>
+            <div class="text-lg lg:text-2xl">{{ .BannerSubTitle }}</div>
             {{ end }}
         </div>
         {{ end }}

@@ -3365,6 +3365,10 @@ html {
   height: 100vh;
 }
 
+.h-3\/4 {
+  height: 75%;
+}
+
 .max-h-72 {
   max-height: 18rem;
 }
@@ -4765,6 +4769,10 @@ body {
     display: none;
   }
 
+  .lg\:h-3\/4 {
+    height: 75%;
+  }
+
   .lg\:w-9\/12 {
     width: 75%;
   }
@@ -4842,6 +4850,16 @@ body {
   .lg\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .lg\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .lg\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 
   .lg\:hover\:bg-transparent:hover {
