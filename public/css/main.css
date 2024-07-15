@@ -4466,6 +4466,14 @@ body {
   background-color: hsl(var(--wa) / var(--tw-bg-opacity));
 }
 
+.hover\:bg-yellow-200\/50:hover {
+  background-color: rgb(254 240 138 / 0.5);
+}
+
+.hover\:bg-red-200\/50:hover {
+  background-color: rgb(254 202 202 / 0.5);
+}
+
 .hover\:text-blue-600:hover {
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity));
