@@ -6,7 +6,7 @@
         {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust "BannerTitle" $title }}
         <div class="class-body p-3 md:p-0">
             {{ if .user }}
-            <button hx-get="/admin/classes/{{ .Class.ID }}" hx-target=".classBody" hx-swap="outerHTML"
+            <button hx-get="/admin/classes/{{ .Class.ID }}" hx-target=".class-body" hx-swap="outerHTML"
                 class="ml-2 btn btn-md md:btn-sm btn-warning btn-square shadow-xl">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
                     <path
