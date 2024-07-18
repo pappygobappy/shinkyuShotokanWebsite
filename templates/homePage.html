@@ -16,7 +16,7 @@
             <h1 class="max-w-lg italic text-xl sm:text-2xl">Teaching Traditional Shotokan Karate in South San Francisco
                 for over 50
                 years</h1>
-            <button class="btn btn-warning shadow-md" hx-get="/history" hx-push-url="true" hx-target=".content"
+            <button class="btn btn-primary shadow-md" hx-get="/history" hx-push-url="true" hx-target=".content"
                 hx-swap="outerHTML show:top">Learn More ></button>
         </div>
     </div>
@@ -34,7 +34,7 @@
                     <h2 class="card-title text-base">{{ .Title }}</h2>
                     <p class="">{{ .Date.Format "1/2/2006" }}<br/>{{ .Location }}</p>
                     <div class="card-actions justify-end">
-                        <button class="btn btn-warning shadow-md" hx-get="/events/{{ .ID }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML show:top">Learn More</button>
+                        <button class="btn btn-primary shadow-md" hx-get="/events/{{ .ID }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML show:top">Learn More</button>
                     </div>
                 </div>
             </div>

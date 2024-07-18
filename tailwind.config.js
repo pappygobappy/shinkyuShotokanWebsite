@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       width: {
         '200%': '200%',
+        '98%' : '98%'
       },
       aspectRatio: {
         '16/4': '16 / 4',
@@ -15,7 +16,17 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["light"],
+    themes: [
+      {
+        myTheme: {
+          "primary": "hsl(43 96% 56% / 1)",
+          "secondary": "#1a73e8",
+          "accent": "#37cdbe",
+          "neutral": "#3d4451",
+          "base-100": "#ffffff",
+        },
+      }
+    ]
   },
 }
 

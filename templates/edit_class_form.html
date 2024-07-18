@@ -14,7 +14,7 @@
         </label>
         <textarea placeholder="Schedule" class="textarea textarea-bordered textarea-lg w-full h-36" name="Schedule"
             required>{{ .Class.Schedule }}</textarea>
-        <div class="btn btn-warning btn-sm md:btn-md" onclick="addNewAnnotationForm(this)">
+        <div class="btn btn-primary btn-sm md:btn-md" onclick="addNewAnnotationForm(this)">
             <svg class="Q6yead QJZfhe " width="24" height="24" viewBox="0 0 24 24" focusable="false">
                 <path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path>
             </svg>
@@ -35,7 +35,7 @@
                             value="{{ .Annotation }}" name="Annotations" />
                     </td>
                     <td>
-                        <div class="btn btn-warning btn-sm md:btn-md"
+                        <div class="btn btn-primary btn-sm md:btn-md"
                             onclick="this.parentElement.parentElement.remove()">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -68,7 +68,7 @@
     </form>
     <div class="modal-action">
         <button class="btn" hx-get="{{ .GetUrl }}" hx-target=".content" hx-swap="outerHTML">Close</button>
-        <input type="Submit" form="edit_class_form" class="btn btn-warning" />
+        <input type="Submit" form="edit_class_form" class="btn btn-primary" />
     </div>
 </div>
 {{ end }}

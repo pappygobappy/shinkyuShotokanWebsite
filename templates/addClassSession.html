@@ -31,15 +31,15 @@
                 {{ end }}
             </select>
             <button hx-get="/admin/classPeriod" hx-target="#classSession_modal" hx-swap="innerHTML"
-                class="btn btn-warning ml-2" type="button">
+                class="btn btn-primary ml-2" type="button">
                 Add Period
             </button>
-            <button hx-target="#add_class_form" hx-swap="outerHTML" class="btn btn-warning ml-2 hidden" id="edit_period"
+            <button hx-target="#add_class_form" hx-swap="outerHTML" class="btn btn-primary ml-2 hidden" id="edit_period"
                 type="button">
                 Edit Period
             </button>
             <button onclick="document.querySelector('#delete_classPeriod_modal').showModal()"
-                class="ml-2 btn btn-md btn-warning btn-square shadow-xl hidden" id="deletePeriodButton">
+                class="ml-2 btn btn-md btn-primary btn-square shadow-xl hidden" id="deletePeriodButton">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-trash3-fill" viewBox="0 0 16 16">
                     <path
@@ -99,7 +99,7 @@
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn">Close</button>
         </form>
-        <input type="Submit" form="add_class_form" class="btn btn-warning" />
+        <input type="Submit" form="add_class_form" class="btn btn-primary" />
     </div>
 </div>
 {{ end }}

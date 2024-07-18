@@ -152,7 +152,7 @@
 
 
                     {{ if .user }}
-                    <button class="ml-2 btn btn-warning shadow-xl" id="showSessionButton" hx-get="/admin/classSessionForm" hx-target="#classSession_modal" hx-swap="innerHTML" onclick="document.querySelector('#classSession_modal').showModal()">Add Session</button>
+                    <button class="ml-2 btn btn-primary shadow-xl" id="showSessionButton" hx-get="/admin/classSessionForm" hx-target="#classSession_modal" hx-swap="innerHTML" onclick="document.querySelector('#classSession_modal').showModal()">Add Session</button>
                     <dialog id="classSession_modal" class="modal">
                         
                     </dialog>
@@ -164,7 +164,7 @@
                                 <form method="dialog">
                                     <!-- if there is a button in form, it will close the modal -->
                                     <button class="btn">Cancel</button>
-                                    <button class="btn btn-warning" hx-delete="/admin/classPeriod/"
+                                    <button class="btn btn-primary" hx-delete="/admin/classPeriod/"
                                         hx-target=".content" hx-swap="outerHTML show:top" hx-redirect="/" id="deletePeriodConfirmation">Delete</button>
                                 </form>
                             </div>

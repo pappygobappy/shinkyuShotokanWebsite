@@ -116,7 +116,7 @@ function addNewAnnotationForm() {
                         name="Annotations" />
                 </td>
                 <td>
-                    <div class="btn btn-warning btn-sm md:btn-md" onclick="this.parentElement.parentElement.remove()">
+                    <div class="btn btn-primary btn-sm md:btn-md" onclick="this.parentElement.parentElement.remove()">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

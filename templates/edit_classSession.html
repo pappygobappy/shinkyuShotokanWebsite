@@ -43,7 +43,7 @@
             class="w-full input input-bordered" name="EndTime" required />
         <button class="btn" hx-get="/calendar/{{ .ClassSession.ID }}" hx-target=".content"
             hx-swap="outerHTML show:top">Close</button>
-        <input type="Submit" form="add_event_form" class="btn btn-warning" />
+        <input type="Submit" form="add_event_form" class="btn btn-primary" />
     </form>
 </div>
 {{ end }}
