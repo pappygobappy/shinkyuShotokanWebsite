@@ -4,7 +4,6 @@ hx-push-url="true" hx-target=".content" hx-swap="outerHTML">
     <span class="{{ if .IsCancelled }}line-through{{ end }}">
         <span class="md:ml-1 font-bold leading-none">{{ formatTimePST .StartTime "3:04 PM"}}</span>
         <span class="md:ml-1 font-bold leading-none text-ellipsis overflow-hidden w-full">{{.Title}}</span>
-        <span class="md:ml-1 font-bold leading-none text-ellipsis overflow-hidden w-full">{{.Title}}</span>
         <span class="mt-2 md:ml-1 font-light leading-none text-ellipsis overflow-hidden w-full">{{.Location}}</span>
     </span>
     {{ if .IsCancelled }}
