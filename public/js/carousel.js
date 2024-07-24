@@ -12,7 +12,7 @@ if (location.pathname == "/") {
 
 function clickShowSlides(plus) {
     clearTimeout(timeoutId)
-    if(plus) {
+    if (plus) {
         showSlides();
     } else {
         showSlides(false);
@@ -50,10 +50,10 @@ function showSlides(plus = true) {
 
 htmx.on('htmx:afterRequest', (evt) => {
     // check which element triggered the htmx request. If it's the one you want call the function you need
-  //you have to add htmx: before the event ex: 'htmx:afterRequest'
-  console.log(evt)
-  
-    if(evt.detail.pathInfo.requestPath == "/") {
+    //you have to add htmx: before the event ex: 'htmx:afterRequest'
+    console.log(evt)
+
+    if (evt.detail.pathInfo.requestPath == "/") {
         console.log(evt.detail.pathInfo.requestPath)
         clearTimeout(timeoutId)
         slideIndex = 0
@@ -62,7 +62,7 @@ htmx.on('htmx:afterRequest', (evt) => {
         showingSlides = false
     }
 
-  })
+})
 
 function handleHoverStart(event) {
     if (!event.currentTarget.getAttribute('open')) {
@@ -74,8 +74,8 @@ function handleMenuHoverOut(event) {
     hoverEndX = event.pageX
     hoverEndY = event.pageY
     var elementRect = event.currentTarget.getBoundingClientRect()
-    
-    if (hoverEndX >= elementRect.right - 2 || hoverEndX <= elementRect.left || hoverEndY  <= elementRect.top || hoverEndY >= elementRect.bottom + 10) {
+
+    if (hoverEndX >= elementRect.right - 2 || hoverEndX <= elementRect.left || hoverEndY <= elementRect.top || hoverEndY >= elementRect.bottom + 10) {
         event.currentTarget.removeAttribute('open')
     }
 }
@@ -88,8 +88,8 @@ function handleTouchStart(event) {
 function handleTouchEnd(event) {
     endX = event.changedTouches[0].screenX;
     endY = event.changedTouches[0].screenY;
-    if(Math.abs(touchStartX - endX) > 30 && Math.abs(touchStartY - endY) < 100) {
-        if(endX < touchStartX) {
+    if (Math.abs(touchStartX - endX) > 30 && Math.abs(touchStartY - endY) < 100) {
+        if (endX < touchStartX) {
             clickShowSlides(true)
         } else {
             clickShowSlides(false)
@@ -100,8 +100,8 @@ function handleTouchEnd(event) {
 function handleCalendarTouchEnd(event) {
     endX = event.changedTouches[0].screenX;
     endY = event.changedTouches[0].screenY;
-    if(Math.abs(touchStartX - endX) > 50 && Math.abs(touchStartY - endY) < 100) {
-        if(endX < touchStartX) {
+    if (Math.abs(touchStartX - endX) > 50 && Math.abs(touchStartY - endY) < 100) {
+        if (endX < touchStartX) {
             document.querySelector("#NextMonth").click();
         } else {
             document.querySelector("#PrevMonth").click();
@@ -130,3 +130,34 @@ function addNewAnnotationForm() {
             </tr>`
     document.querySelector('tbody').insertAdjacentHTML("beforeend", newAnnotationRow)
 }
+
+function selectExistingBannerImage(event) {
+    if (event.target.classList.contains('border-yellow-500')){
+        event.target.classList.remove('border-yellow-500');
+        event.target.classList.add('border-sky-500');
+        document.querySelector('input[name=\'ExistingCoverPhoto\']').value = '';
+    } else {
+        if (document.querySelector('.cover-photo.border-yellow-500') != null) {
+            document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500');
+            document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500');
+        }
+        event.target.classList.add('border-yellow-500');
+        event.target.classList.remove('border-sky-500');
+        document.querySelector('input[name=\'ExistingCoverPhoto\']').value = event.target.getAttribute('src');
+    }
+    previewExistingBannerImage(event);
+}
+
+function previewNewBannerImage(event) {
+    var output = document.querySelector('.banner-image');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function () {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+};
+
+function previewExistingBannerImage(event) {
+    var output = document.querySelector('.banner-image');
+    console.log(event)
+    output.src = event.target.src;
+};

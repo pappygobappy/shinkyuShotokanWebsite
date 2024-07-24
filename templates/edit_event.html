@@ -2,6 +2,7 @@
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     <div class="history h-screen mx-auto p-7 max-w-7xl bg-base-100">
+        {{ template "banner_image" makeMap "Banner" .Event.PictureUrl "BannerAdjust" 32 "BannerTitle" .Event.Title }}
         <h3 class="font-bold text-lg">Edit Event</h3>
         <form id="add_event_form" hx-put="/admin/events/{{ .Event.ID }}" hx-target=".content"
             hx-swap="outerHTML show:top" enctype="multipart/form-data">
@@ -73,31 +74,17 @@
                         {{ range .EventPhotos }}
                         <img src="{{ . }}"
                             class="cover-photo h-44 rounded border-4 {{ if eq $picUrl . }}border-yellow-500{{ else }}border-sky-500{{end}} hover:border-yellow-500 shadow-xl my-2.5 mx-1.5"
-                            onclick="
-                                        if (event.target.classList.contains('border-yellow-500')){
-                                            event.target.classList.remove('border-yellow-500')
-                                            event.target.classList.add('border-sky-500')
-                                            document.querySelector('input[name=\'ExistingCoverPhoto\']').value = ''
-                                        } else {
-                                            if (document.querySelector('.cover-photo.border-yellow-500') != null) {
-                                                document.querySelector('.cover-photo.border-yellow-500').classList.add('border-sky-500')
-                                                document.querySelector('.cover-photo.border-yellow-500').classList.remove('border-yellow-500')
-                                            }
-                                            event.target.classList.add('border-yellow-500');
-                                            event.target.classList.remove('border-sky-500')
-                                            document.querySelector('input[name=\'ExistingCoverPhoto\']').value = event.target.getAttribute('src')
-                                        }
-                                        " />
+                            onclick="selectExistingBannerImage(event)" />
                         {{ end }}
                     </div>
                 </div>
                 <div class="">
-                    <input type="text" class="" name="ExistingCoverPhoto" value="{{ .Event.PictureUrl }}" required />
+                    <input type="text" class="" name="ExistingCoverPhoto" value="{{ .Event.PictureUrl }}" required  onchange="previewExistingBannerImage(event)"/>
                 </div>
             </div>
             <div class="new-cover-photo form-control hidden">
                 <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full"
-                    name="NewCoverPhoto" />
+                    name="NewCoverPhoto" onchange="previewNewBannerImage(event)" />
             </div>
             <div class="form-control">
                 <label class="cursor-pointer label">
