@@ -6,7 +6,7 @@
         <iframe src="{{ .GoogleMapsIframe }}" class="w-full h-72 mt-3 rounded-xl" style="border:0;" allowfullscreen=""
             loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <a class="btn btn-secondary btn-circle h-14 w-fit px-3 md:px-5 absolute top-2 right-1 shadow-xl text-white text-xs md:text-base" target="_blank"
-            href="https://www.google.com/maps?saddr=My+Location&daddr={{ (print .Name " " .Address) }}">
+            href="https://www.google.com/maps?daddr={{ (print .Name " " .Address) }}">
             <div class="flex items-center justify-center">
                 <svg fill="#ffffff" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
