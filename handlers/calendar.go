@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm/clause"
 )
 
 type CalendarDay struct {
@@ -390,9 +391,12 @@ func DeleteClassPeriod(c *fiber.Ctx) error {
 
 func DeleteClassSession(c *fiber.Ctx) error {
 	id := c.Params("id")
-	initializers.DB.Delete(&models.ClassSession{}, id)
+	var session models.ClassSession
+	initializers.DB.Clauses(clause.Returning{}).Delete(&session, id)
 
-	c.Set("HX-Redirect", "/")
+	var month = session.StartTime.Format("2006-01")
+
+	c.Set("HX-Redirect", fmt.Sprintf("/calendar?month=%s", month))
 	return c.Next()
 }
 
