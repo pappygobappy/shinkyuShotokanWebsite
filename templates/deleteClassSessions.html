@@ -1,0 +1,34 @@
+{{ define "deleteClassSessions" }}
+<div class="modal-box">
+    <h3 class="font-bold text-lg">Delete Class Period Sessions</h3>
+    <form id="delete_class_sessions_form" hx-delete="/admin/classSession" hx-target=".content" hx-swap="outerHTML show:top">
+        <label class="label">
+            <span class="text-base label-text">Class</span>
+        </label>
+        <select class="select select-bordered w-full max-w-xs" name="Class" required>
+            <option disabled selected></option>
+            {{ range .Classes }}
+            <option>{{ .Name }}</option>
+            {{ end }}
+        </select>
+        <label class="label">
+            <span class="text-base label-text">Period</span>
+        </label>
+        <div class="flex">
+            <select class="select select-bordered w-full max-w-xs" name="Period" required>
+                <option disabled selected></option>
+                {{ range .Periods }}
+                <option value="{{ .ID }}">{{ .Name }}</option>
+                {{ end }}
+            </select>
+        </div>
+    </form>
+    <div class="modal-action">
+        <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
+        </form>
+        <input type="Submit" form="delete_class_sessions_form" class="btn btn-primary" />
+    </div>
+</div>
+{{ end }}

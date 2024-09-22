@@ -26,3 +26,10 @@ func GetClassSessionsByClassAndBetweenDates(class string, startDate time.Time, e
 	}
 	return classSessions
 }
+
+func DeleteClassSessionsByClassAndClassPeriod(class string, classPeriod string) {
+	result := initializers.DB.Delete(&models.ClassSession{}, "class_name = ? AND period = ?", class, classPeriod)
+	if result.Error != nil {
+		log.Print(result.Error)
+	}
+}

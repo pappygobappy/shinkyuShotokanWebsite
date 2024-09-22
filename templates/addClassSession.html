@@ -5,7 +5,7 @@
         <label class="label">
             <span class="text-base label-text">Class</span>
         </label>
-        <select class="select select-bordered w-full max-w-xs" name="Class">
+        <select class="select select-bordered w-full max-w-xs" name="Class" required>
             <option disabled selected></option>
             {{ range .Classes }}
             <option>{{ .Name }}</option>
@@ -24,7 +24,7 @@
                     document.querySelector('#deletePeriodButton').classList.remove('hidden');
                     htmx.process(editButton);
                     htmx.process(deleteConfirm)
-                    ">
+                    " required>
                 <option disabled selected></option>
                 {{ range .Periods }}
                 <option value="{{ .ID }}">{{ .Name }}</option>
@@ -50,7 +50,7 @@
         <label class="label">
             <span class="text-base label-text">Location</span>
         </label>
-        <select class="select select-bordered w-full max-w-xs" name="Location">
+        <select class="select select-bordered w-full max-w-xs" name="Location" required>
             {{ range .Locations }}
             <option>{{ .Name }}</option>
             {{ end }}

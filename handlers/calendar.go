@@ -156,6 +156,16 @@ func AddClassSessionForm(c *fiber.Ctx) error {
 	return c.Render("addClassSession", fiber.Map{"Locations": queries.GetLocations(), "Classes": utils.ActualClasses, "Periods": periods})
 }
 
+func GetDeleteClassSessionsForm(c *fiber.Ctx) error {
+	var periods []models.ClassPeriod
+	result := initializers.DB.Find(&periods)
+	if result.Error != nil {
+		log.Print(result.Error)
+	}
+
+	return c.Render("deleteClassSessions", fiber.Map{"Classes": utils.ActualClasses, "Periods": periods})
+}
+
 func AddClassSession(c *fiber.Ctx) error {
 	var body struct {
 		Class     string
@@ -206,6 +216,24 @@ func AddClassSession(c *fiber.Ctx) error {
 	}
 
 	return c.Redirect("/calendar")
+}
+
+func DeleteClassPeriodSessions(c *fiber.Ctx) error {
+	var body struct {
+		Class  string
+		Period string
+	}
+
+	if err := c.BodyParser(&body); err != nil {
+		log.Print(err)
+		return err
+	}
+
+	queries.DeleteClassSessionsByClassAndClassPeriod(body.Class, body.Period)
+	var period models.ClassPeriod = queries.GetClassPeriodById(body.Period)
+	log.Print("Deleted ", body.Class, " ", period.Name)
+	c.Set("HX-Redirect", "/calendar")
+	return c.Next()
 }
 
 func EditClassSessionGet(c *fiber.Ctx) error {

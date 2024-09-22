@@ -153,6 +153,7 @@
 
                     {{ if .user }}
                     <button class="ml-2 btn btn-primary shadow-xl" id="showSessionButton" hx-get="/admin/classSessionForm" hx-target="#classSession_modal" hx-swap="innerHTML" onclick="document.querySelector('#classSession_modal').showModal()">Add Session</button>
+                    <button class="ml-2 btn btn-primary shadow-xl" id="showDeleteSessionsButton" hx-get="/admin/deleteClassSessionsForm" hx-target="#classSession_modal" hx-swap="innerHTML" onclick="document.querySelector('#classSession_modal').showModal()">Delete Period Sessions</button>
                     <dialog id="classSession_modal" class="modal">
                         
                     </dialog>
