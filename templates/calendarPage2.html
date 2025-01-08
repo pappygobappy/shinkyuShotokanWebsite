@@ -152,25 +152,28 @@
 
 
                     {{ if .user }}
-                    <button class="ml-2 btn btn-primary shadow-xl" id="showSessionButton" hx-get="/admin/classSessionForm" hx-target="#classSession_modal" hx-swap="innerHTML" onclick="document.querySelector('#classSession_modal').showModal()">Add Session</button>
-                    <button class="ml-2 btn btn-primary shadow-xl" id="showDeleteSessionsButton" hx-get="/admin/deleteClassSessionsForm" hx-target="#classSession_modal" hx-swap="innerHTML" onclick="document.querySelector('#classSession_modal').showModal()">Delete Period Sessions</button>
-                    <dialog id="classSession_modal" class="modal">
-                        
-                    </dialog>
-                    <dialog id="delete_classPeriod_modal" class="modal">
-                        <div class="modal-box">
-                            <h3 class="font-bold text-lg">Delete</h3>
-                            <p class="py-4">Are you sure you want to delete this period?</p>
-                            <div class="modal-action">
-                                <form method="dialog">
-                                    <!-- if there is a button in form, it will close the modal -->
-                                    <button class="btn">Cancel</button>
-                                    <button class="btn btn-primary" hx-delete="/admin/classPeriod/"
-                                        hx-target=".content" hx-swap="outerHTML show:top" hx-redirect="/" id="deletePeriodConfirmation">Delete</button>
-                                </form>
+                    <div id="addClass" class="p-2">
+                        <button class="ml-2 btn btn-primary shadow-xl" id="showSessionButton" hx-get="/admin/classSessionForm" hx-target="#addClass" hx-swap="innerHTML show:#addClass:top">Add Session</button>
+                        <button class="ml-2 btn btn-primary shadow-xl" id="showDeleteSessionsButton" hx-get="/admin/deleteClassSessionsForm" hx-target="#classSession_modal" hx-swap="innerHTML" onclick="document.querySelector('#classSession_modal').showModal()">Delete Period Sessions</button>
+                        <dialog id="classSession_modal" class="modal">
+                            
+                        </dialog>
+                        <dialog id="delete_classPeriod_modal" class="modal">
+                            <div class="modal-box">
+                                <h3 class="font-bold text-lg">Delete</h3>
+                                <p class="py-4">Are you sure you want to delete this period?</p>
+                                <div class="modal-action">
+                                    <form method="dialog">
+                                        <!-- if there is a button in form, it will close the modal -->
+                                        <button class="btn">Cancel</button>
+                                        <button class="btn btn-primary" hx-delete="/admin/classPeriod/"
+                                            hx-target=".content" hx-swap="outerHTML show:top" hx-redirect="/" id="deletePeriodConfirmation">Delete</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    </dialog>
+                        </dialog>
+                    </div>
+                    
                     {{ end }}
                 </div>
         <!-- Component End  -->

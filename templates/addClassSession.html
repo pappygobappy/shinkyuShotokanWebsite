@@ -1,5 +1,4 @@
 {{ define "addClassSession" }}
-<div class="modal-box">
     <h3 class="font-bold text-lg">Add Session</h3>
     <form id="add_class_form" hx-post="/admin/classSession" hx-target=".content" hx-swap="outerHTML show:top">
         <label class="label">
@@ -16,36 +15,46 @@
         </label>
         <div class="flex">
             <select class="select select-bordered w-full max-w-xs" name="Period" onchange="
-                    editButton = document.querySelector('#edit_period')
-                    deleteConfirm = document.querySelector('#deletePeriodConfirmation')
+                    startDateInput = document.querySelector('#startDate');
+                    endDateInput = document.querySelector('#endDate');
+                    startDateInput.value = this.options[this.selectedIndex].dataset.startdate;
+                    endDateInput.value = this.options[this.selectedIndex].dataset.enddate;
+                    editButton = document.querySelector('#edit_period');
                     editButton.setAttribute('hx-get', '/admin/classPeriod/' + this.value + '/edit');
                     editButton.classList.remove('hidden');
-                    deleteConfirm.setAttribute('hx-delete', '/admin/classPeriod/' + this.value);
-                    document.querySelector('#deletePeriodButton').classList.remove('hidden');
                     htmx.process(editButton);
-                    htmx.process(deleteConfirm)
                     " required>
                 <option disabled selected></option>
                 {{ range .Periods }}
-                <option value="{{ .ID }}">{{ .Name }}</option>
+                <option value="{{ .ID }}" data-startdate="{{ formatTimePST .StartDate "2006-01-02" }}" data-enddate="{{ formatTimePST .EndDate "2006-01-02" }}" >{{ .Name }}</option>
                 {{ end }}
             </select>
-            <button hx-get="/admin/classPeriod" hx-target="#classSession_modal" hx-swap="innerHTML"
+            <button hx-get="/admin/classPeriod" hx-target="#addClass" hx-swap="innerHTML"
                 class="btn btn-primary ml-2" type="button">
                 Add Period
             </button>
-            <button hx-target="#add_class_form" hx-swap="outerHTML" class="btn btn-primary ml-2 hidden" id="edit_period"
+            <button hx-target="#addClass" hx-swap="outerHTML" class="btn btn-primary ml-2 hidden" id="edit_period"
                 type="button">
                 Edit Period
             </button>
-            <button onclick="document.querySelector('#delete_classPeriod_modal').showModal()"
-                class="ml-2 btn btn-md btn-primary btn-square shadow-xl hidden" id="deletePeriodButton">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                </svg>
-            </button>
+        </div>
+        <div class="flex py-2 items-center">
+            <input type="date" placeholder="Start Date" class="input input-bordered" name="StartDate" id="startDate" required />
+            <p class="px-5">
+                to
+            </p>
+            <input type="date" placeholder="End Date" class="input input-bordered mr-2" name="EndDate" id="endDate" required />
+        </div>
+        <label class="label">
+            <span class="text-base label-text">Class Time</span>
+        </label>
+        <div class="flex items-center">
+            <input type="time" placeholder="Start Time" class="input input-bordered" name="StartTime" required />
+            <p class="px-5">
+                to
+            </p>
+            <input type="time" placeholder="End Time" class="input input-bordered" name="EndTime" required />
+            </div>
         </div>
         <label class="label">
             <span class="text-base label-text">Location</span>
@@ -55,15 +64,7 @@
             <option>{{ .Name }}</option>
             {{ end }}
         </select>
-        <label class="label">
-            <span class="text-base label-text">Start Time</span>
-        </label>
-        <input type="time" placeholder="Start Time" class="w-full input input-bordered" name="StartTime" required />
-        <label class="label">
-            <span class="text-base label-text">End Time</span>
-        </label>
-        <input type="time" placeholder="End Time" class="w-full input input-bordered" name="EndTime" required />
-        <div>
+        <div class="form-control max-w-xs">
             <label class="label cursor-pointer">
                 <span class="label-text">Sunday</span>
                 <input type="checkbox" class="checkbox" name="Sunday" />
@@ -94,12 +95,6 @@
             </label>
         </div>
     </form>
-    <div class="modal-action">
-        <form method="dialog">
-            <!-- if there is a button in form, it will close the modal -->
-            <button class="btn">Close</button>
-        </form>
-        <input type="Submit" form="add_class_form" class="btn btn-primary" />
-    </div>
-</div>
+    <a class="btn" href="/calendar">Close</a>
+    <input type="Submit" form="add_class_form" class="btn btn-primary" />
 {{ end }}

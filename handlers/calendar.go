@@ -149,7 +149,7 @@ func CalendarItemView(c *fiber.Ctx) error {
 
 func AddClassSessionForm(c *fiber.Ctx) error {
 	var periods []models.ClassPeriod
-	result := initializers.DB.Find(&periods)
+	result := initializers.DB.Order("start_date desc").Limit(4).Find(&periods)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}
@@ -159,7 +159,7 @@ func AddClassSessionForm(c *fiber.Ctx) error {
 
 func GetDeleteClassSessionsForm(c *fiber.Ctx) error {
 	var periods []models.ClassPeriod
-	result := initializers.DB.Find(&periods)
+	result := initializers.DB.Order("start_date desc").Find(&periods)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}
@@ -171,8 +171,10 @@ func AddClassSession(c *fiber.Ctx) error {
 	var body struct {
 		Class     string
 		Period    string
+		StartDate string
 		StartTime string
 		EndTime   string
+		EndDate string
 		Sunday    bool
 		Monday    bool
 		Tuesday   bool
@@ -189,7 +191,8 @@ func AddClassSession(c *fiber.Ctx) error {
 	}
 
 	selectedWeekdaysMap := map[string]bool{"Sunday": body.Sunday, "Monday": body.Monday, "Tuesday": body.Tuesday, "Wednesday": body.Wednesday, "Thursday": body.Thursday, "Friday": body.Friday, "Saturday": body.Saturday}
-
+	startDate, error := time.ParseInLocation("2006-01-02", body.StartDate, utils.TZ)
+	endDate, error := time.ParseInLocation("2006-01-02", body.EndDate, utils.TZ)
 	startTime, error := time.ParseInLocation("15:04", body.StartTime, utils.TZ)
 	endTime, error := time.ParseInLocation("15:04", body.EndTime, utils.TZ)
 
@@ -200,9 +203,9 @@ func AddClassSession(c *fiber.Ctx) error {
 
 	//event := models.Event{Title: body.Name, Date: date, StartTime: startTime, EndTime: endTime, Description: body.Description, PictureUrl: photoUrl, Location: body.Location}
 
-	classPeriod := queries.GetClassPeriodById(body.Period)
+	//classPeriod := queries.GetClassPeriodById(body.Period)
 
-	for i := classPeriod.StartDate; i.Before(classPeriod.EndDate) || i.Equal(classPeriod.EndDate); i = i.AddDate(0, 0, 1) {
+	for i := startDate; i.Before(endDate) || i.Equal(endDate); i = i.AddDate(0, 0, 1) {
 		if selectedWeekdaysMap[i.Weekday().String()] {
 			classStartTime := time.Date(i.Year(), i.Month(), i.Day(), startTime.Hour(), startTime.Minute(), 0, 0, utils.TZ)
 			classEndTime := time.Date(i.Year(), i.Month(), i.Day(), endTime.Hour(), endTime.Minute(), 0, 0, utils.TZ)
