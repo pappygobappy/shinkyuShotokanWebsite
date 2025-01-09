@@ -56,14 +56,21 @@
             <input type="time" placeholder="End Time" class="input input-bordered" name="EndTime" required />
             </div>
         </div>
-        <label class="label">
-            <span class="text-base label-text">Location</span>
-        </label>
-        <select class="select select-bordered w-full max-w-xs" name="Location" required>
-            {{ range .Locations }}
-            <option>{{ .Name }}</option>
-            {{ end }}
-        </select>
+        <div class="flex items-center py-8">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            <select class="ml-4 select select-bordered max-w-xs" name="Location" required>
+                <option disabled selected>Location</option>
+                {{ range .Locations }}
+                <option>{{ .Name }}</option>
+                {{ end }}
+            </select>
+        </div>
+        <div class="flex items-center">
+            <svg class="w-6 h-6" fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:none;} </style> <path d="M6,2v2H5C3.9,4,3,4.9,3,6v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V6c0-1.1-0.9-2-2-2h-1V2h-2v2H8V2H6z M5,9h14v11H5V9z M12,13v5h5v-5H12z"></path> <rect class="st0" width="24" height="24"></rect> <rect class="st0" width="24" height="24"></rect> </g></svg>
+            <label class="ml-4 label">
+                <span class="text-base label-text">Days of the Week</span>
+            </label>
+        </div>
         <div class="form-control max-w-xs">
             <label class="label cursor-pointer">
                 <span class="label-text">Sunday</span>
@@ -95,6 +102,7 @@
             </label>
         </div>
     </form>
+    <div class="divider py-3"></div>
     <a class="btn" href="/calendar">Close</a>
     <input type="Submit" form="add_class_form" class="btn btn-primary" />
 {{ end }}
