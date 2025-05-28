@@ -1,7 +1,7 @@
 {{ define "edit_event" }}
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="history h-screen mx-auto p-7 max-w-7xl bg-base-100">
+    <div class="event mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
         {{ template "banner_image" makeMap "Banner" .Event.PictureUrl "BannerAdjust" 32 "BannerTitle" .Event.Title }}
         <h3 class="font-bold text-lg">Edit Event</h3>
         <form id="edit_event_form" hx-put="/admin/events/{{ .Event.ID }}" hx-target=".content"
