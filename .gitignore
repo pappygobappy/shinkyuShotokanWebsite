@@ -147,5 +147,11 @@ dist
 # Go workspace file
 go.work
 
+# Air live reload config
+.air.toml
+
+# Docker compose local development file
+docker-compose-local.yml
+
 # upload dir
 upload/*

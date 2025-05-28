@@ -4,7 +4,7 @@
     <div class="history h-screen mx-auto p-7 max-w-7xl bg-base-100">
         {{ template "banner_image" makeMap "Banner" .Event.PictureUrl "BannerAdjust" 32 "BannerTitle" .Event.Title }}
         <h3 class="font-bold text-lg">Edit Event</h3>
-        <form id="add_event_form" hx-put="/admin/events/{{ .Event.ID }}" hx-target=".content"
+        <form id="edit_event_form" hx-put="/admin/events/{{ .Event.ID }}" hx-target=".content"
             hx-swap="outerHTML show:top" enctype="multipart/form-data">
             <label class="label">
                 <span class="text-base label-text">Event Name</span>
@@ -158,10 +158,10 @@
                     <label class="swap">
                         <input type="checkbox" onclick=" 
                             if (this.checked) {
-                                document.querySelector('.deleted-files').value = document.querySelector('.deleted-files').value + {{ $key }} + ','
+                                document.querySelector('.deleted-files').value = document.querySelector('.deleted-files').value + '{{ $key }}' + ','
                             } else {
                                 curDeleted = document.querySelector('.deleted-files').value
-                                curDeleted = curDeleted.replace({{ $key }} + ',', '')
+                                curDeleted = curDeleted.replace('{{ $key }}' + ',', '')
                                 document.querySelector('.deleted-files').value = curDeleted
                             }" />
                         <div class="swap-on line-through m-2.5 p-2.5 shadow-xl rounded-lg bg-gray-400 font-bold">{{ $key
@@ -182,7 +182,7 @@
         <div class="modal-action">
             <button class="btn" hx-get="/events/{{ .Event.ID }}" hx-target=".content"
                 hx-swap="outerHTML show:top">Close</button>
-            <input type="Submit" form="add_event_form" class="btn btn-primary" />
+            <input type="Submit" form="edit_event_form" class="btn btn-primary" />
         </div>
     </div>
 </div>
