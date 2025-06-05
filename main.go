@@ -142,6 +142,7 @@ func main() {
 	adminRoutes.Post("/logout", handlers.LogoutPost)
 	adminRoutes.Get("/reset-password", handlers.ResetPasswordGet)
 	adminRoutes.Post("/reset-password", handlers.ResetPasswordPost)
+	adminRoutes.Post("/start_add_event", handlers.StartAddEvent)
 	//app.Get("/pre-karate-class", handlers.PreKarateClasses)
 
 	//Start App

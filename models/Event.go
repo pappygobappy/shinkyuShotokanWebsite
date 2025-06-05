@@ -12,15 +12,19 @@ import (
 
 type Event struct {
 	gorm.Model
-	Title       string
-	Date        time.Time
-	StartTime   time.Time
-	EndTime     time.Time
-	Location    string
-	PictureUrl  string
-	CardPicUrl  string
-	Alt         string
-	Description template.HTML
+	Title                 string
+	Date                  time.Time
+	StartTime             time.Time
+	EndTime               time.Time
+	Location              string
+	PictureUrl            string
+	CardPicUrl            string
+	Alt                   string
+	Description           template.HTML
+	PromotionalType       string
+	TournamentType        string
+	RegistrationCloseDate time.Time
+	RegistrationCloseTime time.Time
 }
 
 func (event Event) SafeDescription() string {

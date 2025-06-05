@@ -15,7 +15,7 @@ func GetLocations() []models.Location {
 	return locations
 }
 
-func GetLocationyName(name string) models.Location {
+func GetLocationByName(name string) models.Location {
 	var location models.Location
 	result := initializers.DB.Where("name = ?", name).First(&location)
 	if result.Error != nil {
@@ -24,7 +24,7 @@ func GetLocationyName(name string) models.Location {
 	return location
 }
 
-func GetLocationId(id string) models.Location {
+func GetLocationById(id string) models.Location {
 	var location models.Location
 	result := initializers.DB.Where("id = ?", id).First(&location)
 	if result.Error != nil {

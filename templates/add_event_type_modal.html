@@ -1,0 +1,148 @@
+{{ define "add_event_type_modal" }}
+<dialog id="add_event_type_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Add Event Type</h3>
+        <form id="add_event_type_form" hx-post="/admin/start_add_event" hx-push-url="true" hx-target=".content"
+            hx-swap="outerHTML" enctype="multipart/form-data">
+            <select class="select select-bordered w-full max-w-xs" name="EventType" onchange="handleEventTypeChange(this)">
+                <option disabled selected>Event Type</option>
+                <option>Promotional</option>
+                <option>Tournament</option>
+                <option>Other</option>
+            </select>
+            <div id="promotional_type_section" class="hidden">
+                <label class="label">
+                    <span class="text-base label-text">Promotional Type</span>
+                </label>
+                <div class="form-control">
+                    <label class="label cursor-pointer">
+                        <span class="label-text">Pre-Karate</span>
+                        <input type="radio" name="PromotionalType" value="Pre-Karate" class="radio radio-primary" onchange="handlePromotionalTypeChange(this)" />
+                    </label>
+                    <label class="label cursor-pointer">
+                        <span class="label-text">Youth & Adult</span>
+                        <input type="radio" name="PromotionalType" value="Youth & Adult" class="radio radio-primary" onchange="handlePromotionalTypeChange(this)" />
+                    </label>
+                </div>
+            </div>
+            <div id="tournament_type_section" class="hidden">
+                <label class="label">
+                    <span class="text-base label-text">Tournament Type</span>
+                </label>
+                <div class="form-control">
+                    <label class="label cursor-pointer">
+                        <span class="label-text">Youth</span>
+                        <input type="radio" name="TournamentType" value="Youth" class="radio radio-primary" onchange="handleTournamentTypeChange(this)" />
+                    </label>
+                    <label class="label cursor-pointer">
+                        <span class="label-text">Teen & Adult</span>
+                        <input type="radio" name="TournamentType" value="Teen & Adult" class="radio radio-primary" onchange="handleTournamentTypeChange(this)" />
+                    </label>
+                    <label class="label cursor-pointer">
+                        <span class="label-text">All Ages</span>
+                        <input type="radio" name="TournamentType" value="All Ages" class="radio radio-primary" onchange="handleTournamentTypeChange(this)" />
+                    </label>
+                </div>
+            </div>
+            <label class="label">
+                <span class="text-base label-text">Date</span>
+            </label>
+            <input type="date" placeholder="Event Date" class="w-full input input-bordered" name="Date" required />
+            <label class="label">
+                <span class="text-base label-text">Start Time</span>
+            </label>
+            <input type="time" placeholder="Start Time" class="w-full input input-bordered" name="StartTime" required />
+            <label class="label">
+                <span class="text-base label-text">End Time</span>
+            </label>
+            <input type="time" placeholder="End Time" class="w-full input input-bordered" name="EndTime" required />
+            <label class="label">
+                <span class="text-base label-text">Check-in Time</span>
+            </label>
+            <input type="time" placeholder="Check-in Time" class="w-full input input-bordered" name="CheckInTime" required />
+            <div id="registration_close_section">
+                <!-- This section will be dynamically updated based on event type -->
+            </div>
+            <label class="label">
+                <span class="text-base label-text">Event Location</span>
+            </label>
+            <select class="select select-bordered w-full max-w-xs" name="Location">
+                <option disabled selected>Event Location</option>
+                {{ range .Locations }}
+                <option>{{ .Name }}</option>
+                {{ end }}
+            </select>
+        </form>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Close</button>
+            </form>
+            <input type="Submit" form="add_event_type_form" class="btn btn-primary" />
+        </div>
+    </div>
+</dialog>
+
+<script>
+function handleEventTypeChange(select) {
+    const promotionalSection = document.getElementById('promotional_type_section');
+    const tournamentSection = document.getElementById('tournament_type_section');
+    const registrationCloseSection = document.getElementById('registration_close_section');
+    
+    // Hide all sections initially
+    promotionalSection.classList.add('hidden');
+    tournamentSection.classList.add('hidden');
+    registrationCloseSection.innerHTML = '';
+    
+    if (select.value === 'Promotional') {
+        promotionalSection.classList.remove('hidden');
+    } else if (select.value === 'Tournament') {
+        tournamentSection.classList.remove('hidden');
+        // Add tournament registration close fields
+        registrationCloseSection.innerHTML = `
+            <label class="label">
+                <span class="text-base label-text">Online Registration Close Date</span>
+            </label>
+            <input type="date" placeholder="Registration Close Date" class="w-full input input-bordered" name="RegistrationCloseDate" />
+            <label class="label">
+                <span class="text-base label-text">Online Registration Close Time</span>
+            </label>
+            <input type="time" placeholder="Registration Close Time" class="w-full input input-bordered" name="RegistrationCloseTime" />
+        `;
+        
+        // Set default times for tournament
+        document.querySelector('input[name="StartTime"]').value = '10:00';
+        document.querySelector('input[name="EndTime"]').value = '16:00';
+        document.querySelector('input[name="CheckInTime"]').value = '09:30';
+        
+        // Set location to Terrabay
+        const locationSelect = document.querySelector('select[name="Location"]');
+        Array.from(locationSelect.options).forEach(option => {
+            locationSelect.value = 'Terrabay Gymnasium & Rec Center';
+        });
+    }
+}
+
+function handlePromotionalTypeChange(radio) {
+    if (radio.value === 'Pre-Karate') {
+        document.querySelector('input[name="StartTime"]').value = '13:30';
+        document.querySelector('input[name="EndTime"]').value = '16:30';
+        document.querySelector('input[name="CheckInTime"]').value = '13:00';
+    } else if (radio.value === 'Youth & Adult') {
+        document.querySelector('input[name="StartTime"]').value = '13:00';
+        document.querySelector('input[name="EndTime"]').value = '17:00';
+        document.querySelector('input[name="CheckInTime"]').value = '12:00';
+        // Set location to Terrabay
+        const locationSelect = document.querySelector('select[name="Location"]');
+        Array.from(locationSelect.options).forEach(option => {
+            locationSelect.value = 'Terrabay Gymnasium & Rec Center';
+        });
+    }
+}
+
+function handleTournamentTypeChange(radio) {
+    // Add any tournament type specific logic here if needed
+}
+</script>
+
+{{ end }}

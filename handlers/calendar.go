@@ -137,7 +137,7 @@ func CalendarItemView(c *fiber.Ctx) error {
 		"ClassSession": classSession,
 		"Period":       queries.GetClassPeriodById(classSession.Period),
 		"Class":        class,
-		"Location":     queries.GetLocationyName(classSession.Location),
+		"Location":     queries.GetLocationByName(classSession.Location),
 	}
 
 	if hxRequest {
@@ -174,7 +174,7 @@ func AddClassSession(c *fiber.Ctx) error {
 		StartDate string
 		StartTime string
 		EndTime   string
-		EndDate string
+		EndDate   string
 		Sunday    bool
 		Monday    bool
 		Tuesday   bool
