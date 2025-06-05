@@ -38,7 +38,7 @@
             <label class="label">
                 <span class="text-base label-text">Event Description</span>
             </label>
-            <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full" name="Description"
+            <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full h-72" name="Description"
                 required>{{ .Event.Description }}</textarea>
             <div class="form-control">
                 <label class="cursor-pointer label">
@@ -182,7 +182,8 @@
                 name="Files" multiple />
         </form>
         <div class="modal-action">
-            <button class="btn" hx-get="/events/{{ .Event.ID }}" hx-target=".content"
+            
+            <button class="btn" hx-get={{if .Event.ID }}"/events/{{ .Event.ID }}"{{else}}"/"{{end}} hx-target=".content"
                 hx-swap="outerHTML show:top">Close</button>
             <input type="Submit" form="edit_event_form" class="btn btn-primary" />
         </div>

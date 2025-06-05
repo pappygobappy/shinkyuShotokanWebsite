@@ -2,8 +2,8 @@
 <dialog id="add_event_type_modal" class="modal">
     <div class="modal-box">
         <h3 class="font-bold text-lg">Add Event Type</h3>
-        <form id="add_event_type_form" hx-post="/admin/start_add_event" hx-push-url="true" hx-target=".content"
-            hx-swap="outerHTML" enctype="multipart/form-data">
+        <form id="add_event_type_form" hx-post="/admin/start_add_event" hx-push-url="false" hx-target=".content"
+            hx-swap="outerHTML show:top" enctype="multipart/form-data">
             <select class="select select-bordered w-full max-w-xs" name="EventType" onchange="handleEventTypeChange(this)">
                 <option disabled selected>Event Type</option>
                 <option>Promotional</option>

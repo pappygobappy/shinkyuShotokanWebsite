@@ -563,7 +563,6 @@ The total price will change depending on how many events the participant is ente
 	// }
 
 	page := structs.Page{PageName: "Event", Tabs: utils.CurrentTabs(), Classes: utils.Classes}
-	files := getEventFilePaths(event)
 
 	eventImagePaths := getExistingEventCoverPhotos()
 	eventCardImagePaths := getExistingEventCardPhotos()
@@ -574,7 +573,6 @@ The total price will change depending on how many events the participant is ente
 		"EventPhotos":     eventImagePaths,
 		"EventCardPhotos": eventCardImagePaths,
 		"Description":     event.Description,
-		"Files":           files,
 		"Locations":       queries.GetLocations(),
 	})
 }
