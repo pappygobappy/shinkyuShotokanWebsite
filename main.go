@@ -143,7 +143,12 @@ func main() {
 	adminRoutes.Get("/reset-password", handlers.ResetPasswordGet)
 	adminRoutes.Post("/reset-password", handlers.ResetPasswordPost)
 	adminRoutes.Post("/start_add_event", handlers.StartAddEvent)
-	//app.Get("/pre-karate-class", handlers.PreKarateClasses)
+
+	// Event Template Admin Routes
+	adminRoutes.Get("/event-templates", handlers.AdminEventTemplatesPage)
+	adminRoutes.Post("/event-templates", handlers.AddEventTemplate)
+	adminRoutes.Get("/event-templates/:id", handlers.EditEventTemplateGet)
+	adminRoutes.Put("/event-templates/:id", handlers.EditEventTemplatePut)
 
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))

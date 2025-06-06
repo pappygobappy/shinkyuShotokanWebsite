@@ -1,0 +1,115 @@
+{{ define "admin_event_template" }}
+<div class="text-3xl border-b py-5 flex flex-col md:flex-row md:items-center">
+    <div class="grow">
+        <label for="my-drawer-2" class="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+        </label>
+        <div>Event Templates</div>
+    </div>
+    <div class="btn btn-primary btn-sm md:btn-md" onclick="add_template_modal.showModal()">
+        <svg class="Q6yead QJZfhe " width="24" height="24" viewBox="0 0 24 24" focusable="false"><path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path></svg>
+        New Template
+    </div>
+</div>
+<div class="overflow-x-auto">
+    <table class="table table-sm table-zebra" style="min-width: 500px;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Duration (minutes)</th>
+                <th>Capacity</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range .EventTemplates }}
+            <tr>
+                <td>{{ .Name }}</td>
+                <td>{{ .Description }}</td>
+                <td>{{ .Duration }}</td>
+                <td>{{ .Capacity }}</td>
+                <td>{{ .Location.Name }}</td>
+                <td>
+                    <div class="flex flex-row">
+                        <button hx-get="/admin/event-templates/{{ .ID }}" hx-target=".content" hx-swap="outerHTML"
+                            class="btn btn-sm btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg>
+                        </button>
+                        <button onclick="document.querySelector('#delete_template_modal').showModal()"
+                            class="btn btn-sm btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+</div>
+
+<dialog id="add_template_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Add Event Template</h3>
+        <form id="add_template_form" hx-post="/admin/event-templates" hx-target=".content" hx-swap="outerHTML">
+            <label class="label">
+                <span class="text-base label-text">Template Name</span>
+            </label>
+            <input type="text" placeholder="Template Name" class="w-full input input-bordered" name="Name" required />
+            <label class="label">
+                <span class="text-base label-text">Description</span>
+            </label>
+            <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full" name="Description"
+                required></textarea>
+            <label class="label">
+                <span class="text-base label-text">Duration (minutes)</span>
+            </label>
+            <input type="number" placeholder="Duration" class="w-full input input-bordered" name="Duration" required />
+            <label class="label">
+                <span class="text-base label-text">Capacity</span>
+            </label>
+            <input type="number" placeholder="Capacity" class="w-full input input-bordered" name="Capacity" required />
+            <label class="label">
+                <span class="text-base label-text">Location</span>
+            </label>
+            <select class="select select-bordered w-full max-w-xs" name="LocationID">
+                <option disabled selected>Select Location</option>
+                {{ range .Locations }}
+                <option value="{{ .ID }}">{{ .Name }}</option>
+                {{ end }}
+            </select>
+        </form>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Close</button>
+            </form>
+            <input type="Submit" form="add_template_form" class="btn btn-primary" />
+        </div>
+    </div>
+</dialog>
+
+<dialog id="delete_template_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Delete Template</h3>
+        <p class="py-4">Are you sure you want to delete this template?</p>
+        <div class="modal-action">
+            <button class="btn" onclick="document.querySelector('#delete_template_modal').close()">Cancel</button>
+            <button class="btn btn-error">Delete</button>
+        </div>
+    </div>
+</dialog>
+{{ end }} 

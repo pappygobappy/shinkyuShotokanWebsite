@@ -1,0 +1,44 @@
+{{ define "locations" }}
+<div class="text-3xl border-b py-5 flex flex-col md:flex-row md:items-center">
+    <div class="grow">
+        <label for="my-drawer-2" class="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+        </label>
+        <div>Locations</div>
+    </div>
+    <div class="btn btn-primary btn-sm md:btn-md" onclick="add_location_modal.showModal()">
+        <svg class="Q6yead QJZfhe " width="24" height="24" viewBox="0 0 24 24" focusable="false"><path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path></svg>
+        New Location
+    </div>
+</div>
+<div class="overflow-x-auto">
+    <table class="table table-sm table-zebra" style="min-width: 500px;">
+        <thead>
+            <tr>
+                <th>Location</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range .Locations }}
+            <tr>
+                <td>{{ template "location" . }}</td>
+                <td>
+                    <button hx-get="/admin/locations/{{ .ID }}/edit" hx-target="previous .location" hx-swap="outerHTML"
+                        class="ml-2 btn btn-md md:btn-sm btn-primary btn-square">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                            <path
+                                d="M 19.171875 2 C 18.448125 2 17.724375 2.275625 17.171875 2.828125 L 16 4 L 20 8 L 21.171875 6.828125 C 22.275875 5.724125 22.275875 3.933125 21.171875 2.828125 C 20.619375 2.275625 19.895625 2 19.171875 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z">
+                            </path>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+</div>
+{{ template "add_location_modal" }}
+{{ end }} 
