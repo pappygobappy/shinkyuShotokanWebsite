@@ -14,13 +14,15 @@
     </div>
 </div>
 <div class="overflow-x-auto">
-    <table class="table table-sm table-zebra" style="min-width: 500px;">
+    <table class="table table-sm table-zebra w-11">
         <thead>
             <tr>
                 <th>Name</th>
+                <th>SubTypes</th>
                 <th>Description</th>
-                <th>Duration (minutes)</th>
-                <th>Capacity</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Check In Time</th>
                 <th>Location</th>
                 <th>Actions</th>
             </tr>
@@ -29,10 +31,13 @@
             {{ range .EventTemplates }}
             <tr>
                 <td>{{ .Name }}</td>
+                {{ $subTypesSize := len .EventSubTypes }}
+                <td>{{ range $index, $subType := .EventSubTypes }}{{ $subType.Name }}{{ if lt $index (minus $subTypesSize 1) }}, {{ end }}{{ end }}</td>
                 <td>{{ .Description }}</td>
-                <td>{{ .Duration }}</td>
-                <td>{{ .Capacity }}</td>
-                <td>{{ .Location.Name }}</td>
+                <td>{{ formatTimePST .StartTime "3:4 PM" }}</td>
+                <td>{{ formatTimePST .EndTime "3:4 PM" }}</td>
+                <td>{{ formatTimePST .CheckInTime "3:4 PST" }}</td>
+                <td>{{ .LocationID }}</td>
                 <td>
                     <div class="flex flex-row">
                         <button hx-get="/admin/event-templates/{{ .ID }}" hx-target=".content" hx-swap="outerHTML"
@@ -45,7 +50,7 @@
                                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg>
                         </button>
-                        <button onclick="document.querySelector('#delete_template_modal').showModal()"
+                        <button onclick="delete_template_modal.showModal()"
                             class="btn btn-sm btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-trash3-fill" viewBox="0 0 16 16">
@@ -61,46 +66,7 @@
     </table>
 </div>
 
-<dialog id="add_template_modal" class="modal">
-    <div class="modal-box">
-        <h3 class="font-bold text-lg">Add Event Template</h3>
-        <form id="add_template_form" hx-post="/admin/event-templates" hx-target=".content" hx-swap="outerHTML">
-            <label class="label">
-                <span class="text-base label-text">Template Name</span>
-            </label>
-            <input type="text" placeholder="Template Name" class="w-full input input-bordered" name="Name" required />
-            <label class="label">
-                <span class="text-base label-text">Description</span>
-            </label>
-            <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full" name="Description"
-                required></textarea>
-            <label class="label">
-                <span class="text-base label-text">Duration (minutes)</span>
-            </label>
-            <input type="number" placeholder="Duration" class="w-full input input-bordered" name="Duration" required />
-            <label class="label">
-                <span class="text-base label-text">Capacity</span>
-            </label>
-            <input type="number" placeholder="Capacity" class="w-full input input-bordered" name="Capacity" required />
-            <label class="label">
-                <span class="text-base label-text">Location</span>
-            </label>
-            <select class="select select-bordered w-full max-w-xs" name="LocationID">
-                <option disabled selected>Select Location</option>
-                {{ range .Locations }}
-                <option value="{{ .ID }}">{{ .Name }}</option>
-                {{ end }}
-            </select>
-        </form>
-        <div class="modal-action">
-            <form method="dialog">
-                <!-- if there is a button in form, it will close the modal -->
-                <button class="btn">Close</button>
-            </form>
-            <input type="Submit" form="add_template_form" class="btn btn-primary" />
-        </div>
-    </div>
-</dialog>
+{{ template "add_template_modal" . }}
 
 <dialog id="delete_template_modal" class="modal">
     <div class="modal-box">
