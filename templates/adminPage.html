@@ -9,9 +9,9 @@
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content px-4 lg:px-7 pb-4 w-screen md:w-full">
                 {{ if eq .Page.PageName "Locations"}}
-                {{ template "locations" . }}
+                    {{ template "locations" . }}
                 {{ else if eq .Page.PageName "Event Templates"}}
-                {{ template "admin_event_template" }}
+                    {{ template "admin_event_template" . }} 
                 {{ end }}
             </div> 
             <div class="drawer-side rounded-s-xl">
@@ -35,7 +35,7 @@
         </div>
     </div>
     {{ if not .hxRequest }}
-    {{ template "footer" }}
+        {{ template "footer" }}
     {{ else }}
 </div>
 {{ end }}

@@ -73,6 +73,10 @@ func addEngineFuncs(engine *html.Engine) {
 	engine.AddFunc("isToday", func(today time.Time, day time.Time) bool {
 		return today.Year() == day.Year() && today.Month() == day.Month() && today.Day() == day.Day()
 	})
+
+	engine.AddFunc("minus", func(target int, subtract int) int {
+		return target - subtract
+	})
 }
 
 func main() {
