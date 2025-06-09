@@ -3546,10 +3546,6 @@ html {
   width: 83.333333%;
 }
 
-.w-11 {
-  width: 2.75rem;
-}
-
 .w-5 {
   width: 1.25rem;
 }
@@ -4259,10 +4255,6 @@ html {
 
 * {
   box-sizing: border-box;
-}
-
-body {
-  font-family: Verdana, sans-serif;
 }
 
 .mySlides {
