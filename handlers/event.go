@@ -374,8 +374,7 @@ func StartAddEvent(c *fiber.Ctx) error {
 		EndTime               string
 		Location              string
 		CheckInTime           string
-		PromotionalType       string
-		TournamentType        string
+		SubType               string
 		RegistrationCloseDate string
 		RegistrationCloseTime string
 	}
@@ -430,42 +429,21 @@ func StartAddEvent(c *fiber.Ctx) error {
 		StartTime:             startTime,
 		EndTime:               endTime,
 		Location:              body.Location,
-		PromotionalType:       body.PromotionalType,
-		TournamentType:        body.TournamentType,
+		SubType:               body.SubType,
 		RegistrationCloseDate: registrationCloseDate,
 		RegistrationCloseTime: registrationCloseTime,
 	}
 
-	// Set default description for Promotional events
+	eventTemplate := queries.GetEventTemplatesByNameAndSubType(body.EventType, body.SubType)
+
+	description := fmt.Sprintf(eventTemplate.Description, date.AddDate(0, 0, -7).Format("January 2, 2006"),
+		checkInTime.Format("3:04PM"),
+		startTime.Format("3:04PM"),
+		endTime.Format("3:04PM"))
+
 	if body.EventType == "Promotional" {
-		description := fmt.Sprintf(`The Promotional is coming up fast!
-All students who fulfill their next rank requirements from the kids, teen, and adult classes are welcome!
 
-<b>NOTE</b>
-You must know all requirements for the rank you are testing for.
-Testing in the promotional is not mandatory. If a student does not want to test, we encourage them to come, watch, and cheer on their classmates.
-Turn in your application and fee to your instructor in class.
-
-<b>DEADLINE is %s</b>
-If you want to test, but can not turn in your application in person, please email it to <a href="mailto:shinkyu.shotokan.karate@gmail.com" style="text-decoration: underline; color:blue;">shinkyu.shotokan.karate@gmail.com</a>
-
-<b>FEES</b>
-Kyu (color belt) Test - $20.00
-Belt and certificate are given if passed.
-
-Dan (black belt) Test - $30.00
-Menjo is given if passed.
-
-<b>Check In:</b> %s
-<b>Test Time:</b> %s - %s`,
-			date.AddDate(0, 0, -7).Format("January 2, 2006"),
-			checkInTime.Format("3:04PM"),
-			startTime.Format("3:04PM"),
-			endTime.Format("3:04PM"))
-
-		event.Description = template.HTML(description)
-		fmt.Printf("Promotional Type: %s\n", body.PromotionalType)
-		if body.PromotionalType == "Pre-Karate" {
+		if body.SubType == "Pre-Karate" {
 			fmt.Println("whoo")
 			event.PictureUrl = "/public/events/PreKaratePromotional.jpg"
 			event.CardPicUrl = "/public/events/PreKaratePromotional.jpg"
@@ -487,33 +465,10 @@ Menjo is given if passed.
 			ordinal = "rd"
 		}
 
-		event.Title = fmt.Sprintf("%d%s Annual %s Karate Tournament", tournamentNumber, ordinal, body.TournamentType)
+		event.Title = fmt.Sprintf("%d%s Annual %s Karate Tournament", tournamentNumber, ordinal, body.SubType)
 
-		description := fmt.Sprintf(`This event is for participants of %s.
-
-<b>Mandatory kumite safety equipment: Mouthpieces and Hand Pads are required. Head and chest protectors are required for all competitors who are 15 years old or younger and below the rank of brown belt. Groin Cups are required for all Male Competitors.</b>
-
-<b>Order of Events:</b>
--Kata
--Team Kata
--Weapons Kata
--Lunch Break (30 minutes)
--Kumite
-
-<b>Check In:</b> %s
-<b>Bow In:</b> %s - %s
-<b>Tournament:</b> %s - %s
-
-<b>Fees:</b> 1 event: $25, 2 events: $35, 3 events: $40, 4 events: $45, Late Fee: $10
-
-<b>Registering Online</b>
-Click the following button to visit the registration site.
-You will need to create an online account to register. If you are registering your child, you will need to add them as an account member before you can continue with the registration.
-Select the eligible account member, and click <b>Add To Cart</b>.
-Your cart will show with a total of <b>$25.00</b>. This is the base amount for competing in one event. 
-Click <b>Checkout</b> and you will be brought to the registration prompt where you will enter information about the participant, how many events they are competing in, and what events they are competing in. 
-The total price will change depending on how many events the participant is entering in.`,
-			getAgeRangeText(body.TournamentType),
+		description = fmt.Sprintf(eventTemplate.Description,
+			getAgeRangeText(body.SubType),
 			checkInTime.Format("3:04PM"),
 			startTime.Format("3:04PM"),
 			startTime.Add(30*time.Minute).Format("3:04PM"),
@@ -535,13 +490,11 @@ The total price will change depending on how many events the participant is ente
 <b>Online Registration will open later.</b>`
 		}
 
-		event.Description = template.HTML(description)
-
 		// Set specific photos based on tournament type
-		if body.TournamentType == "Teen & Adult" {
+		if body.SubType == "Teen & Adult" {
 			event.PictureUrl = "/public/events/TeenAdultBanner.png"
 			event.CardPicUrl = "/public/events/cards/TeenAdultCard.png"
-		} else if body.TournamentType == "Youth" {
+		} else if body.SubType == "Youth" {
 			event.PictureUrl = "/public/events/Youth Karate Tournament Banner.png"
 			event.CardPicUrl = "/public/events/cards/YouthTournamentCard.png"
 		} else {
@@ -549,6 +502,8 @@ The total price will change depending on how many events the participant is ente
 			event.CardPicUrl = "/public/events/cards/AllAgesTournamentCard.png"
 		}
 	}
+
+	event.Description = template.HTML(description)
 
 	// Add promotional application to event files
 	// if event.Title == "Promotional" {
@@ -579,9 +534,9 @@ The total price will change depending on how many events the participant is ente
 
 func getAgeRangeText(tournamentType string) string {
 	if tournamentType == "Youth" {
-		return "ages 17 and younger."
+		return "ages 17 and younger"
 	} else if tournamentType == "Teen & Adult" {
-		return "ages 13 and older."
+		return "ages 13 and older"
 	}
-	return "of all ages."
+	return "of all ages"
 }
