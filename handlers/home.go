@@ -32,14 +32,17 @@ func Home(c *fiber.Ctx) error {
 	eventCardImagePaths := getExistingEventCardPhotos()
 
 	events := queries.GetUpcomingEvents()
+	eventTypes := queries.GetEventTypes()
+
 	homePage := fiber.Map{
-		"Page":        structs.Page{PageName: "Home", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
-		"Events":      events,
-		"ImagePaths":  imagePaths,
-		"EventPhotos": eventImagePaths,
+		"Page":            structs.Page{PageName: "Home", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Events":          events,
+		"ImagePaths":      imagePaths,
+		"EventPhotos":     eventImagePaths,
 		"EventCardPhotos": eventCardImagePaths,
-		"Locations":   queries.GetLocations(),
-		"message": c.Locals("message"),
+		"EventTypes":      eventTypes,
+		"Locations":       queries.GetLocations(),
+		"message":         c.Locals("message"),
 	}
 
 	hxRequest, err := strconv.ParseBool(c.Get("hx-request"))

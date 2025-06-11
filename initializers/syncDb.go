@@ -197,9 +197,9 @@ func seedEventTemplates() {
 				},
 				{
 					Name:        "Promotional",
-					StartTime:   time.Date(0, 0, 0, 10, 0, 0, 0, tz),
-					EndTime:     time.Date(0, 0, 0, 16, 0, 0, 0, tz),
-					CheckInTime: time.Date(0, 0, 0, 9, 30, 0, 0, tz),
+					StartTime:   time.Date(0, 0, 0, 13, 0, 0, 0, tz),
+					EndTime:     time.Date(0, 0, 0, 17, 0, 0, 0, tz),
+					CheckInTime: time.Date(0, 0, 0, 12, 0, 0, 0, tz),
 					Description: `The Promotional is coming up fast!
 All students who fulfill their next rank requirements from the kids, teen, and adult classes are welcome!
 

@@ -34,9 +34,9 @@
                 {{ $subTypesSize := len .EventSubTypes }}
                 <td>{{ range $index, $subType := .EventSubTypes }}{{ $subType.Name }}{{ if lt $index (minus $subTypesSize 1) }}, {{ end }}{{ end }}</td>
                 <td>{{ .Description }}</td>
-                <td>{{ formatTimePST .StartTime "3:4 PM" }}</td>
-                <td>{{ formatTimePST .EndTime "3:4 PM" }}</td>
-                <td>{{ formatTimePST .CheckInTime "3:4 PST" }}</td>
+                <td>{{ formatTimePST .StartTime "3:04 PM" }}</td>
+                <td>{{ formatTimePST .EndTime "3:04 PM" }}</td>
+                <td>{{ formatTimePST .CheckInTime "3:04 PM" }}</td>
                 <td>{{ .LocationID }}</td>
                 <td>
                     <div class="flex flex-row">
