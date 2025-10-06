@@ -4,15 +4,20 @@ import (
 	"errors"
 	"log"
 	"shinkyuShotokan/models"
+	"time"
 
 	"gorm.io/gorm"
 )
+
+var tz, _ = time.LoadLocation("America/Los_Angeles")
 
 func SyncDb() {
 	DB.AutoMigrate(&models.User{}, &models.Event{}, &models.ClassSession{}, &models.ClassPeriod{}, &models.ClassAnnotation{})
 
 	seedLocations()
 	seedClasses()
+	seedEventSubTypes()
+	seedEventTemplates()
 }
 
 func seedLocations() {
@@ -119,6 +124,144 @@ func seedClasses() {
 
 			if result.Error != nil {
 				log.Print("Error creating seed Classes", result.Error)
+			}
+		}
+	}
+}
+
+func seedEventSubTypes() {
+	err := DB.AutoMigrate(&models.EventSubType{})
+	if err == nil && DB.Migrator().HasTable(&models.EventSubType{}) {
+		if err := DB.First(&models.EventSubType{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			eventSubTypes := []models.EventSubType{
+				{
+					Model: gorm.Model{ID: 1},
+					Name:  "Pre-Karate",
+				},
+				{
+					Model: gorm.Model{ID: 2},
+					Name:  "Youth & Adult",
+				},
+				{
+					Model: gorm.Model{ID: 3},
+					Name:  "Youth",
+				},
+				{
+					Model: gorm.Model{ID: 4},
+					Name:  "Teen & Adult",
+				},
+				{
+					Model: gorm.Model{ID: 5},
+					Name:  "All Ages",
+				},
+			}
+			result := DB.Create(eventSubTypes)
+
+			if result.Error != nil {
+				log.Print("Error creating seed EventSubType", result.Error)
+			}
+		}
+	}
+}
+
+func seedEventTemplates() {
+	err := DB.AutoMigrate(&models.EventTemplate{})
+	if err == nil && DB.Migrator().HasTable(&models.EventTemplate{}) {
+		if err := DB.First(&models.EventTemplate{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			eventTemplates := []models.EventTemplate{
+				{
+					Name:        "Tournament",
+					StartTime:   time.Date(0, 0, 0, 10, 0, 0, 0, tz),
+					EndTime:     time.Date(0, 0, 0, 16, 0, 0, 0, tz),
+					CheckInTime: time.Date(0, 0, 0, 9, 30, 0, 0, tz),
+					Description: `This tournament is for competitors %s.
+					
+<b>Mandatory kumite safety equipment: Mouthpieces and Hand Pads are required. Head and chest protectors are required for all competitors who are 15 years old or younger and below the rank of brown belt. Groin Cups are required for all Male Competitors.</b>
+
+<b>Order of Events:</b>
+-Kata
+-Team Kata
+-Weapons Kata
+-Lunch Break (30 minutes)
+-Kumite
+
+<b>Check In:</b> %s
+<b>Bow In:</b> %s - %s
+<b>Tournament:</b> %s - %s
+
+<b>Fees:</b> 1 event: $25, 2 events: $35, 3 events: $40, 4 events: $45, Late Fee: $10`,
+					LocationID: "Terrabay Gymnasium & Rec Center",
+					EventSubTypes: []models.EventSubType{
+						{Model: gorm.Model{ID: 3}},
+						{Model: gorm.Model{ID: 4}},
+						{Model: gorm.Model{ID: 5}},
+					},
+				},
+				{
+					Name:        "Promotional",
+					StartTime:   time.Date(0, 0, 0, 13, 0, 0, 0, tz),
+					EndTime:     time.Date(0, 0, 0, 17, 0, 0, 0, tz),
+					CheckInTime: time.Date(0, 0, 0, 12, 0, 0, 0, tz),
+					Description: `The Promotional is coming up fast!
+All students who fulfill their next rank requirements from the kids, teen, and adult classes are welcome!
+
+<b>NOTE</b>
+You must know all requirements for the rank you are testing for.
+Testing in the promotional is not mandatory. If a student does not want to test, we encourage them to come, watch, and cheer on their classmates.
+Turn in your application and fee to your instructor in class.
+
+<b>DEADLINE is %s</b>
+If you want to test, but can not turn in your application in person, please email it to <a href="mailto:shinkyu.shotokan.karate@gmail.com" style="text-decoration: underline; color:blue;">shinkyu.shotokan.karate@gmail.com</a>
+
+<b>FEES</b>
+Kyu (color belt) Test - $20.00
+Belt and certificate are given if passed.
+
+Dan (black belt) Test - $30.00
+Menjo is given if passed.
+
+<b>Check In:</b> %s
+<b>Test Time:</b> %s - %s`,
+					LocationID: "Terrabay Gymnasium & Rec Center",
+					EventSubTypes: []models.EventSubType{
+						{Model: gorm.Model{ID: 2}},
+					},
+				},
+				{
+					Name:        "Promotional",
+					StartTime:   time.Date(0, 0, 0, 13, 30, 0, 0, tz),
+					EndTime:     time.Date(0, 0, 0, 16, 30, 0, 0, tz),
+					CheckInTime: time.Date(0, 0, 0, 13, 0, 0, 0, tz),
+					Description: `The Pre-Karate Promotional is coming up fast!
+All students who fulfill their next rank requirements are welcome!
+
+<b>NOTE</b>
+You must know all requirements for the rank you are testing for.
+Testing in the promotional is not mandatory. If a student does not want to test, we encourage them to come, watch, and cheer on their classmates.
+Turn in your application and fee to your instructor in class.
+
+<b>DEADLINE is %s</b>
+If you want to test, but can not turn in your application in person, please email it to <a href="mailto:shinkyu.shotokan.karate@gmail.com" style="text-decoration: underline; color:blue;">shinkyu.shotokan.karate@gmail.com</a>
+
+<b>FEES</b>
+Kyu (color belt) Test - $20.00
+Belt and certificate are given if passed.
+
+Dan (black belt) Test - $30.00
+Menjo is given if passed.
+
+<b>Check In:</b> %s
+<b>Test Time:</b> %s - %s`,
+					LocationID: "Terrabay Gymnasium & Rec Center",
+					EventSubTypes: []models.EventSubType{
+						{Model: gorm.Model{ID: 1}},
+					},
+				},
+			}
+			result := DB.Create(eventTemplates)
+
+			if result.Error != nil {
+				log.Print("Error creating seed EventTemplates", result.Error)
 			}
 		}
 	}

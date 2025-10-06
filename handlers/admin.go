@@ -74,10 +74,10 @@ func AdminPage(c *fiber.Ctx) error {
 func AdminLocationPage(c *fiber.Ctx) error {
 	persistedLocations := queries.GetLocations()
 	adminPage := fiber.Map{
-		"Page":      structs.Page{PageName: "Admin", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Page":      structs.Page{PageName: "Locations", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
 		"Locations": persistedLocations,
 	}
-
+	fmt.Println(adminPage["Page"].(structs.Page).PageName)
 	return c.Render("adminPage", adminPage)
 }
 

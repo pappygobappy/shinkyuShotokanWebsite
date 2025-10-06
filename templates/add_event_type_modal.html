@@ -10,7 +10,23 @@
                 <option>Tournament</option>
                 <option>Other</option>
             </select>
-            <div id="promotional_type_section" class="hidden">
+            {{ range .EventTypes }}
+            <div id="{{ .Name }}_type_section" class="hidden">
+                <label class="label">
+                    <span class="text-base label-text">{{.Name}} Type</span>
+                </label>
+                {{ $type := .Name }}
+                <div class="form-control">
+                    {{ range .GetSubTypes }}
+                    <label class="label cursor-pointer">
+                        <span class="label-text">{{ .Name }}</span>
+                        <input type="radio" name="SubType" value="{{ .Name }}" class="radio radio-primary" onchange="handleSubTypeChange(this, {{$type}})" />
+                    </label>
+                    {{ end }}
+                </div>
+            </div>
+            {{ end }}
+            <!-- <div id="promotional_type_section" class="hidden">
                 <label class="label">
                     <span class="text-base label-text">Promotional Type</span>
                 </label>
@@ -43,7 +59,7 @@
                         <input type="radio" name="TournamentType" value="All Ages" class="radio radio-primary" onchange="handleTournamentTypeChange(this)" />
                     </label>
                 </div>
-            </div>
+            </div> -->
             <label class="label">
                 <span class="text-base label-text">Date</span>
             </label>
@@ -84,9 +100,10 @@
 </dialog>
 
 <script>
+    var eventTypes = {{.EventTypes}}
 function handleEventTypeChange(select) {
-    const promotionalSection = document.getElementById('promotional_type_section');
-    const tournamentSection = document.getElementById('tournament_type_section');
+    const promotionalSection = document.getElementById('Promotional_type_section');
+    const tournamentSection = document.getElementById('Tournament_type_section');
     const registrationCloseSection = document.getElementById('registration_close_section');
     
     // Hide all sections initially
@@ -109,39 +126,34 @@ function handleEventTypeChange(select) {
             </label>
             <input type="time" placeholder="Registration Close Time" class="w-full input input-bordered" name="RegistrationCloseTime" />
         `;
-        
-        // Set default times for tournament
-        document.querySelector('input[name="StartTime"]').value = '10:00';
-        document.querySelector('input[name="EndTime"]').value = '16:00';
-        document.querySelector('input[name="CheckInTime"]').value = '09:30';
-        
-        // Set location to Terrabay
-        const locationSelect = document.querySelector('select[name="Location"]');
-        Array.from(locationSelect.options).forEach(option => {
-            locationSelect.value = 'Terrabay Gymnasium & Rec Center';
-        });
     }
 }
 
-function handlePromotionalTypeChange(radio) {
-    if (radio.value === 'Pre-Karate') {
-        document.querySelector('input[name="StartTime"]').value = '13:30';
-        document.querySelector('input[name="EndTime"]').value = '16:30';
-        document.querySelector('input[name="CheckInTime"]').value = '13:00';
-    } else if (radio.value === 'Youth & Adult') {
-        document.querySelector('input[name="StartTime"]').value = '13:00';
-        document.querySelector('input[name="EndTime"]').value = '17:00';
-        document.querySelector('input[name="CheckInTime"]').value = '12:00';
-        // Set location to Terrabay
-        const locationSelect = document.querySelector('select[name="Location"]');
+function handleSubTypeChange(radio, subType) {
+    const promotionalType = eventTypes.find(type => type.Name === subType);
+    const selectedTemplate = promotionalType.Templates.find(template => 
+        template.SubTypes.some(subType => subType.Name === radio.value)
+    );
+    console.log(promotionalType)
+    console.log(selectedTemplate)
+    const startTimeInput = document.querySelector('input[name="StartTime"]');
+    const endTimeInput = document.querySelector('input[name="EndTime"]');
+    const checkInTimeInput = document.querySelector('input[name="CheckInTime"]');
+    const locationSelect = document.querySelector('select[name="Location"]');
+    
+    // Set the times from the template
+    startTimeInput.value = selectedTemplate.StartTime;
+    endTimeInput.value = selectedTemplate.EndTime;
+    checkInTimeInput.value = selectedTemplate.CheckInTime;
+    
+    // Set location if specified in template
+    if (selectedTemplate.Location) {
         Array.from(locationSelect.options).forEach(option => {
-            locationSelect.value = 'Terrabay Gymnasium & Rec Center';
+            if (option.value === selectedTemplate.Location) {
+                locationSelect.value = option.value;
+            }
         });
     }
-}
-
-function handleTournamentTypeChange(radio) {
-    // Add any tournament type specific logic here if needed
 }
 </script>
 

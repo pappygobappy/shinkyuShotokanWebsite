@@ -1,0 +1,62 @@
+{{ define "edit_event_template_form" }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="event mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
+        <h3 class="font-bold text-lg">Edit Event Template</h3>
+        <form id="edit_template_form" hx-put="/admin/event-templates/{{ .Template.ID }}" hx-target=".content" hx-swap="outerHTML">
+            <label class="label">
+                <span class="text-base label-text">Template Name</span>
+            </label>
+            <input type="text" placeholder="Template Name" class="w-full input input-bordered" name="Name"
+                value="{{ .Template.Name }}" required />
+            <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+                <legend class="fieldset-legend">Sub Types</legend>
+                {{ $selectedSubTypes := .SelectedSubTypes }}
+                {{ range .SubTypes }}
+                    {{ $isChecked := false }}
+                    {{ $id := .ID }}
+                    {{ range $selectedSubTypes }}
+                        {{ if eq .ID $id }}
+                            {{ $isChecked = true }}
+                        {{ end }}
+                    {{ end }}
+                    <label class="label">
+                        <input type="checkbox" class="checkbox" name="SubTypes" value="{{ .ID }}" {{ if $isChecked }}checked="checked"{{ end }} />
+                        {{ .Name }}
+                    </label>
+                {{ end }}
+            </fieldset>
+            <label class="label">
+                <span class="text-base label-text">Start Time</span>
+            </label>
+            <input type="time" placeholder="Start Time" class="w-full input input-bordered" value="{{ startTimePSTString .Template.StartTime  }}" name="StartTime" required />
+            <label class="label">
+                <span class="text-base label-text">End Time</span>
+            </label>
+            <input type="time" placeholder="End Time" class="w-full input input-bordered" value="{{ startTimePSTString .Template.EndTime  }}" name="EndTime" required />
+            <label class="label">
+                <span class="text-base label-text">Check In Time</span>
+            </label>
+            <input type="time" placeholder="Check In Time" class="w-full input input-bordered" value="{{ startTimePSTString .Template.CheckInTime  }}" name="CheckInTime" required />
+            <label class="label">
+                <span class="text-base label-text">Description</span>
+            </label>
+            <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full" name="Description"
+                required>{{ .Template.Description }}</textarea>
+            <label class="label">
+                <span class="text-base label-text">Location</span>
+            </label>
+            <select class="select select-bordered w-full max-w-xs" name="LocationID">
+                {{ $selectedLocation := .Template.LocationID }}
+                {{ range .Locations }}
+                <option value="{{ .Name }}" {{ if eq $selectedLocation .Name }}selected{{ end }}>{{ .Name }}</option>
+                {{ end }}
+            </select>
+            <div class="modal-action">
+                <button type="button" class="btn" hx-get="/admin/event-templates" hx-target=".content" hx-swap="outerHTML">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+{{ end }} 

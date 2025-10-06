@@ -73,6 +73,10 @@ func addEngineFuncs(engine *html.Engine) {
 	engine.AddFunc("isToday", func(today time.Time, day time.Time) bool {
 		return today.Year() == day.Year() && today.Month() == day.Month() && today.Day() == day.Day()
 	})
+
+	engine.AddFunc("minus", func(target int, subtract int) int {
+		return target - subtract
+	})
 }
 
 func main() {
@@ -143,7 +147,13 @@ func main() {
 	adminRoutes.Get("/reset-password", handlers.ResetPasswordGet)
 	adminRoutes.Post("/reset-password", handlers.ResetPasswordPost)
 	adminRoutes.Post("/start_add_event", handlers.StartAddEvent)
-	//app.Get("/pre-karate-class", handlers.PreKarateClasses)
+
+	// Event Template Admin Routes
+	adminRoutes.Get("/event-templates", handlers.AdminEventTemplatesPage)
+	adminRoutes.Post("/event-templates", handlers.AddEventTemplate)
+	adminRoutes.Get("/event-templates/:id", handlers.EditEventTemplateGet)
+	adminRoutes.Put("/event-templates/:id", handlers.EditEventTemplatePut)
+	adminRoutes.Delete("/event-templates/:id", handlers.DeleteEventTemplatePost)
 
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))

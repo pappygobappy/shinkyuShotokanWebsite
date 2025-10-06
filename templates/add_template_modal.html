@@ -1,0 +1,46 @@
+{{ define "add_template_modal" }}
+<dialog id="add_template_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Add Event Template</h3>
+        <form id="add_template_form" hx-post="/admin/event-templates" hx-target=".content" hx-swap="outerHTML">
+            <label class="label">
+                <span class="text-base label-text">Template Name</span>
+            </label>
+            <input type="text" placeholder="Template Name" class="w-full input input-bordered" name="Name" required />
+            <label class="label">
+                <span class="text-base label-text">Start Time</span>
+            </label>
+            <input type="time" placeholder="Start Time" class="w-full input input-bordered" name="StartTime" required />
+            <label class="label">
+                <span class="text-base label-text">End Time</span>
+            </label>
+            <input type="time" placeholder="End Time" class="w-full input input-bordered" name="EndTime" required />
+            <label class="label">
+                <span class="text-base label-text">Check In Time</span>
+            </label>
+            <input type="time" placeholder="Check In Time" class="w-full input input-bordered" name="CheckInTime" required />
+            <label class="label">
+                <span class="text-base label-text">Description</span>
+            </label>
+            <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full" name="Description"
+                required></textarea>
+            <label class="label">
+                <span class="text-base label-text">Location</span>
+            </label>
+            <select class="select select-bordered w-full max-w-xs" name="LocationID">
+                <option disabled selected>Select Location</option>
+                {{ range .Locations }}
+                <option value="{{ .ID }}">{{ .Name }}</option>
+                {{ end }}
+            </select>
+        </form>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Close</button>
+            </form>
+            <input type="Submit" form="add_template_form" class="btn btn-primary" />
+        </div>
+    </div>
+</dialog>
+{{ end }} 

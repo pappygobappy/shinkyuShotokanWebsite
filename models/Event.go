@@ -21,8 +21,7 @@ type Event struct {
 	CardPicUrl            string
 	Alt                   string
 	Description           template.HTML
-	PromotionalType       string
-	TournamentType        string
+	SubType               string
 	RegistrationCloseDate time.Time
 	RegistrationCloseTime time.Time
 }
