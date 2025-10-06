@@ -1,6 +1,7 @@
 package queries
 
 import (
+	"fmt"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
 )
@@ -20,7 +21,7 @@ func GetEventTypes() []models.EventType {
 		formattedTemplate := models.FormattedTemplate{
 			Type:        template.Name,
 			Name:        template.EventSubTypes[0].Name, // Assuming first subtype is the main one
-			StartTime:   template.StartTime.Format("15:04"),
+			StartTime:   template.StartTime.Format("15:04:05"),
 			EndTime:     template.EndTime.Format("15:04"),
 			CheckInTime: template.CheckInTime.Format("15:04"),
 			Location:    template.LocationID,
@@ -42,7 +43,7 @@ func GetEventTypes() []models.EventType {
 	for _, eventType := range typeMap {
 		eventTypes = append(eventTypes, eventType)
 	}
-
+	fmt.Println(eventTypes)
 	return eventTypes
 }
 
