@@ -153,6 +153,7 @@ func main() {
 	adminRoutes.Post("/event-templates", handlers.AddEventTemplate)
 	adminRoutes.Get("/event-templates/:id", handlers.EditEventTemplateGet)
 	adminRoutes.Put("/event-templates/:id", handlers.EditEventTemplatePut)
+	adminRoutes.Delete("/event-templates/:id", handlers.DeleteEventTemplatePost)
 
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))

@@ -46,6 +46,18 @@ func GetEventTypes() []models.EventType {
 	return eventTypes
 }
 
+func GetEventSubTypes() []models.EventSubType {
+	var subTypes []models.EventSubType
+	initializers.DB.Find(&subTypes)
+	return subTypes
+}
+
+func GetEventSubTypesByIDs(ids []uint) []models.EventSubType {
+	var subTypes []models.EventSubType
+	initializers.DB.Where("id IN ?", ids).Find(&subTypes)
+	return subTypes
+}
+
 func GetEventTemplateByID(id string) models.EventTemplate {
 	var template models.EventTemplate
 	initializers.DB.Preload("EventSubTypes").First(&template, id)

@@ -16,7 +16,6 @@ import (
 func AdminEventTemplatesPage(c *fiber.Ctx) error {
 	persistedLocations := queries.GetLocations()
 	eventTemplates := queries.GetEventTemplates()
-	fmt.Println(eventTemplates)
 	adminPage := fiber.Map{
 		"Page":           structs.Page{PageName: "Event Templates", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
 		"Locations":      persistedLocations,
@@ -78,10 +77,17 @@ func EditEventTemplateGet(c *fiber.Ctx) error {
 	id := c.Params("id")
 	template := queries.GetEventTemplateByID(id)
 
-	return c.Render("edit_event_template_form", fiber.Map{
-		"Template":  template,
-		"Locations": queries.GetLocations(),
-	})
+	adminPage := fiber.Map{
+		"Page":             structs.Page{PageName: "Event Templates", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Template":         template,
+		"Locations":        queries.GetLocations(),
+		"SubTypes":         queries.GetEventSubTypes(),
+		"SelectedSubTypes": template.EventSubTypes,
+	}
+	fmt.Println(adminPage["Page"].(structs.Page).PageName)
+	fmt.Println(adminPage["SelectedSubTypes"])
+
+	return c.Render("edit_event_template_form", adminPage)
 }
 
 func EditEventTemplatePut(c *fiber.Ctx) error {
@@ -91,6 +97,7 @@ func EditEventTemplatePut(c *fiber.Ctx) error {
 
 	var body struct {
 		Name        string
+		SubTypes    []uint
 		StartTime   string
 		EndTime     string
 		CheckInTime string
@@ -103,17 +110,31 @@ func EditEventTemplatePut(c *fiber.Ctx) error {
 		return err
 	}
 
+	if len(body.StartTime) == 5 {
+		body.StartTime += ":00"
+	}
+
+	if len(body.EndTime) == 5 {
+		body.EndTime += ":00"
+	}
+
+	if len(body.CheckInTime) == 5 {
+		body.CheckInTime += ":00"
+	}
+
+	fmt.Println(body.SubTypes)
+
 	// Parse times using today's date
 	today := time.Now().Format("2006-01-02")
-	startTime, err := time.ParseInLocation("2006-01-02 15:04", today+" "+body.StartTime, utils.TZ)
+	startTime, err := time.ParseInLocation("2006-01-02 15:04:05", fmt.Sprintf("%s %s", today, body.StartTime), utils.TZ)
 	if err != nil {
 		return err
 	}
-	endTime, err := time.ParseInLocation("2006-01-02 15:04", today+" "+body.EndTime, utils.TZ)
+	endTime, err := time.ParseInLocation("2006-01-02 15:04:05", fmt.Sprintf("%s %s", today, body.EndTime), utils.TZ)
 	if err != nil {
 		return err
 	}
-	checkInTime, err := time.ParseInLocation("2006-01-02 15:04", today+" "+body.CheckInTime, utils.TZ)
+	checkInTime, err := time.ParseInLocation("2006-01-02 15:04:05", fmt.Sprintf("%s %s", today, body.CheckInTime), utils.TZ)
 	if err != nil {
 		return err
 	}
@@ -131,5 +152,22 @@ func EditEventTemplatePut(c *fiber.Ctx) error {
 		return result.Error
 	}
 
-	return c.Render("event_template", template)
+	// Update the many-to-many relationship
+	selectedSubTypes := queries.GetEventSubTypesByIDs(body.SubTypes)
+	initializers.DB.Model(&template).Association("EventSubTypes").Replace(selectedSubTypes)
+	if result.Error != nil {
+		log.Print("Error updating Event Template", result.Error)
+		return result.Error
+	}
+
+	c.Set("HX-Redirect", "/admin/event-templates")
+	return c.Next()
+}
+
+func DeleteEventTemplatePost(c *fiber.Ctx) error {
+	id := c.Params("id")
+	initializers.DB.Delete(&models.EventTemplate{}, id)
+
+	c.Set("HX-Redirect", "/admin/event-templates")
+	return c.Next()
 }

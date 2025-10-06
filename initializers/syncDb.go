@@ -174,7 +174,9 @@ func seedEventTemplates() {
 					StartTime:   time.Date(0, 0, 0, 10, 0, 0, 0, tz),
 					EndTime:     time.Date(0, 0, 0, 16, 0, 0, 0, tz),
 					CheckInTime: time.Date(0, 0, 0, 9, 30, 0, 0, tz),
-					Description: `<b>Mandatory kumite safety equipment: Mouthpieces and Hand Pads are required. Head and chest protectors are required for all competitors who are 15 years old or younger and below the rank of brown belt. Groin Cups are required for all Male Competitors.</b>
+					Description: `This tournament is for competitors %s.
+					
+<b>Mandatory kumite safety equipment: Mouthpieces and Hand Pads are required. Head and chest protectors are required for all competitors who are 15 years old or younger and below the rank of brown belt. Groin Cups are required for all Male Competitors.</b>
 
 <b>Order of Events:</b>
 -Kata
@@ -230,8 +232,8 @@ Menjo is given if passed.
 					StartTime:   time.Date(0, 0, 0, 13, 30, 0, 0, tz),
 					EndTime:     time.Date(0, 0, 0, 16, 30, 0, 0, tz),
 					CheckInTime: time.Date(0, 0, 0, 13, 0, 0, 0, tz),
-					Description: `The Promotional is coming up fast!
-All students who fulfill their next rank requirements from the kids, teen, and adult classes are welcome!
+					Description: `The Pre-Karate Promotional is coming up fast!
+All students who fulfill their next rank requirements are welcome!
 
 <b>NOTE</b>
 You must know all requirements for the rank you are testing for.

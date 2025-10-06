@@ -9,28 +9,47 @@
             </label>
             <input type="text" placeholder="Template Name" class="w-full input input-bordered" name="Name"
                 value="{{ .Template.Name }}" required />
+            <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+                <legend class="fieldset-legend">Sub Types</legend>
+                {{ $selectedSubTypes := .SelectedSubTypes }}
+                {{ range .SubTypes }}
+                    {{ $isChecked := false }}
+                    {{ $id := .ID }}
+                    {{ range $selectedSubTypes }}
+                        {{ if eq .ID $id }}
+                            {{ $isChecked = true }}
+                        {{ end }}
+                    {{ end }}
+                    <label class="label">
+                        <input type="checkbox" class="checkbox" name="SubTypes" value="{{ .ID }}" {{ if $isChecked }}checked="checked"{{ end }} />
+                        {{ .Name }}
+                    </label>
+                {{ end }}
+            </fieldset>
+            <label class="label">
+                <span class="text-base label-text">Start Time</span>
+            </label>
+            <input type="time" placeholder="Start Time" class="w-full input input-bordered" value="{{ startTimePSTString .Template.StartTime  }}" name="StartTime" required />
+            <label class="label">
+                <span class="text-base label-text">End Time</span>
+            </label>
+            <input type="time" placeholder="End Time" class="w-full input input-bordered" value="{{ startTimePSTString .Template.EndTime  }}" name="EndTime" required />
+            <label class="label">
+                <span class="text-base label-text">Check In Time</span>
+            </label>
+            <input type="time" placeholder="Check In Time" class="w-full input input-bordered" value="{{ startTimePSTString .Template.CheckInTime  }}" name="CheckInTime" required />
             <label class="label">
                 <span class="text-base label-text">Description</span>
             </label>
             <textarea placeholder="Description" class="textarea textarea-bordered textarea-lg w-full" name="Description"
                 required>{{ .Template.Description }}</textarea>
             <label class="label">
-                <span class="text-base label-text">Duration (minutes)</span>
-            </label>
-            <input type="number" placeholder="Duration" class="w-full input input-bordered" name="Duration"
-                value="{{ .Template.Duration }}" required />
-            <label class="label">
-                <span class="text-base label-text">Capacity</span>
-            </label>
-            <input type="number" placeholder="Capacity" class="w-full input input-bordered" name="Capacity"
-                value="{{ .Template.Capacity }}" required />
-            <label class="label">
                 <span class="text-base label-text">Location</span>
             </label>
             <select class="select select-bordered w-full max-w-xs" name="LocationID">
                 {{ $selectedLocation := .Template.LocationID }}
                 {{ range .Locations }}
-                <option value="{{ .ID }}" {{ if eq $selectedLocation .ID }}selected{{ end }}>{{ .Name }}</option>
+                <option value="{{ .Name }}" {{ if eq $selectedLocation .Name }}selected{{ end }}>{{ .Name }}</option>
                 {{ end }}
             </select>
             <div class="modal-action">
