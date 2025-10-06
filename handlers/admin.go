@@ -151,3 +151,13 @@ func EditLocationPut(c *fiber.Ctx) error {
 
 	return c.Render("location", location)
 }
+
+func AdminUsersPage(c *fiber.Ctx) error {
+	users := queries.GetUsers()
+	adminPage := fiber.Map{
+		"Page":  structs.Page{PageName: "Users", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Users": users,
+	}
+	fmt.Println(adminPage["Page"].(structs.Page).PageName)
+	return c.Render("adminPage", adminPage)
+}
