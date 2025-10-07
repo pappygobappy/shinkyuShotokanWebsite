@@ -71,8 +71,8 @@ function handleHoverStart(event) {
 }
 
 function handleMenuHoverOut(event) {
-    hoverEndX = event.pageX
-    hoverEndY = event.pageY
+    hoverEndX = event.clientX
+    hoverEndY = event.clientY
     var elementRect = event.currentTarget.getBoundingClientRect()
 
     if (hoverEndX >= elementRect.right - 2 || hoverEndX <= elementRect.left || hoverEndY <= elementRect.top || hoverEndY >= elementRect.bottom + 10) {
