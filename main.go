@@ -160,6 +160,8 @@ func main() {
 	adminRoutes.Get("/instructors/:id/edit", handlers.EditInstructorGet)
 	adminRoutes.Put("/instructors/:id", handlers.EditInstructorPut)
 	adminRoutes.Post("/instructors/:id/move", handlers.MoveInstructor)
+	adminRoutes.Get("/instructors/new", handlers.AddInstructorGet)
+	adminRoutes.Post("/instructors", handlers.AddInstructorPost)
 
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))

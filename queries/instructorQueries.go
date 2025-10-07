@@ -70,3 +70,9 @@ func MoveInstructor(id uint, direction string) error {
 	}
 	return swapInstructorOrder(current.ID, neighbor.ID)
 }
+
+func GetNextInstructorDisplayOrder() int {
+	var max int
+	initializers.DB.Model(&models.Instructor{}).Select("COALESCE(MAX(display_order), 0)").Scan(&max)
+	return max + 1
+}

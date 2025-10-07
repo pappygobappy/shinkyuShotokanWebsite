@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"os"
+	"shinkyuShotokan/models"
 	"shinkyuShotokan/queries"
 	"shinkyuShotokan/structs"
 	"shinkyuShotokan/utils"
@@ -88,5 +89,37 @@ func EditInstructorPut(c *fiber.Ctx) error {
 	queries.UpdateInstructor(instructor)
 
 	// After update, go back to instructors list
+	return Instructors(c)
+}
+
+func AddInstructorGet(c *fiber.Ctx) error {
+	page := structs.Page{PageName: "Add Instructor", Tabs: utils.CurrentTabs(), Classes: utils.Classes}
+	return c.Render("edit_instructor", fiber.Map{
+		"Page":       page,
+		"Instructor": fiber.Map{"ID": 0, "Name": "", "Bio": "", "PictureUrl": ""},
+	})
+}
+
+func AddInstructorPost(c *fiber.Ctx) error {
+	var body struct {
+		Name string
+		Bio  string
+	}
+	if err := c.BodyParser(&body); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "invalid form")
+	}
+
+	pictureUrl := ""
+	if file, err := c.FormFile("NewPicture"); err == nil && file != nil {
+		baseDir := fmt.Sprintf("%s/assets/instructors", os.Getenv("UPLOAD_DIR"))
+		os.MkdirAll(baseDir, 0700)
+		if err := c.SaveFile(file, fmt.Sprintf("%s/%s", baseDir, file.Filename)); err == nil {
+			pictureUrl = fmt.Sprintf("/upload/assets/instructors/%s", file.Filename)
+		}
+	}
+
+	order := queries.GetNextInstructorDisplayOrder()
+	instructor := models.Instructor{Name: body.Name, Bio: body.Bio, PictureUrl: pictureUrl, DisplayOrder: order}
+	queries.CreateInstructor(instructor)
 	return Instructors(c)
 }
