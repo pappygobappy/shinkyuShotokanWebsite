@@ -156,6 +156,11 @@ func main() {
 	adminRoutes.Put("/event-templates/:id", handlers.EditEventTemplatePut)
 	adminRoutes.Delete("/event-templates/:id", handlers.DeleteEventTemplatePost)
 
+	// Instructor Admin Routes
+	adminRoutes.Get("/instructors/:id/edit", handlers.EditInstructorGet)
+	adminRoutes.Put("/instructors/:id", handlers.EditInstructorPut)
+	adminRoutes.Post("/instructors/:id/move", handlers.MoveInstructor)
+
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))
 	app.Listen(":" + os.Getenv("PORT"))

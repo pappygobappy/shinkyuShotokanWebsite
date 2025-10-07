@@ -1,0 +1,60 @@
+{{ define "edit_instructor" }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="instructor mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
+        <div class="text-3xl border-b py-5 flex flex-row items-center">
+            <h1>Edit Instructor</h1>
+        </div>
+        <div class="p-6">
+            <form hx-put="/admin/instructors/{{ .Instructor.ID }}" hx-target=".content" hx-push-url="true" hx-swap="outerHTML" enctype="multipart/form-data">
+                <div class="form-control w-full max-w-xs">
+                    <label class="label">
+                        <span class="label-text">Instructor Name</span>
+                    </label>
+                    <input type="text" placeholder="Instructor Name" class="input input-bordered w-full max-w-xs" 
+                           value="{{ .Instructor.Name }}" name="Name" required />
+                </div>
+                
+                <div class="form-control w-full max-w-xs">
+                    <label class="label">
+                        <span class="label-text">Current Picture</span>
+                    </label>
+                    <div class="flex items-center gap-4">
+                        <img src="{{ .Instructor.PictureUrl }}" alt="Current instructor photo" class="w-20 h-20 object-cover rounded-lg">
+                        <div class="text-sm text-gray-600">
+                            Current: {{ .Instructor.PictureUrl }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-control w-full max-w-xs">
+                    <label class="label">
+                        <span class="label-text">Upload New Picture</span>
+                    </label>
+                    <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full max-w-xs" 
+                           name="NewPicture" />
+                    <div class="label">
+                        <span class="label-text-alt">Leave empty to keep current picture</span>
+                    </div>
+                </div>
+                
+                
+                <div class="form-control w-full max-w-2xl">
+                    <label class="label">
+                        <span class="label-text">Bio</span>
+                    </label>
+                    <textarea placeholder="Instructor bio..." class="textarea textarea-bordered textarea-lg w-full h-72" 
+                              name="Bio" required>{{ .Instructor.Bio }}</textarea>
+                </div>
+                
+                <div class="form-control mt-6">
+                    <div class="flex gap-2 pt-4">
+                        <button type="submit" class="btn btn-primary">Update Instructor</button>
+                        <a href="/instructors" class="btn btn-ghost">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{ end }}
