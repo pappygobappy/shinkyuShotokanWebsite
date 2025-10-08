@@ -12,16 +12,35 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func ToggleInstructorHidden(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	idUint64, err := strconv.ParseUint(idParam, 10, 64)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "invalid id")
+	}
+	hidden := c.FormValue("hidden") == "true"
+	if err := queries.SetInstructorHidden(uint(idUint64), hidden); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return Instructors(c)
+}
+
 func Instructors(c *fiber.Ctx) error {
+	user := c.Locals("user")
+	var visible, hidden []models.Instructor
+	visible = queries.GetVisibleInstructors()
+	if user != nil {
+		hidden = queries.GetHiddenInstructors()
+	}
 	instructorsPage := fiber.Map{
-		"Page":        structs.Page{PageName: "Instructors", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
-		"Instructors": queries.GetInstructors(),
+		"Page":              structs.Page{PageName: "Instructors", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Instructors":       visible,
+		"HiddenInstructors": hidden,
 	}
 	hxRequest, err := strconv.ParseBool(c.Get("hx-request"))
 	if err != nil {
 		hxRequest = false
 	}
-
 	if hxRequest {
 		return c.Render("instructorsPage", instructorsPage)
 	} else {

@@ -8,4 +8,5 @@ type Instructor struct {
 	PictureUrl   string
 	Bio          string
 	DisplayOrder int
+	Hidden       bool
 }

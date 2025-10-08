@@ -4,4 +4,5 @@ type Instructor struct {
 	Name       string
 	PictureUrl string
 	Bio        string
+	Hidden     bool
 }

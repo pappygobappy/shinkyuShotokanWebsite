@@ -50,19 +50,49 @@ func swapInstructorOrder(aID uint, bID uint) error {
 	return nil
 }
 
+func GetVisibleInstructors() []models.Instructor {
+	var instructors []models.Instructor
+	initializers.DB.Where("hidden = ?", false).Or("hidden IS NULL").Order("display_order asc, id asc").Find(&instructors)
+	return instructors
+}
+
+func GetHiddenInstructors() []models.Instructor {
+	var instructors []models.Instructor
+	initializers.DB.Where("hidden = ?", true).Order("id asc").Find(&instructors)
+	return instructors
+}
+
+func SetInstructorHidden(id uint, hidden bool) error {
+	var instructor models.Instructor
+	if err := initializers.DB.First(&instructor, id).Error; err != nil {
+		return err
+	}
+	if instructor.Hidden == hidden {
+		return nil // no change
+	}
+	instructor.Hidden = hidden
+	if !hidden {
+		// If unhidden, move to end of visible list
+		instructor.DisplayOrder = GetNextInstructorDisplayOrder()
+	}
+	return initializers.DB.Save(&instructor).Error
+}
+
 func MoveInstructor(id uint, direction string) error {
 	var current models.Instructor
 	if err := initializers.DB.First(&current, id).Error; err != nil {
 		return err
 	}
+	if current.Hidden {
+		return nil // Do not move hidden instructors
+	}
 	var neighbor models.Instructor
 	if direction == "up" {
-		// find the one just above
-		if err := initializers.DB.Where("display_order < ?", current.DisplayOrder).Order("display_order desc").First(&neighbor).Error; err != nil {
+		if err := initializers.DB.Where("display_order < ? AND hidden = ?", current.DisplayOrder, false).Order("display_order desc").First(&neighbor).Error; err != nil {
 			return err
 		}
 	} else if direction == "down" {
-		if err := initializers.DB.Where("display_order > ?", current.DisplayOrder).Order("display_order asc").First(&neighbor).Error; err != nil {
+		if err := initializers.DB.Where("display_order > ? AND hidden = ?", current.DisplayOrder, false).Order("display_order asc").First(&neighbor).Error; err != nil {
 			return err
 		}
 	} else {

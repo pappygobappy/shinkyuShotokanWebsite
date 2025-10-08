@@ -20,14 +20,20 @@
                         <div class="flex gap-2">
                             <form hx-post="/admin/instructors/{{ .ID }}/move" hx-target=".content" hx-push-url="false" hx-swap="outerHTML">
                                 <input type="hidden" name="direction" value="up" />
-                                <button type="submit" class="btn btn-sm btn-ghost" title="Move up">
+                                <button type="submit" class="btn btn-sm btn-ghost" title="Move up" {{if .Hidden}}disabled{{end}}>
                                     ▲
                                 </button>
                             </form>
                             <form hx-post="/admin/instructors/{{ .ID }}/move" hx-target=".content" hx-push-url="false" hx-swap="outerHTML">
                                 <input type="hidden" name="direction" value="down" />
-                                <button type="submit" class="btn btn-sm btn-ghost" title="Move down">
+                                <button type="submit" class="btn btn-sm btn-ghost" title="Move down" {{if .Hidden}}disabled{{end}}>
                                     ▼
+                                </button>
+                            </form>
+                            <form hx-post="/admin/instructors/{{ .ID }}/toggle-hidden" hx-target=".content" hx-push-url="false" hx-swap="outerHTML">
+                                <input type="hidden" name="hidden" value="{{ not .Hidden }}" />
+                                <button type="submit" class="btn btn-sm {{if .Hidden}}btn-success{{else}}btn-warning{{end}}">
+                                    {{if .Hidden}}Unhide{{else}}Hide{{end}}
                                 </button>
                             </form>
                             <button hx-get="/admin/instructors/{{ .ID }}/edit" hx-target=".content" hx-push-url="true" hx-swap="outerHTML"
@@ -43,6 +49,36 @@
                 </div>
             </div>
 
+            {{ end }}
+            {{ if .user }}
+            {{ if .HiddenInstructors }}
+            <div class="pt-10">
+                <h2 class="text-lg font-bold pb-2">Hidden Instructors</h2>
+                {{ range .HiddenInstructors }}
+                <div class="instructor md:flex py-7 border-t bg-gray-100">
+                    <img class="rounded-xl mx-auto h-72 mb-5 lg:pb-0" src="{{ .PictureUrl}}">
+                    <div class="px-4 lg:px-14 flex-1">
+                        <div class="flex justify-between items-start">
+                            <h1 class="text-xl pb-5 font-bold">{{ .Name }}</h1>
+                            <div class="flex gap-2">
+                                <form hx-post="/admin/instructors/{{ .ID }}/toggle-hidden" hx-target=".content" hx-push-url="false" hx-swap="outerHTML">
+                                    <input type="hidden" name="hidden" value="false" />
+                                    <button type="submit" class="btn btn-sm btn-success">Unhide</button>
+                                </form>
+                                <button hx-get="/admin/instructors/{{ .ID }}/edit" hx-target=".content" hx-push-url="true" hx-swap="outerHTML"
+                                    class="btn btn-sm btn-primary btn-square shadow-xl">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <p>{{ .Bio }}</p>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
             {{ end }}
         </div>
     </div>

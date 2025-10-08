@@ -160,6 +160,7 @@ func main() {
 	adminRoutes.Get("/instructors/:id/edit", handlers.EditInstructorGet)
 	adminRoutes.Put("/instructors/:id", handlers.EditInstructorPut)
 	adminRoutes.Post("/instructors/:id/move", handlers.MoveInstructor)
+	adminRoutes.Post("/instructors/:id/toggle-hidden", handlers.ToggleInstructorHidden)
 	adminRoutes.Get("/instructors/new", handlers.AddInstructorGet)
 	adminRoutes.Post("/instructors", handlers.AddInstructorPost)
 
