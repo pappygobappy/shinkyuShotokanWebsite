@@ -10,10 +10,10 @@
     </div>
     {{ end }}
     {{ template "header" makeMap "Page" .Page  "user" .user }}
-    {{ template "image_carousel" .ImagePaths }}
-    {{ if .user }}
-    <div class="w-full bg-base-100">
-        <a href="/admin/upload-carousel-image" class="btn btn-primary shadow-xl">
+    <div class="relative">
+        {{ template "image_carousel" .ImagePaths }}
+        {{ if .user }}
+        <a href="/admin/upload-carousel-image" class="btn btn-primary shadow-xl absolute bottom-3 right-2">
             <div class="flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 25">
                     <rect x="0" fill="none" width="24" height="24" />
@@ -25,8 +25,8 @@
                 <p class="ml-2">Upload Image</p>
             </div>
         </a>
+        {{ end }}
     </div>
-    {{ end }}
     <div class="w-full bg-base-100 p-7">
         <div class="flex flex-col sm:flex-row mx-auto w-fit">
             <h1 class="max-w-lg italic text-xl sm:text-2xl">Teaching Traditional Shotokan Karate in South San Francisco
