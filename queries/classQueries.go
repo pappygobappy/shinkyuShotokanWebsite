@@ -4,6 +4,8 @@ import (
 	"log"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func GetClasses() []models.Class {
@@ -94,4 +96,30 @@ func MoveCarouselImage(id uint, direction string) error {
 		return err
 	}
 	return nil
+}
+
+func SoftDeleteCarouselImage(id string) error {
+	var image models.CarouselImage
+	if err := initializers.DB.First(&image, id).Error; err != nil {
+		return fiber.NewError(fiber.StatusNotFound, "Carousel image not found")
+	}
+	if err := initializers.DB.Delete(&image).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func RestoreCarouselImage(id string) error {
+	if err := initializers.DB.Unscoped().Model(&models.CarouselImage{}).
+		Where("id = ?", id).
+		Update("deleted_at", nil).Update("display_order", GetNextCarouselImageOrder()).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func GetDeletedCarouselImages() []models.CarouselImage {
+	var images []models.CarouselImage
+	initializers.DB.Unscoped().Where("deleted_at IS NOT NULL").Order("display_order asc, id asc").Find(&images)
+	return images
 }

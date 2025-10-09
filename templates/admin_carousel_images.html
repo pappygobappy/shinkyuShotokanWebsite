@@ -17,9 +17,27 @@
                     ▼
                 </button>
             </form>
+            <form hx-post="/admin/carousel-images/{{ .ID }}/remove" hx-target=".content" hx-swap="outerHTML" style="margin-top: 8px">
+                <button type="submit" class="btn btn-sm btn-error">Remove</button>
+            </form>
         </div>
     </div>
     {{ end }}
 </div>
+
+<h2 class="text-xl font-bold mb-4 mt-8">Removed Carousel Images</h2>
+<div class="flex flex-col gap-6">
+    {{ range .RemovedImages }}
+    <div class="flex items-center gap-4 border rounded p-2 bg-base-100 opacity-60">
+        <img src="{{ .Path }}" alt="removed carousel image" class="h-72 object-contain rounded shadow" loading="lazy" />
+        <form hx-post="/admin/carousel-images/{{ .ID }}/restore" hx-target=".content" hx-swap="outerHTML">
+            <button type="submit" class="btn btn-sm btn-primary">Restore</button>
+        </form>
+    </div>
+    {{ else }}
+    <p class="italic text-base-content text-opacity-50">No deleted images.</p>
+    {{ end }}
+</div>
 {{ end }}
+
 

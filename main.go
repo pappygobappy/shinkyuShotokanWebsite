@@ -169,6 +169,8 @@ func main() {
 	// // Carousel Images Admin Routes
 	adminRoutes.Get("/carousel-images", handlers.AdminCarouselImagesPage)
 	adminRoutes.Post("/carousel-images/:id/move", handlers.MoveCarouselImage)
+	adminRoutes.Post("/carousel-images/:id/remove", handlers.SoftDeleteCarouselImage)
+	adminRoutes.Post("/carousel-images/:id/restore", handlers.RestoreCarouselImage)
 
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))

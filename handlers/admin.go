@@ -20,18 +20,8 @@ func AdminHome(c *fiber.Ctx) error {
 	paths, _ := os.Getwd()
 	var imagePaths []string
 	var eventImagePaths []string
-	err := filepath.Walk(paths+"/assets/image_carousel/", func(path string, info os.FileInfo, err error) error {
-
-		if err != nil {
-			fmt.Println(err)
-			return nil
-		}
-		if !info.IsDir() {
-			imagePaths = append(imagePaths, strings.Replace(path, paths, "", 1))
-		}
-		return nil
-	})
-	err = filepath.Walk(paths+"/assets/events/", func(path string, info os.FileInfo, err error) error {
+	imagePaths = queries.GetCarouselImagePaths()
+	err := filepath.Walk(paths+"/assets/events/", func(path string, info os.FileInfo, err error) error {
 
 		if err != nil {
 			fmt.Println(err)
@@ -68,7 +58,7 @@ func AdminHome(c *fiber.Ctx) error {
 }
 
 func AdminPage(c *fiber.Ctx) error {
-	return c.Redirect("/admin/locations")
+	return c.Redirect("/admin/carousel-images")
 }
 
 func AdminLocationPage(c *fiber.Ctx) error {
@@ -189,13 +179,27 @@ func UploadCarouselImagePage(c *fiber.Ctx) error {
 // AdminCarouselImagesPage shows all carousel images with ordering controls
 func AdminCarouselImagesPage(c *fiber.Ctx) error {
 	images := queries.GetCarouselImages()
-	fmt.Println(images)
+	removedImages := queries.GetDeletedCarouselImages()
 	carouselPage := fiber.Map{
-		"Page":   structs.Page{PageName: "Carousel Images", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
-		"Images": images,
+		"Page":          structs.Page{PageName: "Carousel Images", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Images":        images,
+		"RemovedImages": removedImages,
 	}
-	fmt.Println(carouselPage["Page"].(structs.Page).PageName)
 	return c.Render("adminPage", carouselPage)
+}
+
+// Handle soft delete
+func SoftDeleteCarouselImage(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	queries.SoftDeleteCarouselImage(idParam)
+	return AdminCarouselImagesPage(c)
+}
+
+// Handle restore
+func RestoreCarouselImage(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	queries.RestoreCarouselImage(idParam)
+	return AdminCarouselImagesPage(c)
 }
 
 func MoveCarouselImage(c *fiber.Ctx) error {
