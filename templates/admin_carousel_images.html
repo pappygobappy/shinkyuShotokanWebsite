@@ -30,8 +30,11 @@
     {{ range .RemovedImages }}
     <div class="flex items-center gap-4 border rounded p-2 bg-base-100 opacity-60">
         <img src="{{ .Path }}" alt="removed carousel image" class="h-72 object-contain rounded shadow" loading="lazy" />
-        <form hx-post="/admin/carousel-images/{{ .ID }}/restore" hx-target=".content" hx-swap="outerHTML">
+        <form hx-post="/admin/carousel-images/{{ .ID }}/restore" hx-target=".content" hx-swap="outerHTML" style="margin-right:8px;display:inline-block;">
             <button type="submit" class="btn btn-sm btn-primary">Restore</button>
+        </form>
+        <form hx-post="/admin/carousel-images/{{ .ID }}/hard-delete" hx-target=".content" hx-swap="outerHTML" style="display:inline-block;">
+            <button type="submit" class="btn btn-sm btn-error">Delete Permanently</button>
         </form>
     </div>
     {{ else }}

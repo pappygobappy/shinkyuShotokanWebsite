@@ -202,6 +202,28 @@ func RestoreCarouselImage(c *fiber.Ctx) error {
 	return AdminCarouselImagesPage(c)
 }
 
+func HardDeleteCarouselImage(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	var image models.CarouselImage
+	// Retrieve even if soft-deleted
+	if err := initializers.DB.Unscoped().First(&image, idParam).Error; err != nil {
+		return fiber.NewError(fiber.StatusNotFound, "Carousel image not found")
+	}
+	if !image.DeletedAt.Valid {
+		return fiber.NewError(fiber.StatusBadRequest, "Cannot hard delete image that is not soft deleted.")
+	}
+	// Remove file if needed
+	if image.SourceType == "upload" && image.Path != "" {
+		fullPath := os.Getenv("UPLOAD_DIR") + strings.TrimPrefix(image.Path, "/upload")
+		_ = os.Remove(fullPath) // ignore file errors
+	}
+	// Hard delete from DB
+	if err := initializers.DB.Unscoped().Delete(&image).Error; err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return AdminCarouselImagesPage(c)
+}
+
 func MoveCarouselImage(c *fiber.Ctx) error {
 	idParam := c.Params("id")
 	idUint64, err := strconv.ParseUint(idParam, 10, 64)
