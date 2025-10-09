@@ -165,7 +165,11 @@ func UploadCarouselImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Failed to save file")
 	}
 	queries.AddCarouselImage(strings.Replace(destination, os.Getenv("UPLOAD_DIR"), "/upload", 1), "upload")
-	return AdminCarouselImagesPage(c)
+	if c.Get("HX-Request") != "" {
+		c.Set("HX-Redirect", "/admin/carousel-images")
+		return c.SendStatus(200)
+	}
+	return c.Redirect("/admin/carousel-images")
 }
 
 // UploadCarouselImagePage renders the upload form for carousel images
@@ -205,19 +209,16 @@ func RestoreCarouselImage(c *fiber.Ctx) error {
 func HardDeleteCarouselImage(c *fiber.Ctx) error {
 	idParam := c.Params("id")
 	var image models.CarouselImage
-	// Retrieve even if soft-deleted
 	if err := initializers.DB.Unscoped().First(&image, idParam).Error; err != nil {
 		return fiber.NewError(fiber.StatusNotFound, "Carousel image not found")
 	}
 	if !image.DeletedAt.Valid {
 		return fiber.NewError(fiber.StatusBadRequest, "Cannot hard delete image that is not soft deleted.")
 	}
-	// Remove file if needed
 	if image.SourceType == "upload" && image.Path != "" {
 		fullPath := os.Getenv("UPLOAD_DIR") + strings.TrimPrefix(image.Path, "/upload")
-		_ = os.Remove(fullPath) // ignore file errors
+		_ = os.Remove(fullPath)
 	}
-	// Hard delete from DB
 	if err := initializers.DB.Unscoped().Delete(&image).Error; err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
