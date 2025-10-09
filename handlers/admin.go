@@ -174,7 +174,8 @@ func UploadCarouselImage(c *fiber.Ctx) error {
 	if err := c.SaveFile(file, destination); err != nil {
 		return c.Status(500).SendString("Failed to save file")
 	}
-	return c.Redirect("/", 302)
+	queries.AddCarouselImage(strings.Replace(destination, os.Getenv("UPLOAD_DIR"), "/upload", 1), "upload")
+	return AdminCarouselImagesPage(c)
 }
 
 // UploadCarouselImagePage renders the upload form for carousel images

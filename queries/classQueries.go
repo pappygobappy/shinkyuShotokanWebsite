@@ -65,7 +65,7 @@ func AddCarouselImage(path string, sourceType string) models.CarouselImage {
 
 func GetNextCarouselImageOrder() int {
 	var max int
-	initializers.DB.Model(&models.CarouselImage{}).Select("COALESCE(MAX(order), 0)").Scan(&max)
+	initializers.DB.Model(&models.CarouselImage{}).Select("COALESCE(MAX(display_order), 0)").Scan(&max)
 	return max + 1
 }
 
