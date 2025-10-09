@@ -12,13 +12,17 @@ import (
 var tz, _ = time.LoadLocation("America/Los_Angeles")
 
 func SyncDb() {
-	DB.AutoMigrate(&models.User{}, &models.Event{}, &models.ClassSession{}, &models.ClassPeriod{}, &models.ClassAnnotation{}, &models.Instructor{})
+	DB.AutoMigrate(
+		&models.CarouselImage{},
+		&models.User{}, &models.Event{}, &models.ClassSession{}, &models.ClassPeriod{}, &models.ClassAnnotation{}, &models.Instructor{},
+	)
 
 	seedLocations()
 	seedClasses()
 	seedEventSubTypes()
 	seedEventTemplates()
 	seedInstructors()
+	seedCarouselImages()
 }
 
 func seedLocations() {
@@ -320,6 +324,52 @@ func seedInstructors() {
 
 			if result.Error != nil {
 				log.Print("Error creating seed Instructors", result.Error)
+			}
+		}
+	}
+}
+
+func seedCarouselImages() {
+	err := DB.AutoMigrate(&models.CarouselImage{})
+	if err == nil && DB.Migrator().HasTable(&models.CarouselImage{}) {
+		if err := DB.First(&models.CarouselImage{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			images := []models.CarouselImage{
+				{
+					Path:         "/public/image_carousel/PXL_20210506_005649942.jpg",
+					SourceType:   "public",
+					DisplayOrder: 1,
+				},
+				{
+					Path:         "/public/image_carousel/PXL_20221114_013356064.MP.jpg",
+					SourceType:   "public",
+					DisplayOrder: 2,
+				},
+				{
+					Path:         "/public/image_carousel/PXL_20230226_232040512.jpg",
+					SourceType:   "public",
+					DisplayOrder: 3,
+				},
+				{
+					Path:         "/public/image_carousel/heiansandan2.jpeg",
+					SourceType:   "public",
+					DisplayOrder: 4,
+				},
+				{
+					Path:         "/public/image_carousel/kizami.jpg",
+					SourceType:   "public",
+					DisplayOrder: 5,
+				},
+				{
+					Path:         "/public/image_carousel/original_9ed61476-2366-4b52-8b6b-05c698649a55_PXL_20230827_210652281.jpg",
+					SourceType:   "public",
+					DisplayOrder: 6,
+				},
+			}
+
+			result := DB.Create(images)
+
+			if result.Error != nil {
+				log.Print("Error creating seed Carousel Images", result.Error)
 			}
 		}
 	}

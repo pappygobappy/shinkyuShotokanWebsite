@@ -1,39 +1,25 @@
 {{ define "admin_carousel_images" }}
-{{ if not .hxRequest }}
-{{ template "top" }}
-{{ end }}
-<div class="content">
-    {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="event mx-auto md:py-5 md:px-7 max-w-3xl bg-base-100 md:rounded-xl md:my-5">
-        <h1 class="text-2xl font-bold mb-4">Carousel Images</h1>
-        <div class="flex flex-col gap-6">
-            {{ range $i, $img := .Images }}
-            <div class="flex items-center gap-4 border rounded p-2 bg-base-200">
-                <img src="{{ $img.Path }}" alt="carousel image" class="h-32 w-48 object-contain rounded shadow" loading="lazy" />
-                {{ if $.user }}
-                <div class="flex flex-col gap-1">
-                    <form hx-post="/admin/carousel-images/{{ $img.ID }}/move" hx-target=".content" hx-push-url="false" hx-swap="outerHTML">
-                        <input type="hidden" name="direction" value="up" />
-                        <button type="submit" class="btn btn-sm btn-ghost" title="Move up" {{if eq $i 0}}disabled{{end}}>
-                            ▲
-                        </button>
-                    </form>
-                    <form hx-post="/admin/carousel-images/{{ $img.ID }}/move" hx-target=".content" hx-push-url="false" hx-swap="outerHTML">
-                        <input type="hidden" name="direction" value="down" />
-                        <button type="submit" class="btn btn-sm btn-ghost" title="Move down" {{if eq $i (sub1 (len $.Images))}}disabled{{end}}>
-                            ▼
-                        </button>
-                    </form>
-                </div>
-                {{ end }}
-                <div class="flex-1">
-                    <div class="text-xs text-gray-400 italic">{{ $img.SourceType }}</div>
-                    <div class="text-xs break-all">{{ $img.Path }}</div>
-                </div>
-            </div>
-            {{ end }}
+<h1 class="text-2xl font-bold mb-4">Carousel Images</h1>
+<div class="flex flex-col gap-6">
+    {{ range $i, $e := .Images }}
+    <div class="flex items-center gap-4 border rounded p-2 bg-base-200">
+        <img src="{{ .Path }}" alt="carousel image" class="h-72 object-contain rounded shadow" loading="lazy" />
+        <div class="flex flex-col gap-1">
+            <form hx-post="/admin/carousel-images/{{ .ID }}/move" hx-target=".content" hx-push-url="false" hx-swap="outerHTML">
+                <input type="hidden" name="direction" value="up" />
+                <button type="submit" class="btn btn-sm btn-ghost" title="Move up" {{if eq $i 0}}disabled{{end}}>
+                    ▲
+                </button>
+            </form>
+            <form hx-post="/admin/carousel-images/{{ .ID }}/move" hx-target=".content" hx-push-url="false" hx-swap="outerHTML">
+                <input type="hidden" name="direction" value="down" />
+                <button type="submit" class="btn btn-sm btn-ghost" title="Move down">
+                    ▼
+                </button>
+            </form>
         </div>
     </div>
+    {{ end }}
 </div>
 {{ end }}
 

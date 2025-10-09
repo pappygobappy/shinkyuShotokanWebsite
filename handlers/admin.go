@@ -184,3 +184,31 @@ func UploadCarouselImagePage(c *fiber.Ctx) error {
 		"user": c.Locals("user"),
 	})
 }
+
+// AdminCarouselImagesPage shows all carousel images with ordering controls
+func AdminCarouselImagesPage(c *fiber.Ctx) error {
+	images := queries.GetCarouselImages()
+	fmt.Println(images)
+	carouselPage := fiber.Map{
+		"Page":   structs.Page{PageName: "Carousel Images", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Images": images,
+	}
+	fmt.Println(carouselPage["Page"].(structs.Page).PageName)
+	return c.Render("adminPage", carouselPage)
+}
+
+func MoveCarouselImage(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	idUint64, err := strconv.ParseUint(idParam, 10, 64)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "invalid id")
+	}
+	direction := c.FormValue("direction")
+	if direction != "up" && direction != "down" {
+		return fiber.NewError(fiber.StatusBadRequest, "invalid direction")
+	}
+	if err := queries.MoveCarouselImage(uint(idUint64), direction); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return AdminCarouselImagesPage(c)
+}

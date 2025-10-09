@@ -166,6 +166,10 @@ func main() {
 	adminRoutes.Get("/instructors/new", handlers.AddInstructorGet)
 	adminRoutes.Post("/instructors", handlers.AddInstructorPost)
 
+	// // Carousel Images Admin Routes
+	adminRoutes.Get("/carousel-images", handlers.AdminCarouselImagesPage)
+	adminRoutes.Post("/carousel-images/:id/move", handlers.MoveCarouselImage)
+
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))
 	app.Listen(":" + os.Getenv("PORT"))

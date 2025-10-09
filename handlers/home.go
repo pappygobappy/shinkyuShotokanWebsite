@@ -45,10 +45,12 @@ func Home(c *fiber.Ctx) error {
 	events := queries.GetUpcomingEvents()
 	eventTypes := queries.GetEventTypes()
 
+	iPaths := queries.GetCarouselImagePaths()
+
 	homePage := fiber.Map{
 		"Page":            structs.Page{PageName: "Home", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
 		"Events":          events,
-		"ImagePaths":      imagePaths,
+		"ImagePaths":      iPaths,
 		"EventPhotos":     eventImagePaths,
 		"EventCardPhotos": eventCardImagePaths,
 		"EventTypes":      eventTypes,

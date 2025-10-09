@@ -41,3 +41,57 @@ func FindClassByName(name string) models.Class {
 	}
 	return class
 }
+
+// Carousel image DB access
+func GetCarouselImages() []models.CarouselImage {
+	var images []models.CarouselImage
+	initializers.DB.Order("display_order asc, id asc").Find(&images)
+	return images
+}
+
+func GetCarouselImagePaths() []string {
+	var paths []string
+	initializers.DB.Model(&models.CarouselImage{}).
+		Order("display_order asc, id asc").
+		Pluck("path", &paths)
+	return paths
+}
+
+func AddCarouselImage(path string, sourceType string) models.CarouselImage {
+	img := models.CarouselImage{Path: path, SourceType: sourceType, DisplayOrder: GetNextCarouselImageOrder()}
+	initializers.DB.Create(&img)
+	return img
+}
+
+func GetNextCarouselImageOrder() int {
+	var max int
+	initializers.DB.Model(&models.CarouselImage{}).Select("COALESCE(MAX(order), 0)").Scan(&max)
+	return max + 1
+}
+
+func MoveCarouselImage(id uint, direction string) error {
+	var current models.CarouselImage
+	if err := initializers.DB.First(&current, id).Error; err != nil {
+		return err
+	}
+	var neighbor models.CarouselImage
+	if direction == "up" {
+		if err := initializers.DB.Where("display_order < ?", current.DisplayOrder).Order("display_order desc").First(&neighbor).Error; err != nil {
+			return err
+		}
+	} else if direction == "down" {
+		if err := initializers.DB.Where("display_order > ?", current.DisplayOrder).Order("display_order asc").First(&neighbor).Error; err != nil {
+			return err
+		}
+	} else {
+		return nil
+	}
+	aOrder, bOrder := current.DisplayOrder, neighbor.DisplayOrder
+	if err := initializers.DB.Model(&current).Update("display_order", bOrder).Error; err != nil {
+		return err
+	}
+	if err := initializers.DB.Model(&neighbor).Update("display_order", aOrder).Error; err != nil {
+		return err
+	}
+	return nil
+}
