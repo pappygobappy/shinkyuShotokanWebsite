@@ -88,11 +88,11 @@ func MoveInstructor(id uint, direction string) error {
 	}
 	var neighbor models.Instructor
 	if direction == "up" {
-		if err := initializers.DB.Where("display_order < ? AND hidden = ?", current.DisplayOrder, false).Order("display_order desc").First(&neighbor).Error; err != nil {
+		if err := initializers.DB.Where("display_order < ? AND (hidden != ? OR hidden is null)", current.DisplayOrder, true).Order("display_order desc").First(&neighbor).Error; err != nil {
 			return err
 		}
 	} else if direction == "down" {
-		if err := initializers.DB.Where("display_order > ? AND hidden = ?", current.DisplayOrder, false).Order("display_order asc").First(&neighbor).Error; err != nil {
+		if err := initializers.DB.Where("display_order > ? AND (hidden != ? OR hidden is null)", current.DisplayOrder, true).Order("display_order asc").First(&neighbor).Error; err != nil {
 			return err
 		}
 	} else {

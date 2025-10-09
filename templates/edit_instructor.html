@@ -3,7 +3,7 @@
     {{ template "header" makeMap "Page" .Page "user" .user }}
     <div class="instructor mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
         <div class="text-3xl border-b py-5 flex flex-row items-center">
-            <h1>Edit Instructor</h1>
+            <h1>{{ if .Instructor.ID }}Edit{{ else }}Add{{ end }} Instructor</h1>
         </div>
         <div class="p-6">
             <form {{ if .Instructor.ID }}hx-put="/admin/instructors/{{ .Instructor.ID }}"{{ else }}hx-post="/admin/instructors"{{ end }} hx-target=".content" hx-push-url="true" hx-swap="outerHTML" enctype="multipart/form-data">
