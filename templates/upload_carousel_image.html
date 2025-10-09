@@ -1,0 +1,22 @@
+{{ define "upload_carousel_image" }}
+{{ if not .hxRequest }}
+{{ template "top" }}
+{{ end }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="event mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
+        <h1 class="text-2xl font-bold mb-4">Upload Carousel Image</h1>
+        {{ if .user }}
+        <form action="/admin/upload-carousel-image" method="post" enctype="multipart/form-data" class="flex flex-col gap-4 max-w-md mx-auto">
+            <label for="carouselImage" class="font-semibold">Select Image</label>
+            <input type="file" name="carouselImage" id="carouselImage" accept="image/*" required class="file-input file-input-bordered w-full" />
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        {{ else }}
+        <div class="alert alert-error">You must be logged in as an admin to upload images.</div>
+        {{ end }}
+    </div>
+    
+</div>
+{{ end }}
+

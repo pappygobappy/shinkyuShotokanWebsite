@@ -122,6 +122,8 @@ func main() {
 	adminRoutes.Get("/", handlers.AdminPage)
 	adminRoutes.Get("/locations", handlers.AdminLocationPage)
 	adminRoutes.Get("/users", handlers.AdminUsersPage)
+	adminRoutes.Get("/upload-carousel-image", handlers.UploadCarouselImagePage)
+	adminRoutes.Post("/upload-carousel-image", handlers.UploadCarouselImage)
 	adminRoutes.Post("/locations", handlers.AddLocation)
 	adminRoutes.Get("/locations/:id", handlers.LocationGet)
 	adminRoutes.Get("/locations/:id/edit", handlers.EditLocationGet)

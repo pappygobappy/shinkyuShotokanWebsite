@@ -16,8 +16,8 @@ import (
 func Home(c *fiber.Ctx) error {
 	paths, _ := os.Getwd()
 	var imagePaths []string
+	// Add images from public/image_carousel (legacy)
 	err := filepath.Walk(paths+"/public/image_carousel/", func(path string, info os.FileInfo, err error) error {
-
 		if err != nil {
 			fmt.Println(err)
 			return nil
@@ -27,7 +27,18 @@ func Home(c *fiber.Ctx) error {
 		}
 		return nil
 	})
-
+	// Add images from UPLOAD_DIR/assets/image_carousel (uploaded)
+	uploadedCarouselPath := os.Getenv("UPLOAD_DIR") + "/assets/image_carousel/"
+	filepath.Walk(uploadedCarouselPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		}
+		if !info.IsDir() {
+			imagePaths = append(imagePaths, strings.Replace(path, os.Getenv("UPLOAD_DIR"), "/upload", 1))
+		}
+		return nil
+	})
 	eventImagePaths := getExistingEventCoverPhotos()
 	eventCardImagePaths := getExistingEventCardPhotos()
 

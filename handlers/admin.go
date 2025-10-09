@@ -161,3 +161,26 @@ func AdminUsersPage(c *fiber.Ctx) error {
 	fmt.Println(adminPage["Page"].(structs.Page).PageName)
 	return c.Render("adminPage", adminPage)
 }
+
+// UploadCarouselImage handles uploading new images for the home page carousel
+func UploadCarouselImage(c *fiber.Ctx) error {
+	file, err := c.FormFile("carouselImage")
+	if err != nil {
+		return c.Status(400).SendString("No file uploaded")
+	}
+	uploadDir := os.Getenv("UPLOAD_DIR") + "/assets/image_carousel/"
+	os.MkdirAll(uploadDir, 0700)
+	destination := uploadDir + file.Filename
+	if err := c.SaveFile(file, destination); err != nil {
+		return c.Status(500).SendString("Failed to save file")
+	}
+	return c.Redirect("/", 302)
+}
+
+// UploadCarouselImagePage renders the upload form for carousel images
+func UploadCarouselImagePage(c *fiber.Ctx) error {
+	return c.Render("upload_carousel_image", fiber.Map{
+		"Page": structs.Page{PageName: "Upload Carousel Image", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"user": c.Locals("user"),
+	})
+}
