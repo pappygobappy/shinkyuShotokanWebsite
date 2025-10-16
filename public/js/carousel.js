@@ -5,10 +5,10 @@ let showingSlides = false;
 var touchStartX;
 var touchStartY;
 
-if (location.pathname == "/") {
-    slideIndex = 0
-    showSlides();
-}
+
+slideIndex = 0
+showSlides();
+
 
 function clickShowSlides(plus) {
     clearTimeout(timeoutId)
@@ -41,7 +41,9 @@ function showSlides(plus = true) {
     }
     if (slides.length != 0) {
         slides[slideIndex - 1].style.display = "block";
-        dots[slideIndex - 1].className += " dot-active";
+        if (dots.length != 0) {
+            dots[slideIndex - 1].className += " dot-active";
+        }
         timeoutId = setTimeout(showSlides, 5000); // Change image every 2 seconds
     } else {
         clearTimeout(timeoutId)

@@ -1,0 +1,55 @@
+{{ define "sensei_sue" }}
+{{ if not .hxRequest }}
+{{ template "top" }}
+{{ end }}
+<div class="content">
+    {{ template "header" makeMap "Page" .Page "user" .user }}
+    <div class="history mx-auto md:py-5 md:px-7 max-w-5xl bg-base-100 md:rounded-xl md:my-5">
+        {{ template "image_carousel" makeMap "ImagePaths" .ImagePaths "BannerTitle" "Sensei Sue Miller" "BannerSubTitle"
+        "May 8th, 1959 - August 17th, 2025" "HideDots" true "Rounded" true "BannerAspectRatio" "video"}}
+        <div class="history-page p-3 mx-auto">
+            For over 50 years, Sensei Sue dedicated her life to karate and to Shinkyu Shotokan. While it was originally founded
+            by Sensei Leroy Rodrigues, it was Sensei Sue who grew Shinkyu Shotokan into the far-reaching, deeply connected
+            community we know today. She directly impacted hundreds of students of all ages through her classes, and was the
+            driving force behind all of our events, including the promotionals, beach workouts, and tournaments. Her teachings
+            extended far beyond the dojo walls, shaping generations with lessons in respect, perseverance, and self-belief.
+            <br /><br />
+            In the early 1990s, Sensei Sue recognized the need for a children’s karate class, and founded our first pre-karate
+            program. Here, students as young as three years old are welcomed as true karate practitioners. Under Sensei Sue’s
+            guidance, they didn’t just play martial arts, they learned discipline, respect, and foundational techniques with the
+            same care and seriousness as their older peers. While starting as a small class, the program has become one of our
+            biggest classes today. Later on, she would take even more responsibility, starting the women’s self defense class,
+            and taking on the teen and adult classes. Hundreds of people over the years found strength, focus, and friendship
+            under her guidance.
+            <br /><br />
+            She had a gift for seeing the potential in everyone who came into her class, and knew just how to help them rise to
+            meet it. Whether it was a shy child afraid to leave their parents, a teenager battling self-doubt, or an adult just
+            wanting to better themselves, Sensei Sue met each student with patience, humor, and encouragement.
+            <br /><br />
+            Sensei Sue also saw the importance of exposing her students to experiences outside of class. With the
+            promotionals, Sensei Sue brought students from every class together to test for their next rank, reinforcing the
+            belief that every practitioner, regardless of age or level, deserved equal respect and recognition. She started the
+            beach workouts as a way to bring our school together with neighboring dojos, turning training into a celebration and
+            strengthening bonds across the martial arts community. And in the year 2000, she started our annual tournament,
+            drawing hundreds of martial artists every year from the Bay Area and across the globe.
+            <br /><br />
+            Her dedication to her students and community knew no limits. Together with her husband Ron, Sensei Sue often
+            welcomed parents, students, and friends into their home for dinners and celebrations. Their annual tamale fest was a
+            beloved tradition that brought everyone together with laughter, warmth, and unforgettable flavor. They would often
+            host visiting instructors when they came for special events. And when students or friends faced hard times, they
+            would offer a place to stay.
+            <br /><br />
+            Though she is no longer with us, Sensei Sue’s legacy lives on. Her spirit echoes in every past and current student,
+            in every parent who watches their child grow stronger and more confident, and in every
+            instructor who carries forward her mission of teaching with strength and heart.
+            <br /><br />
+            We miss you Sensei.
+        </div>
+    </div>
+</div>
+{{ if not .hxRequest }}
+{{ template "footer" }}
+{{ else }}
+</div>
+{{ end }}
+{{ end }}

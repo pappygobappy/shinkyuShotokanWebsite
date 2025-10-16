@@ -104,6 +104,7 @@ func main() {
 	mainRoutes := app.Group("/", middleware.AttachUser)
 	mainRoutes.Get("/", handlers.Home)
 	mainRoutes.Get("/instructors", handlers.Instructors)
+	mainRoutes.Get("/instructors/sensei_sue", handlers.SenseiSue)
 	mainRoutes.Get("/history", handlers.History)
 	mainRoutes.Get("/events/:id", handlers.Event)
 	mainRoutes.Get("/requirements/:rank", handlers.Requirements)

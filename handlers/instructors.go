@@ -2,12 +2,15 @@ package handlers
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"path/filepath"
 	"shinkyuShotokan/models"
 	"shinkyuShotokan/queries"
 	"shinkyuShotokan/structs"
 	"shinkyuShotokan/utils"
 	"strconv"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -46,6 +49,32 @@ func Instructors(c *fiber.Ctx) error {
 	} else {
 		return c.Render("instructors", instructorsPage)
 	}
+}
+
+func SenseiSue(c *fiber.Ctx) error {
+	paths, _ := os.Getwd()
+	var imagePaths []string
+	// Add images from public/image_carousel (legacy)
+	err := filepath.Walk(paths+"/public/instructors/sensei_sue", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		}
+		if !info.IsDir() {
+			imagePaths = append(imagePaths, strings.Replace(path, paths, "", 1))
+		}
+		return nil
+	})
+	if err != nil {
+		log.Println("error making map")
+	}
+
+	instructorsPage := fiber.Map{
+		"Page":       structs.Page{PageName: "Instructors", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"ImagePaths": imagePaths,
+	}
+
+	return c.Render("sensei_sue", instructorsPage)
 }
 
 func MoveInstructor(c *fiber.Ctx) error {

@@ -14,15 +14,14 @@
                 <summary>{{ .Name }}</summary>
                 <ul class="p-2 z-10 font-normal">
                     {{ range .SubTabs }}
-                    <li><a hx-get="{{ .GetUrl }}" hx-push-url="true" hx-target=".content" hx-swap="outerHTML{{ if .ScrollTo }} show:{{ .ScrollTo }}:top{{ end }}">{{ htmlRender .Name
+                    <li><a href="{{ .GetUrl }}">{{ htmlRender .Name
                             }}</a></li>
                     {{ end }}
                 </ul>
             </details>
         </li>
         {{ else }}
-        <li><a hx-get="{{ .GetUrl }}"
-                hx-push-url="true" hx-target=".content" hx-swap="outerHTML{{ if .ScrollTo }} show:{{ .ScrollTo }}:top{{ end }}">{{ .Name }}</a></li>
+        <li><a href="{{ .GetUrl }}">{{ .Name }}</a></li>
         {{ end }}
         {{ end }}
         {{ if .user }}

@@ -11,7 +11,7 @@
     {{ end }}
     {{ template "header" makeMap "Page" .Page  "user" .user }}
     <div class="relative">
-        {{ template "image_carousel" .ImagePaths }}
+        {{ template "image_carousel" makeMap "ImagePaths" .ImagePaths }}
         {{ if .user }}
         <a href="/admin/upload-carousel-image" class="btn btn-primary shadow-xl absolute bottom-3 right-2">
             <div class="flex items-center justify-center">

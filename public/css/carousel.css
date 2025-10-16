@@ -20,7 +20,6 @@
 /* Slideshow container */
 .slideshow-container {
     position: relative;
-    aspect-ratio: 16 / 6;
     overflow: hidden;
 }
 

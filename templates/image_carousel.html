@@ -1,32 +1,47 @@
 {{ define "image_carousel" }}
 <div class="slideshow-wrapper shadow-sm" ontouchstart="handleTouchStart(event)" ontouchend="handleTouchEnd(event)">
-    <div class="slideshow-container flex items-center justify-center w-full">
-        {{ range . }}
+    <div class="slideshow-container aspect-{{ if .BannerAspectRatio }}{{ .BannerAspectRatio }}{{ else }}16/6{{ end }} flex items-center justify-center w-full {{ if .Rounded }}md:rounded-xl{{ end }}">
+        {{ range .ImagePaths }}
         <img src="{{ . }}" class="mySlides slide-fade w-full">
         {{ end }}
     </div>
+    {{ if .HideDots}}
+    {{ else }}
     <div class="slide-dot-container" style="text-align:left">
-        {{ range . }}
+        {{ range .ImagePaths }}
         <span class="dot"></span>
         {{ end }}
     </div>
-    <button
-        class="btn btn-circle btn-sm md:btn-md btn-outline absolute left-2 top-1/2 text-white transform -translate-y-1/2"
-        onclick="clickShowSlides(false)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left"
-            viewBox="0 0 16 16">
-            <path
-                d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z" />
-        </svg>
-    </button>
-    <button
-        class="btn btn-circle btn-sm md:btn-md btn-outline absolute right-2 top-1/2 text-white transform -translate-y-1/2"
-        onclick="clickShowSlides(true)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right"
-            viewBox="0 0 16 16">
-            <path
-                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
-        </svg>
-    </button>
+    {{ end }}
+    <div class="transform -translate-y-1/2 z-10 absolute left-2 top-1/2">
+        <button
+            class="btn btn-circle btn-sm md:btn-md btn-outline text-white"
+            onclick="clickShowSlides(false)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left"
+                viewBox="0 0 16 16">
+                <path
+                    d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z" />
+            </svg>
+        </button>
+    </div>
+    <div class="transform -translate-y-1/2 z-10 absolute right-2 top-1/2">
+        <button
+            class="btn btn-circle btn-sm md:btn-md btn-outline text-white"
+            onclick="clickShowSlides(true)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right"
+                viewBox="0 0 16 16">
+                <path
+                    d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+            </svg>
+        </button>
+    </div>
+    {{ if .BannerTitle }}
+    <div class="bg-gradient-to-b from-transparent to-black/70 text-white absolute bottom-0 w-full h-full md:h-3/4 grid grid-cols-1 content-end px-2 py-1 md:px-10 md:py-5 {{ if .Rounded }}md:rounded-xl{{ end }}">
+        <div class="text-3xl font-bold lg:text-5xl w-10/12 md:w-1/2">{{ .BannerTitle }}</div>
+        {{ if .BannerSubTitle }}
+        <div class="text-lg lg:text-2xl">{{ .BannerSubTitle }}</div>
+        {{ end }}
+    </div>
+    {{ end }}
 </div>
 {{ end }}
