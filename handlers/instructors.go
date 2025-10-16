@@ -61,7 +61,10 @@ func SenseiSue(c *fiber.Ctx) error {
 			return nil
 		}
 		if !info.IsDir() {
-			imagePaths = append(imagePaths, strings.Replace(path, paths, "", 1))
+			if path != paths {
+				path = strings.Replace(path, paths, "", 1)
+			}
+			imagePaths = append(imagePaths, path)
 		}
 		return nil
 	})
