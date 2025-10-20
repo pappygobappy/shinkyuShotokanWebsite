@@ -23,6 +23,29 @@ func SyncDb() {
 	seedEventTemplates()
 	seedInstructors()
 	seedCarouselImages()
+	setOwner()
+}
+
+func setOwner() {
+	var count int64
+	if err := DB.Model(&models.User{}).Count(&count).Error; err != nil {
+		log.Print("Error counting users", err)
+		return
+	}
+	if count != 1 {
+		return
+	}
+	var user models.User
+	if err := DB.First(&user).Error; err != nil {
+		log.Print("Error retrieving user", err)
+		return
+	}
+	if user.Type != "" {
+		return
+	}
+	if err := DB.Model(&user).Update("type", models.Owner).Error; err != nil {
+		log.Print("Error setting user type to owner", err)
+	}
 }
 
 func seedLocations() {

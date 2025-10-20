@@ -1,0 +1,31 @@
+{{ define "userProfile" }}
+<div class="text-3xl border-b py-5 flex flex-col md:flex-row md:items-center">
+    <div class="grow">
+        <label for="my-drawer-2" class="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+        </label>
+        <div>User Profile</div>
+    </div>
+</div>
+<div class="overflow-x-auto" id="userInfo">
+    <div class="flex items-center">
+        <button hx-get="/admin/userProfile/edit" hx-target="#userInfo" class="btn btn-primary btn-sm mr-2">
+            <div class="flex items-center">
+                {{ template "icon_edit" }}
+                <p>&nbsp;Edit</p>
+            </div>
+        </button>
+        <button hx-get="/admin/reset-password" hx-target="#userInfo" class="btn btn-primary btn-sm">
+            <div class="flex items-center">
+                {{ template "icon_change_password" }}
+                <p>&nbsp;Change Password</p>
+            </div>
+        </button>
+    </div>
+    <div>First Name: {{ .user.FirstName }}</div>
+    <div>Last Name: {{ .user.LastName }}</div>
+    <div>Email: {{ .user.Email }}</div>
+</div>
+{{ end }}

@@ -178,6 +178,10 @@ func main() {
 	adminRoutes.Post("/carousel-images/:id/restore", handlers.RestoreCarouselImage)
 	adminRoutes.Post("/carousel-images/:id/hard-delete", handlers.HardDeleteCarouselImage)
 
+	adminRoutes.Get("/userProfile", handlers.AdminUserProfilePage)
+	adminRoutes.Get("/userProfile/edit", handlers.GetUserProfilePageEdit)
+	adminRoutes.Post("/userProfile", handlers.PostUserProfilePageEdit)
+
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))
 	app.Listen(":" + os.Getenv("PORT"))

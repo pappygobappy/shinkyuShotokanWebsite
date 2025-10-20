@@ -9,6 +9,8 @@ import (
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
 	"shinkyuShotokan/queries"
+	"shinkyuShotokan/structs"
+	"shinkyuShotokan/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
@@ -25,6 +27,8 @@ func SignupGet(c *fiber.Ctx) error {
 func SignupPost(c *fiber.Ctx) error {
 	//Get the Username/password
 	var body struct {
+		FirstName       string
+		LastName        string
 		Email           string
 		Password        string
 		ConfirmPassword string
@@ -35,17 +39,16 @@ func SignupPost(c *fiber.Ctx) error {
 		return err
 	}
 
-	//Verify passwords match
-	if body.ConfirmPassword != body.Password {
+	if body.FirstName == "" || body.LastName == "" || body.Email == "" {
 		return c.Render("signup", fiber.Map{
-			"error": "Passwords don't match",
+			"error": "All fields are required",
 		})
 	}
 
 	//Verify password pattern
 	passValErr := passwordValidator.Validate(body.Password, minEntropyBits)
 	if passValErr != nil {
-		return c.Render("reset_password", fiber.Map{
+		return c.Render("signup", fiber.Map{
 			"error": "Password is not strong enough",
 		})
 	}
@@ -59,7 +62,7 @@ func SignupPost(c *fiber.Ctx) error {
 	}
 
 	//Create the user
-	user := models.User{Email: body.Email, PasswordHash: string(hash)}
+	user := models.User{FirstName: body.FirstName, LastName: body.LastName, Email: body.Email, PasswordHash: string(hash), Type: models.AdminUser}
 
 	result := initializers.DB.Create(&user)
 
@@ -362,7 +365,8 @@ func ResetPasswordPost(c *fiber.Ctx) error {
 	initializers.DB.Save(&user)
 
 	c.Locals("message", "Successfully reset Password!")
-	return Home(c)
+	c.Set("HX-Redirect", "/admin/userProfile")
+	return c.Next()
 }
 
 func LogoutPost(c *fiber.Ctx) error {
@@ -389,5 +393,41 @@ func LogoutPost(c *fiber.Ctx) error {
 		MaxAge:   3600 * 24 * 30,
 		HTTPOnly: true,
 	})
-	return c.Redirect("/")
+	c.Set("HX-Redirect", "/")
+	return c.Next()
+}
+
+func AdminUserProfilePage(c *fiber.Ctx) error {
+	return c.Render("adminPage", fiber.Map{
+		"Page": structs.Page{PageName: "User Profile", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+	})
+}
+
+func GetUserProfilePageEdit(c *fiber.Ctx) error {
+	return c.Render("userProfileEdit", fiber.Map{})
+}
+
+func PostUserProfilePageEdit(c *fiber.Ctx) error {
+	log.Println("PostUserProfilePageEdit")
+	user := c.Locals("user").(models.User)
+
+	var body struct {
+		FirstName string
+		LastName  string
+		Email     string
+	}
+
+	if err := c.BodyParser(&body); err != nil {
+		log.Print(err)
+		return err
+	}
+
+	user.FirstName = body.FirstName
+	user.LastName = body.LastName
+	user.Email = body.Email
+
+	initializers.DB.Save(&user)
+
+	c.Set("HX-Redirect", "/admin/userProfile")
+	return c.Next()
 }
