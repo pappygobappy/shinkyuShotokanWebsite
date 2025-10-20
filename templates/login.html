@@ -10,6 +10,15 @@
         <span>{{ .error }}</span>
     </div>
     {{ end }}
+    {{ if .success }}
+    <div class="alert alert-success max-w-lg my-2 shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ .success }}</span>
+    </div>
+    {{ end }}
     <div class="w-full p-6 bg-white border-gray-600 rounded-md shadow-md border-top lg:max-w-lg">
         <h1 class="text-3xl font-semibold text-center text-gray-700 flex flex-col items-center"><img
                 src="/public/ShinkyuShotokan.png" class="mr-3 h-16" alt="Shinkyu Shotokan Logo" />Shinkyu Shotokan Login
@@ -28,7 +37,7 @@
                 <input type="password" placeholder="Enter Password" class="w-full input input-bordered"
                     name="Password" />
             </div>
-            <a href="#" class="text-xs text-gray-600 hover:underline hover:text-blue-600">Forget Password?</a>
+            <a href="/forgot-password" class="text-xs text-gray-600 hover:underline hover:text-blue-600">Forget Password?</a>
             <div>
                 <button class="btn btn-primary btn-block">Login</button>
             </div>

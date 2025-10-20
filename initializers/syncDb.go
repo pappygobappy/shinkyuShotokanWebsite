@@ -14,7 +14,7 @@ var tz, _ = time.LoadLocation("America/Los_Angeles")
 func SyncDb() {
 	DB.AutoMigrate(
 		&models.CarouselImage{},
-		&models.User{}, &models.Event{}, &models.ClassSession{}, &models.ClassPeriod{}, &models.ClassAnnotation{}, &models.Instructor{},
+		&models.User{}, &models.Event{}, &models.ClassSession{}, &models.ClassPeriod{}, &models.ClassAnnotation{}, &models.Instructor{}, &models.PasswordResetToken{},
 	)
 
 	seedLocations()

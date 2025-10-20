@@ -115,6 +115,10 @@ func main() {
 	mainRoutes.Get("/signup", handlers.SignupGet)
 	mainRoutes.Post("/login", handlers.LoginPost)
 	mainRoutes.Post("/signup", handlers.SignupPost)
+	mainRoutes.Get("/forgot-password", handlers.ForgotPasswordGet)
+	mainRoutes.Post("/forgot-password", handlers.ForgotPasswordPost)
+	mainRoutes.Get("/reset-password/:token", handlers.ResetPasswordTokenGet)
+	mainRoutes.Post("/reset-password/:token", handlers.ResetPasswordTokenPost)
 	for _, class := range utils.Classes {
 		mainRoutes.Get(class.GetUrl, handlers.Classes)
 	}

@@ -3,14 +3,17 @@ package handlers
 import (
 	"log"
 	"os"
+	"strings"
+	"time"
+
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
-	"time"
+	"shinkyuShotokan/queries"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
-	"golang.org/x/crypto/bcrypt"
 	passwordValidator "github.com/wagslane/go-password-validator"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var minEntropyBits float64 = 60
@@ -95,7 +98,14 @@ func SignupPost(c *fiber.Ctx) error {
 }
 
 func LoginGet(c *fiber.Ctx) error {
-	return c.Render("login", fiber.Map{})
+	resetMessage := ""
+	if c.Query("reset") == "1" {
+		resetMessage = "Your password has been reset. Please log in."
+	}
+
+	return c.Render("login", fiber.Map{
+		"success": resetMessage,
+	})
 }
 
 func LoginPost(c *fiber.Ctx) error {
@@ -112,8 +122,7 @@ func LoginPost(c *fiber.Ctx) error {
 	}
 
 	//Look up requested user
-	var user models.User
-	initializers.DB.First(&user, "email = ?", body.Email)
+	user := queries.GetUserByEmail(body.Email)
 
 	if user.ID == 0 {
 		log.Println("Invalid email or password")
@@ -156,6 +165,132 @@ func LoginPost(c *fiber.Ctx) error {
 		HTTPOnly: true,
 	})
 	return c.Redirect("/")
+}
+
+func ForgotPasswordGet(c *fiber.Ctx) error {
+	return c.Render("forgot_password", fiber.Map{})
+}
+
+func ForgotPasswordPost(c *fiber.Ctx) error {
+	var body struct {
+		Email string
+	}
+
+	if err := c.BodyParser(&body); err != nil {
+		log.Println("failed to parse forgot password request", err)
+		return c.Render("forgot_password", fiber.Map{
+			"error": "Unable to process your request. Please try again.",
+		})
+	}
+
+	email := strings.TrimSpace(body.Email)
+	if email != "" {
+		user := queries.GetUserByEmail(email)
+		if user.ID != 0 {
+			queries.CreatePasswordResetToken(user, c)
+		}
+	}
+
+	return c.Render("forgot_password", fiber.Map{
+		"success": "If an account exists for that email, a password reset link has been sent.",
+	})
+}
+
+func ResetPasswordTokenGet(c *fiber.Ctx) error {
+	token := c.Params("token")
+	if token == "" {
+		return c.Render("forgot_password", fiber.Map{
+			"error": "The password reset link is invalid or has expired. Please request a new one.",
+		})
+	}
+
+	reset := queries.GetPasswordResetToken(token)
+	if reset.ID == 0 || reset.UsedAt != nil || reset.ExpiresAt.Before(time.Now()) {
+		return c.Render("forgot_password", fiber.Map{
+			"error": "The password reset link is invalid or has expired. Please request a new one.",
+		})
+	}
+
+	return c.Render("reset_password_token", fiber.Map{
+		"token": token,
+	})
+}
+
+func ResetPasswordTokenPost(c *fiber.Ctx) error {
+	token := c.Params("token")
+	if token == "" {
+		return c.Render("forgot_password", fiber.Map{
+			"error": "The password reset link is invalid or has expired. Please request a new one.",
+		})
+	}
+
+	var body struct {
+		NewPassword        string
+		ConfirmNewPassword string
+	}
+
+	if err := c.BodyParser(&body); err != nil {
+		log.Println("failed to parse password reset token request", err)
+		return c.Render("forgot_password", fiber.Map{
+			"error": "Unable to process your request. Please try again.",
+		})
+	}
+
+	if body.NewPassword != body.ConfirmNewPassword {
+		return c.Render("reset_password_token", fiber.Map{
+			"token": token,
+			"error": "Passwords don't match",
+		})
+	}
+
+	if err := passwordValidator.Validate(body.NewPassword, minEntropyBits); err != nil {
+		return c.Render("reset_password_token", fiber.Map{
+			"token": token,
+			"error": "Password is not strong enough.",
+		})
+	}
+
+	reset := queries.GetPasswordResetToken(token)
+	if reset.ID == 0 || reset.UsedAt != nil || reset.ExpiresAt.Before(time.Now()) {
+		return c.Render("forgot_password", fiber.Map{
+			"error": "The password reset link is invalid or has expired. Please request a new one.",
+		})
+	}
+
+	user := queries.GetUserById(reset.UserID)
+	if user.ID == 0 {
+		return c.Render("forgot_password", fiber.Map{
+			"error": "The password reset link is invalid or has expired. Please request a new one.",
+		})
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(body.NewPassword), 10)
+	if err != nil {
+		log.Println("failed to hash password during reset", err)
+		return c.Render("reset_password_token", fiber.Map{
+			"token": token,
+			"error": "Unable to reset password at this time.",
+		})
+	}
+
+	user.PasswordHash = string(hash)
+	if err := initializers.DB.Save(&user).Error; err != nil {
+		log.Println("failed to save user during password reset", err)
+		return c.Render("reset_password_token", fiber.Map{
+			"token": token,
+			"error": "Unable to reset password at this time.",
+		})
+	}
+
+	now := time.Now()
+	reset.UsedAt = &now
+	if err := initializers.DB.Save(&reset).Error; err != nil {
+		log.Println("failed to mark reset token used", err)
+	}
+
+	initializers.DB.Where("user_id = ? AND token <> ?", user.ID, reset.Token).Delete(&models.PasswordResetToken{})
+
+	return c.Redirect("/login?reset=1")
 }
 
 func ResetPasswordGet(c *fiber.Ctx) error {
