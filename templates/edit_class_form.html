@@ -15,9 +15,7 @@
         <textarea placeholder="Schedule" class="textarea textarea-bordered textarea-lg w-full h-36" name="Schedule"
             required>{{ .Class.Schedule }}</textarea>
         <div class="btn btn-primary btn-sm md:btn-md" onclick="addNewAnnotationForm(this)">
-            <svg class="Q6yead QJZfhe " width="24" height="24" viewBox="0 0 24 24" focusable="false">
-                <path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path>
-            </svg>
+            {{ template "icon_plus" }}
             Add Annotation
         </div>
         <table class="table table-sm table-zebra" style="min-width: 500px;">

@@ -3,14 +3,10 @@
 <div class="content">
     <div class="relative flex flex-col items-center justify-center h-screen overflow-hidden">
         {{ if .error }}
-            <div class="alert alert-error max-w-lg my-2 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>{{ .error }}</span>
-            </div>
+        <div class="alert alert-error max-w-lg my-2 shadow-lg">
+            {{ template "icon_alert" }}
+            <span>{{ .error }}</span>
+        </div>
         {{ end }}
         <div class="w-full p-6 bg-white border-gray-600 rounded-md shadow-md border-top lg:max-w-lg">
             
