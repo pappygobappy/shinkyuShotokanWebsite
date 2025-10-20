@@ -152,8 +152,8 @@ func main() {
 	adminRoutes.Put("/events/:id", handlers.EditEventPost)
 	adminRoutes.Delete("/events/:id", handlers.DeleteEventPost)
 	adminRoutes.Post("/logout", handlers.LogoutPost)
-	adminRoutes.Get("/reset-password", handlers.ResetPasswordGet)
-	adminRoutes.Post("/reset-password", handlers.ResetPasswordPost)
+	adminRoutes.Get("/reset-password", handlers.ChangePasswordGet)
+	adminRoutes.Post("/reset-password", handlers.ChangePasswordPost)
 	adminRoutes.Post("/start_add_event", handlers.StartAddEvent)
 
 	// Event Template Admin Routes

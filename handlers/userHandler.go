@@ -296,11 +296,11 @@ func ResetPasswordTokenPost(c *fiber.Ctx) error {
 	return c.Redirect("/login?reset=1")
 }
 
-func ResetPasswordGet(c *fiber.Ctx) error {
-	return c.Render("reset_password", fiber.Map{})
+func ChangePasswordGet(c *fiber.Ctx) error {
+	return c.Render("change_password", fiber.Map{})
 }
 
-func ResetPasswordPost(c *fiber.Ctx) error {
+func ChangePasswordPost(c *fiber.Ctx) error {
 
 	u := c.Locals("user")
 	user, _ := u.(models.User)
@@ -310,7 +310,7 @@ func ResetPasswordPost(c *fiber.Ctx) error {
 
 	if user.ID == 0 {
 		log.Println("Invalid email or password")
-		return c.Render("reset_password", fiber.Map{
+		return c.Render("change_password", fiber.Map{
 			"error": "Email or password is incorrect",
 		})
 	}
@@ -329,7 +329,7 @@ func ResetPasswordPost(c *fiber.Ctx) error {
 
 	//Verify passwords match
 	if body.ConfirmNewPassword != body.NewPassword {
-		return c.Render("reset_password", fiber.Map{
+		return c.Render("change_password", fiber.Map{
 			"error": "Passwords don't match",
 		})
 	}
@@ -337,7 +337,7 @@ func ResetPasswordPost(c *fiber.Ctx) error {
 	//Verify password pattern
 	passValErr := passwordValidator.Validate(body.NewPassword, minEntropyBits)
 	if passValErr != nil {
-		return c.Render("reset_password", fiber.Map{
+		return c.Render("change_password", fiber.Map{
 			"error": "Password is not strong enough.",
 		})
 	}
@@ -347,7 +347,7 @@ func ResetPasswordPost(c *fiber.Ctx) error {
 
 	if err != nil {
 		log.Println("Invalid email or password")
-		return c.Render("reset_password", fiber.Map{
+		return c.Render("change_password", fiber.Map{
 			"error": "Email or password is incorrect",
 		})
 	}
