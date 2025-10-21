@@ -149,7 +149,7 @@ func CalendarItemView(c *fiber.Ctx) error {
 
 func AddClassSessionForm(c *fiber.Ctx) error {
 	var periods []models.ClassPeriod
-	result := initializers.DB.Where("end_date > ?", time.Now()).Order("start_date desc").Limit(4).Find(&periods)
+	result := initializers.DB.Where("end_date > ?", time.Now()).Order("start_date").Limit(4).Find(&periods)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}
