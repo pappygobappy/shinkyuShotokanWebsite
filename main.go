@@ -126,7 +126,6 @@ func main() {
 	adminRoutes := app.Group("admin", middleware.RequireAuth)
 	adminRoutes.Get("/", handlers.AdminPage)
 	adminRoutes.Get("/locations", handlers.AdminLocationPage)
-	adminRoutes.Get("/users", handlers.AdminUsersPage)
 	adminRoutes.Get("/upload-carousel-image", handlers.UploadCarouselImagePage)
 	adminRoutes.Post("/upload-carousel-image", handlers.UploadCarouselImage)
 	adminRoutes.Post("/locations", handlers.AddLocation)
@@ -181,6 +180,10 @@ func main() {
 	adminRoutes.Get("/userProfile", handlers.AdminUserProfilePage)
 	adminRoutes.Get("/userProfile/edit", handlers.GetUserProfilePageEdit)
 	adminRoutes.Post("/userProfile", handlers.PostUserProfilePageEdit)
+
+	//Owner Routes
+	ownerRoutes := app.Group("owner", middleware.RequireOwnerAuth)
+	ownerRoutes.Get("/users", handlers.AdminUsersPage)
 
 	//Start App
 	//log.Fatal(http.ListenAndServe(":8000", nil))

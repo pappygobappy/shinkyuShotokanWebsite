@@ -21,6 +21,9 @@ import (
 var minEntropyBits float64 = 60
 
 func SignupGet(c *fiber.Ctx) error {
+	if c.Locals("user") != nil {
+		return c.Redirect("/")
+	}
 	return c.Render("signup", fiber.Map{})
 }
 
@@ -101,6 +104,9 @@ func SignupPost(c *fiber.Ctx) error {
 }
 
 func LoginGet(c *fiber.Ctx) error {
+	if c.Locals("user") != nil {
+		return c.Redirect("/")
+	}
 	resetMessage := ""
 	if c.Query("reset") == "1" {
 		resetMessage = "Your password has been reset. Please log in."

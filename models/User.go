@@ -6,7 +6,7 @@ type UserType string
 
 const (
 	AdminUser UserType = "admin"
-	Owner     UserType = "owner"
+	OwnerUser UserType = "owner"
 )
 
 type User struct {

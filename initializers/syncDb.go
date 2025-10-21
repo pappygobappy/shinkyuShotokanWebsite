@@ -43,7 +43,7 @@ func setOwner() {
 	if user.Type != "" {
 		return
 	}
-	if err := DB.Model(&user).Update("type", models.Owner).Error; err != nil {
+	if err := DB.Model(&user).Update("type", models.OwnerUser).Error; err != nil {
 		log.Print("Error setting user type to owner", err)
 	}
 }
