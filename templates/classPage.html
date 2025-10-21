@@ -2,7 +2,7 @@
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     <div class="class mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
-        {{ $title := (print .Class.Name " Karate Class") }}
+        {{ $title := .Class.DisplayName }}
         {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust "BannerTitle" $title }}
         <div class="class-body p-3 md:p-0">
             {{ if .user }}

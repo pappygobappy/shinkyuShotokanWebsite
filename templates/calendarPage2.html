@@ -77,7 +77,6 @@
                             {{ range .Sunday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
-                            
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
@@ -86,7 +85,6 @@
                             {{ range .Monday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
-                            
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
@@ -95,7 +93,6 @@
                             {{ range .Tuesday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
-                            
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
@@ -104,7 +101,6 @@
                             {{ range .Wednesday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
-                            
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
@@ -113,7 +109,6 @@
                             {{ range .Thursday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
-                            
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
@@ -122,7 +117,6 @@
                             {{ range .Friday.Events }}
                             {{ template "calendarItem" . }}
                             {{ end }}
-                            
                         </div>
                         <div class="relative flex flex-col bg-white group min-h-16">
                             <span
@@ -130,8 +124,7 @@
                                 if gt .Saturday.Day.Day 0 }}{{ .Saturday.Day.Day }}{{ end }}</span>
                             {{ range .Saturday.Events }}
                             {{ template "calendarItem" . }}
-                            {{ end }}
-                            
+                            {{ end }}                           
                         </div>
                         {{ end }}
                     </div>
