@@ -163,3 +163,40 @@ function previewExistingBannerImage(event) {
     console.log(event)
     output.src = event.target.src;
 };
+
+const image = document.getElementById('scaling-image');
+const height = image.offsetHeight;
+
+function handleScroll() {
+    if (window.innerWidth >= 1024) { // Tailwind's md breakpoint is 768px
+        const scrollPosition = window.scrollY;
+        let newScale = 100 - (scrollPosition * 0.1);
+        if (newScale < 50) newScale = 50;
+        if (newScale > 100) newScale = 100;
+        
+        const newHeight = (newScale / 100) * height;
+        image.style.height = newHeight + 'px';
+    } else {
+        // Reset to original height on smaller screens
+        image.style.height = '';
+    }
+}
+
+// Add event listeners
+window.addEventListener('scroll', handleScroll);
+// Handle window resize to enable/disable effect
+window.addEventListener('resize', function() {
+    // Only update height if we're crossing the md breakpoint
+    const isNowDesktop = window.innerWidth >= 1024;
+    const wasDesktop = image.offsetHeight !== 0 && image.offsetHeight !== height;
+    
+    if(!isNowDesktop){
+        image.style.height = '';
+    }
+
+
+    // if (isNowDesktop !== wasDesktop) {
+    //     height = image.offsetHeight; // Update the base height
+    //     handleScroll();
+    // }
+});

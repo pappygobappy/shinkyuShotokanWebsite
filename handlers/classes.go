@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"log"
+	"os"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
 	"shinkyuShotokan/queries"
@@ -70,6 +71,27 @@ func EditClassPut(c *fiber.Ctx) error {
 	class.Schedule = body.Schedule
 	class.Description = body.Description
 	class.LocationID = body.Location
+	file, err := c.FormFile("BannerImage")
+	if err == nil {
+		uploadDir := os.Getenv("UPLOAD_DIR") + "/assets/image_carousel/"
+		os.MkdirAll(uploadDir, 0700)
+		destination := uploadDir + file.Filename
+		if err := c.SaveFile(file, destination); err != nil {
+			log.Println(err)
+		}
+		class.BannerPhoto = destination
+	}
+
+	file, err = c.FormFile("CardImage")
+	if err == nil {
+		uploadDir := os.Getenv("UPLOAD_DIR") + "/assets/image_carousel/"
+		os.MkdirAll(uploadDir, 0700)
+		destination := uploadDir + file.Filename
+		if err := c.SaveFile(file, destination); err != nil {
+			log.Println(err)
+		}
+		class.CardPhoto = destination
+	}
 
 	initializers.DB.Unscoped().Model(&class).Association("Annotations").Unscoped().Clear()
 
