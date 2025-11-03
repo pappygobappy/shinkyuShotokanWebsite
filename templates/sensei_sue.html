@@ -2,9 +2,9 @@
 {{ if not .hxRequest }}
 {{ template "top" }}
 {{ end }}
-<div class="content h-screen">
+<div class="content max-h-fit">
     {{ template "header" makeMap "Page" .Page "user" .user }}
-    <div class="history mx-auto md:py-5 md:px-7 max-w-5xl bg-base-100 md:rounded-xl md:my-5 flex flex-col h-screen" >
+    <div class="history mx-auto md:py-5 md:px-7 max-w-5xl bg-base-100 md:rounded-xl md:my-5 flex flex-col h-screen max-h-fit" >
         {{ template "image_carousel" makeMap "ImagePaths" .ImagePaths "BannerTitle" "Sensei Sue Miller" "BannerSubTitle"
         "May 8th, 1959 - August 17th, 2025" "HideDots" true "Rounded" true "BannerAspectRatio" "video" "BannerBaseline" true "BannerScaleScroll" true }}
         <div class="flex-1 mt-3 overflow-y-auto">
