@@ -132,21 +132,21 @@ func Init() {
 		1st dan`, GetUrl: "/requirements/1stdan"},
 	}
 
-	// instructorTabs := []structs.Tab{
-	// 	{
-	// 		Name:   "Sensei Sue Miller",
-	// 		GetUrl: "/instructors/sensei_sue",
-	// 	},
-	// 	{
-	// 		Name:   "Current Instructors",
-	// 		GetUrl: "/instructors",
-	// 	},
-	// }
+	instructorTabs := []structs.Tab{
+		{
+			Name:   "Sensei Sue Miller",
+			GetUrl: "/instructors/sensei_sue",
+		},
+		{
+			Name:   "Current Instructors",
+			GetUrl: "/instructors",
+		},
+	}
 
 	Tabs = []structs.Tab{
 		{Name: "Home", GetUrl: "/"},
-		//		{Name: "Instructors", SubTabs: instructorTabs},
-		{Name: "Instructors", GetUrl: "/instructors"},
+		{Name: "Instructors", SubTabs: instructorTabs},
+		// {Name: "Instructors", GetUrl: "/instructors"},
 		{Name: "History", GetUrl: "/history"},
 		{Name: "Classes", SubTabs: classesTabs},
 		{Name: "Requirements", SubTabs: requirementsTabs},
