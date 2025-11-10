@@ -305,24 +305,6 @@ function updateOffsetYValue(input) {
     });
 }
 
-// Initialize slider values on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // These will be set by the server-side template
-    const zoomInput = document.querySelector('input[name="ZoomLevel"]');
-    const offsetXInput = document.querySelector('input[name="OffsetX"]');
-    const offsetYInput = document.querySelector('input[name="OffsetY"]');
-    
-    // Update displays with initial values
-    if (zoomInput) {
-        document.getElementById('zoomValue').textContent = `${zoomInput.value}%`;
-    }
-    if (offsetXInput) {
-        document.getElementById('offsetXValue').textContent = `${offsetXInput.value}px`;
-    }
-    if (offsetYInput) {
-        document.getElementById('offsetYValue').textContent = `${offsetYInput.value}px`;
-    }
-});
 
 // Add event listeners
 window.addEventListener('scroll', handleScroll);

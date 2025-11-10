@@ -3,7 +3,7 @@
     <div {{ if .BannerScaleScroll }}id="scaling-image"{{ end }}
         class="slideshow-container aspect-{{ if .BannerAspectRatio }}{{ .BannerAspectRatio }}{{ else }}16/6{{ end }} flex items-{{ if .BannerBaseline }}baseline{{ else }}center{{ end }} justify-center w-full {{ if .Rounded }}md:rounded-xl{{ end }}">
         {{ range .ImagePaths }}
-        <img src="{{ . }}" class="mySlides slide-fade w-full">
+        <img src="{{ . }}" class="mySlides object-cover slide-fade w-full">
         {{ end }}
     </div>
     {{ if .HideDots}}
