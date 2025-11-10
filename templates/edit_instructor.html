@@ -10,6 +10,12 @@
                 <!-- Form Column -->
                 <div>
                     <form {{ if .Instructor.ID }}hx-put="/admin/instructors/{{ .Instructor.ID }}"{{ else }}hx-post="/admin/instructors"{{ end }} hx-target=".content" hx-push-url="true" hx-swap="outerHTML" enctype="multipart/form-data">
+                        <div class="flex items-center gap-2 mb-4">
+                            <input type="checkbox" name="Hidden" class="checkbox checkbox-warning" id="hidden-checkbox" {{ if .Instructor.Hidden }}checked{{ end }}>
+                            <label for="hidden-checkbox" class="cursor-pointer">
+                                <span class="label-text">Hidden</span>
+                            </label>
+                        </div>
                         <div class="form-control w-full">
                             <label class="label">
                                 <span class="label-text">Instructor Name</span>
@@ -37,7 +43,7 @@
                                 <span class="label-text">Upload New Picture</span>
                             </label>
                             <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full" 
-                                   name="NewPicture" id="picture-upload" onchange="previewImage(this)" />
+                                   name="NewPicture" id="picture-upload" onchange="previewInstructorImage(this)" />
                             <div class="label">
                                 <span class="label-text-alt">{{ if .Instructor.ID }}Leave empty to keep current picture{{ else }}Optional{{ end }}</span>
                             </div>
@@ -92,11 +98,9 @@
                         <div class="h-72 mx-auto mb-5 lg:pb-0 overflow-hidden rounded-xl">
                             <img id="preview-picture" 
                                  class="w-full h-full object-cover origin-center transform transition-transform duration-200 ease-in-out {{ if not .Instructor.PictureUrl }}hidden{{ end }}" 
+                                 style="transform: translateX({{ if .Instructor.OffsetX }}{{ .Instructor.OffsetX }}px{{ else }}0{{ end }}) translateY({{ if .Instructor.OffsetY }}{{ .Instructor.OffsetY }}px{{ else }}0{{ end }}) scale({{ if .Instructor.ZoomLevel }}{{ .Instructor.InitialZoomLevel }}{{ else }}1{{ end }});"
                                  src="{{ .Instructor.PictureUrl }}" 
-                                 alt="Instructor preview"
-                                 style="transform: scale({{ if .Instructor.ZoomLevel }}{{ .Instructor.InitialZoomLevel }}{{ else }}1{{ end }});
-                                 translateX({{ if .Instructor.OffsetX }}{{ .Instructor.OffsetX }}px{{ else }}0{{ end }});
-                                 translateY({{ if .Instructor.OffsetY }}{{ .Instructor.OffsetY }}px{{ else }}0{{ end }});">
+                                 alt="Instructor preview">
                         </div>
                         <div class="px-4 lg:px-8 flex-1">
                             <div class="flex justify-between items-start">

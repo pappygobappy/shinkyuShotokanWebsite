@@ -126,6 +126,7 @@ func EditInstructorPut(c *fiber.Ctx) error {
 	zoomLevel, _ := strconv.ParseInt(c.FormValue("ZoomLevel"), 10, 64)
 	offsetX, _ := strconv.ParseInt(c.FormValue("OffsetX"), 10, 64)
 	offsetY, _ := strconv.ParseInt(c.FormValue("OffsetY"), 10, 64)
+	hidden := c.FormValue("Hidden") == "on"
 
 	// Handle optional new picture
 	if file, err := c.FormFile("NewPicture"); err == nil && file != nil {
@@ -141,6 +142,7 @@ func EditInstructorPut(c *fiber.Ctx) error {
 	instructor.ZoomLevel = int(zoomLevel)
 	instructor.OffsetX = int(offsetX)
 	instructor.OffsetY = int(offsetY)
+	instructor.Hidden = hidden
 	queries.UpdateInstructor(instructor)
 
 	// After update, go back to instructors list
@@ -156,13 +158,13 @@ func AddInstructorGet(c *fiber.Ctx) error {
 }
 
 func AddInstructorPost(c *fiber.Ctx) error {
-	var body struct {
-		Name string
-		Bio  string
-	}
-	if err := c.BodyParser(&body); err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, "invalid form")
-	}
+	// Get form values
+	name := c.FormValue("Name")
+	bio := c.FormValue("Bio")
+	zoomLevel, _ := strconv.ParseInt(c.FormValue("ZoomLevel"), 10, 64)
+	offsetX, _ := strconv.ParseInt(c.FormValue("OffsetX"), 10, 64)
+	offsetY, _ := strconv.ParseInt(c.FormValue("OffsetY"), 10, 64)
+	hidden := c.FormValue("Hidden") == "on"
 
 	pictureUrl := ""
 	if file, err := c.FormFile("NewPicture"); err == nil && file != nil {
@@ -174,7 +176,7 @@ func AddInstructorPost(c *fiber.Ctx) error {
 	}
 
 	order := queries.GetNextInstructorDisplayOrder()
-	instructor := models.Instructor{Name: body.Name, Bio: body.Bio, PictureUrl: pictureUrl, DisplayOrder: order}
+	instructor := models.Instructor{Name: name, Bio: bio, PictureUrl: pictureUrl, DisplayOrder: order, Hidden: hidden, ZoomLevel: int(zoomLevel), OffsetX: int(offsetX), OffsetY: int(offsetY)}
 	queries.CreateInstructor(instructor)
 	return Instructors(c)
 }
