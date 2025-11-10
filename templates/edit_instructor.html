@@ -6,57 +6,133 @@
             <h1>{{ if .Instructor.ID }}Edit{{ else }}Add{{ end }} Instructor</h1>
         </div>
         <div class="p-6">
-            <form {{ if .Instructor.ID }}hx-put="/admin/instructors/{{ .Instructor.ID }}"{{ else }}hx-post="/admin/instructors"{{ end }} hx-target=".content" hx-push-url="true" hx-swap="outerHTML" enctype="multipart/form-data">
-                <div class="form-control w-full max-w-xs">
-                    <label class="label">
-                        <span class="label-text">Instructor Name</span>
-                    </label>
-                    <input type="text" placeholder="Instructor Name" class="input input-bordered w-full max-w-xs" 
-                           value="{{ .Instructor.Name }}" name="Name" required />
-                </div>
-                
-                {{ if .Instructor.ID }}
-                    <div class="form-control w-full max-w-xs">
-                        <label class="label">
-                            <span class="label-text">Current Picture</span>
-                        </label>
-                        <div class="flex items-center gap-4">
-                            <img src="{{ .Instructor.PictureUrl }}" alt="Current instructor photo" class="w-20 h-20 object-cover rounded-lg">
-                            <div class="text-sm text-gray-600">
-                                Current: {{ .Instructor.PictureUrl }}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Form Column -->
+                <div>
+                    <form {{ if .Instructor.ID }}hx-put="/admin/instructors/{{ .Instructor.ID }}"{{ else }}hx-post="/admin/instructors"{{ end }} hx-target=".content" hx-push-url="true" hx-swap="outerHTML" enctype="multipart/form-data">
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text">Instructor Name</span>
+                            </label>
+                            <input type="text" placeholder="Instructor Name" class="input input-bordered w-full" 
+                                   value="{{ .Instructor.Name }}" name="Name" id="name-input" oninput="updatePreview()" required />
+                        </div>
+                        
+                        {{ if .Instructor.ID }}
+                            <div class="form-control w-full mt-4">
+                                <label class="label">
+                                    <span class="label-text">Current Picture</span>
+                                </label>
+                                <div class="flex items-center gap-4">
+                                    <img src="{{ .Instructor.PictureUrl }}" alt="Current instructor photo" class="w-20 h-20 object-cover rounded-lg" id="current-picture">
+                                    <div class="text-sm text-gray-600">
+                                        Current: {{ .Instructor.PictureUrl }}
+                                    </div>
+                                </div>
+                            </div>
+                        {{ end }}
+                        
+                        <div class="form-control w-full mt-4">
+                            <label class="label">
+                                <span class="label-text">Upload New Picture</span>
+                            </label>
+                            <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full" 
+                                   name="NewPicture" id="picture-upload" onchange="previewImage(this)" />
+                            <div class="label">
+                                <span class="label-text-alt">{{ if .Instructor.ID }}Leave empty to keep current picture{{ else }}Optional{{ end }}</span>
                             </div>
                         </div>
-                    </div>
-                {{ end }}
-                
-                <div class="form-control w-full max-w-xs">
-                    <label class="label">
-                        <span class="label-text">Upload New Picture</span>
-                    </label>
-                    <input type="file" accept="image/*" class="file-input file-input-bordered file-input-warning w-full max-w-xs" 
-                           name="NewPicture" />
-                    <div class="label">
-                        <span class="label-text-alt">{{ if .Instructor.ID }}Leave empty to keep current picture{{ else }}Optional{{ end }}</span>
-                    </div>
+                        
+                        <div class="form-control w-full mt-4">
+                            <label class="label">
+                                <span class="label-text">Bio</span>
+                            </label>
+                            <textarea placeholder="Instructor bio..." class="textarea textarea-bordered textarea-lg w-full h-72" 
+                                      name="Bio" id="bio-input" oninput="updatePreview()">{{ .Instructor.Bio }}</textarea>
+                        </div>
+                        
+                        <div class="form-control mt-6">
+                            <div class="flex gap-2 pt-4">
+                                <button type="submit" class="btn btn-primary">{{ if .Instructor.ID }}Update Instructor{{ else }}Create Instructor{{ end }}</button>
+                                <a href="/instructors" class="btn btn-ghost">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 
-                
-                <div class="form-control w-full max-w-2xl">
-                    <label class="label">
-                        <span class="label-text">Bio</span>
-                    </label>
-                    <textarea placeholder="Instructor bio..." class="textarea textarea-bordered textarea-lg w-full h-72" 
-                              name="Bio" required>{{ .Instructor.Bio }}</textarea>
-                </div>
-                
-                <div class="form-control mt-6">
-                    <div class="flex gap-2 pt-4">
-                        <button type="submit" class="btn btn-primary">{{ if .Instructor.ID }}Update Instructor{{ else }}Create Instructor{{ end }}</button>
-                        <a href="/instructors" class="btn btn-ghost">Cancel</a>
+                <!-- Preview Column -->
+                <div class="border-l pl-8">
+                    <h2 class="text-2xl font-bold mb-6">Preview</h2>
+                    <div class="instructor md:flex py-7">
+                        <img id="preview-picture" 
+                             class="rounded-xl mx-auto h-72 mb-5 lg:pb-0 {{ if not .Instructor.PictureUrl }}hidden{{ end }}" 
+                             src="{{ .Instructor.PictureUrl }}" 
+                             alt="Instructor preview">
+                        <div class="px-4 lg:px-8 flex-1">
+                            <div class="flex justify-between items-start">
+                                <h1 id="preview-name" class="text-xl pb-5 font-bold">{{ .Instructor.Name }}</h1>
+                            </div>
+                            <p id="preview-bio">{{ .Instructor.Bio }}</p>
+                        </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    function updatePreview() {
+        // Update name
+        const nameInput = document.getElementById('name-input');
+        const previewName = document.getElementById('preview-name');
+        if (nameInput && previewName) {
+            previewName.textContent = nameInput.value || 'Instructor Name';
+        }
+
+        // Update bio
+        const bioInput = document.getElementById('bio-input');
+        const previewBio = document.getElementById('preview-bio');
+        if (bioInput && previewBio) {
+            previewBio.textContent = bioInput.value || 'Instructor bio will appear here...';
+        }
+    }
+
+    function previewImage(input) {
+        const preview = document.getElementById('preview-picture');
+        const currentPicture = document.getElementById('current-picture');
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                if (currentPicture) {
+                    currentPicture.src = e.target.result;
+                }
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        } else if (currentPicture && currentPicture.src) {
+            // If no new file is selected but there's a current picture, use that
+            preview.src = currentPicture.src;
+            preview.classList.remove('hidden');
+        } else {
+            // If no picture is available, hide the preview
+            preview.classList.add('hidden');
+        }
+    }
+
+    // Initialize preview on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updatePreview();
+        
+        // If there's no current picture but we have a file input with a file, update the preview
+        const fileInput = document.getElementById('picture-upload');
+        if (fileInput && fileInput.files.length > 0) {
+            previewImage(fileInput);
+        }
+    });
+</script>
 {{ end }}
