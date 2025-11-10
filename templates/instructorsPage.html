@@ -2,7 +2,10 @@
 <div class="content">
     {{ template "header" makeMap "Page" .Page "user" .user }}
     <div class="instructors mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
-        {{ template "banner_image" makeMap "Banner" "/public/instructors/original_0dba6fc4-1896-4cc8-926b-56568fb5ea74_PXL_20230827_175124417 (1).jpg" "BannerAspectRatio" "16/5" "BannerScale" 100 "BannerTitle" "Shinkyu Shotokan Karate Instructors" }}
+        <div class="relative">
+            {{ template "banner_image" makeMap "Banner" .CurrentInstructorsPagePhoto "BannerAspectRatio" "16/7" "BannerScale" 100 "BannerTitle" "Shinkyu Shotokan Karate Instructors" "BannerScaleScroll" true }}
+            {{ template "upload_image_button" makeMap "user" .user "href" "/admin/instructors/upload-page-image" }}
+        </div>
         <div class="instructors-body p-3 md:p-0">
             {{ if .user }}
             <div class="flex justify-end py-4">

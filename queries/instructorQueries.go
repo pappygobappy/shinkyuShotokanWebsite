@@ -5,6 +5,26 @@ import (
 	"shinkyuShotokan/models"
 )
 
+func getCurrentInstructorsPage() models.CurrentInstructorsPage {
+	var page models.CurrentInstructorsPage
+	initializers.DB.First(&page)
+	return page
+}
+
+func GetCurrentInstructorsPagePhoto() string {
+	page := getCurrentInstructorsPage()
+	if page.ID == 0 || page.PictureUrl == "" {
+		return "/public/instructors/original_0dba6fc4-1896-4cc8-926b-56568fb5ea74_PXL_20230827_175124417 (1).jpg"
+	}
+	return page.PictureUrl
+}
+
+func SetCurrentInstructorsPagePhoto(url string) {
+	page := getCurrentInstructorsPage()
+	page.PictureUrl = url
+	initializers.DB.Save(&page)
+}
+
 func GetInstructors() []models.Instructor {
 	var instructors []models.Instructor
 	initializers.DB.Order("display_order asc, id asc").Find(&instructors)

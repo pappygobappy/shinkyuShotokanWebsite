@@ -154,7 +154,7 @@ func AdminUsersPage(c *fiber.Ctx) error {
 
 // UploadCarouselImage handles uploading new images for the home page carousel
 func UploadCarouselImage(c *fiber.Ctx) error {
-	file, err := c.FormFile("carouselImage")
+	file, err := c.FormFile("image")
 	if err != nil {
 		return c.Status(400).SendString("No file uploaded")
 	}
@@ -174,9 +174,11 @@ func UploadCarouselImage(c *fiber.Ctx) error {
 
 // UploadCarouselImagePage renders the upload form for carousel images
 func UploadCarouselImagePage(c *fiber.Ctx) error {
-	return c.Render("upload_carousel_image", fiber.Map{
-		"Page": structs.Page{PageName: "Upload Carousel Image", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
-		"user": c.Locals("user"),
+	return c.Render("upload_image_form", fiber.Map{
+		"Page":       structs.Page{PageName: "Upload Carousel Image", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"user":       c.Locals("user"),
+		"title":      "Upload Carousel Image",
+		"formAction": "/admin/upload-carousel-image",
 	})
 }
 

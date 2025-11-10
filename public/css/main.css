@@ -3597,14 +3597,6 @@ html {
   max-height: 24rem;
 }
 
-.max-h-24 {
-  max-height: 6rem;
-}
-
-.max-h-full {
-  max-height: 100%;
-}
-
 .max-h-fit {
   max-height: -moz-fit-content;
   max-height: fit-content;
@@ -3616,10 +3608,6 @@ html {
 
 .min-h-full {
   min-height: 100%;
-}
-
-.min-h-24 {
-  min-height: 6rem;
 }
 
 .w-1\/2 {
@@ -3699,10 +3687,6 @@ html {
   max-width: 32rem;
 }
 
-.max-w-md {
-  max-width: 28rem;
-}
-
 .max-w-screen-xl {
   max-width: 1280px;
 }
@@ -3715,20 +3699,12 @@ html {
   max-width: 20rem;
 }
 
-.max-w-4xl {
-  max-width: 56rem;
-}
-
 .flex-1 {
   flex: 1 1 0%;
 }
 
 .shrink-0 {
   flex-shrink: 0;
-}
-
-.shrink {
-  flex-shrink: 1;
 }
 
 .grow {
@@ -3740,22 +3716,12 @@ html {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.scale-\[\.\.\.\] {
-  --tw-scale-x: ...;
-  --tw-scale-y: ...;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.resize {
-  resize: both;
 }
 
 .grid-cols-1 {
@@ -3796,10 +3762,6 @@ html {
 
 .items-center {
   align-items: center;
-}
-
-.items-baseline {
-  align-items: baseline;
 }
 
 .justify-end {
@@ -4206,8 +4168,8 @@ html {
   padding-bottom: 2rem;
 }
 
-.pb-16 {
-  padding-bottom: 4rem;
+.pb-12 {
+  padding-bottom: 3rem;
 }
 
 .pb-2 {
@@ -4254,25 +4216,12 @@ html {
   padding-top: 1px;
 }
 
-.pb-14 {
-  padding-bottom: 3.5rem;
-}
-
-.pb-12 {
-  padding-bottom: 3rem;
-}
-
 .text-left {
   text-align: left;
 }
 
 .text-center {
   text-align: center;
-}
-
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
 }
 
 .text-3xl {
@@ -4904,6 +4853,14 @@ html {
 
   .md\:aspect-16\/6 {
     aspect-ratio: 16 / 6;
+  }
+
+  .md\:aspect-16\/7 {
+    aspect-ratio: 16 / 7;
+  }
+
+  .md\:aspect-16\/8 {
+    aspect-ratio: 16 / 8;
   }
 
   .md\:h-20 {

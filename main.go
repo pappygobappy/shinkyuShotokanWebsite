@@ -169,6 +169,8 @@ func main() {
 	adminRoutes.Post("/instructors/:id/toggle-hidden", handlers.ToggleInstructorHidden)
 	adminRoutes.Get("/instructors/new", handlers.AddInstructorGet)
 	adminRoutes.Post("/instructors", handlers.AddInstructorPost)
+	adminRoutes.Get("/instructors/upload-page-image", handlers.UploadCurrentInstructorsImagePage)
+	adminRoutes.Post("/instructors/upload-page-image", handlers.UploadCurrentInstructorsImage)
 
 	// // Carousel Images Admin Routes
 	adminRoutes.Get("/carousel-images", handlers.AdminCarouselImagesPage)

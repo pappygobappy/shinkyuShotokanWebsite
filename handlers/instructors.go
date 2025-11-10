@@ -35,10 +35,12 @@ func Instructors(c *fiber.Ctx) error {
 	if user != nil {
 		hidden = queries.GetHiddenInstructors()
 	}
+	currentInstructorsPagePhoto := queries.GetCurrentInstructorsPagePhoto()
 	instructorsPage := fiber.Map{
-		"Page":              structs.Page{PageName: "Instructors", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
-		"Instructors":       visible,
-		"HiddenInstructors": hidden,
+		"Page":                        structs.Page{PageName: "Instructors", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"Instructors":                 visible,
+		"HiddenInstructors":           hidden,
+		"CurrentInstructorsPagePhoto": currentInstructorsPagePhoto,
 	}
 	hxRequest, err := strconv.ParseBool(c.Get("hx-request"))
 	if err != nil {
@@ -173,4 +175,32 @@ func AddInstructorPost(c *fiber.Ctx) error {
 	instructor := models.Instructor{Name: body.Name, Bio: body.Bio, PictureUrl: pictureUrl, DisplayOrder: order}
 	queries.CreateInstructor(instructor)
 	return Instructors(c)
+}
+
+func UploadCurrentInstructorsImagePage(c *fiber.Ctx) error {
+	return c.Render("upload_image_form", fiber.Map{
+		"Page":       structs.Page{PageName: "Upload Current Instructors Page Image", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
+		"user":       c.Locals("user"),
+		"title":      "Upload Current Instructors Page Image",
+		"formAction": "/admin/instructors/upload-page-image",
+	})
+}
+
+func UploadCurrentInstructorsImage(c *fiber.Ctx) error {
+	file, err := c.FormFile("image")
+	if err != nil {
+		return c.Status(400).SendString("No file uploaded")
+	}
+	uploadDir := os.Getenv("UPLOAD_DIR") + "/assets/instructors/"
+	os.MkdirAll(uploadDir, 0700)
+	destination := uploadDir + file.Filename
+	if err := c.SaveFile(file, destination); err != nil {
+		return c.Status(500).SendString("Failed to save file")
+	}
+	queries.SetCurrentInstructorsPagePhoto(strings.Replace(destination, os.Getenv("UPLOAD_DIR"), "/upload", 1))
+	if c.Get("HX-Request") != "" {
+		c.Set("HX-Redirect", "/instructors")
+		return c.SendStatus(200)
+	}
+	return c.Redirect("/instructors")
 }

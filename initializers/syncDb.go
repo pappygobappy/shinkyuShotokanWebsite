@@ -14,7 +14,14 @@ var tz, _ = time.LoadLocation("America/Los_Angeles")
 func SyncDb() {
 	DB.AutoMigrate(
 		&models.CarouselImage{},
-		&models.User{}, &models.Event{}, &models.ClassSession{}, &models.ClassPeriod{}, &models.ClassAnnotation{}, &models.Instructor{}, &models.PasswordResetToken{},
+		&models.User{},
+		&models.Event{},
+		&models.ClassSession{},
+		&models.ClassPeriod{},
+		&models.ClassAnnotation{},
+		&models.Instructor{},
+		&models.PasswordResetToken{},
+		&models.CurrentInstructorsPage{},
 	)
 
 	seedLocations()
@@ -24,6 +31,16 @@ func SyncDb() {
 	seedInstructors()
 	seedCarouselImages()
 	setOwner()
+	seedCurrentInstructorsPage()
+}
+
+func seedCurrentInstructorsPage() {
+	if err := DB.First(&models.CurrentInstructorsPage{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+		currentInstructorsPage := models.CurrentInstructorsPage{
+			PictureUrl: "/public/instructors/original_0dba6fc4-1896-4cc8-926b-56568fb5ea74_PXL_20230827_175124417 (1).jpg",
+		}
+		DB.Create(&currentInstructorsPage)
+	}
 }
 
 func setOwner() {
