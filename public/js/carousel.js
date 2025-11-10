@@ -134,7 +134,7 @@ function addNewAnnotationForm() {
 }
 
 function selectExistingBannerImage(event) {
-    if (event.target.classList.contains('border-yellow-500')){
+    if (event.target.classList.contains('border-yellow-500')) {
         event.target.classList.remove('border-yellow-500');
         event.target.classList.add('border-sky-500');
         document.querySelector('input[name=\'ExistingCoverPhoto\']').value = '';
@@ -173,7 +173,7 @@ function handleScroll() {
         let newScale = 100 - (scrollPosition * 0.1);
         if (newScale < 50) newScale = 50;
         if (newScale > 100) newScale = 100;
-        
+
         const newHeight = (newScale / 100) * height;
         image.style.height = newHeight + 'px';
     } else {
@@ -182,15 +182,157 @@ function handleScroll() {
     }
 }
 
+function updateInstructorPreview() {
+    // Update name
+    const nameInput = document.getElementById('name-input');
+    const previewName = document.getElementById('preview-name');
+    if (nameInput && previewName) {
+        previewName.textContent = nameInput.value || 'Instructor Name';
+    }
+
+    // Update bio
+    const bioInput = document.getElementById('bio-input');
+    const previewBio = document.getElementById('preview-bio');
+    if (bioInput && previewBio) {
+        previewBio.textContent = bioInput.value || 'Instructor bio will appear here...';
+    }
+}
+
+function previewInstructorImage(input) {
+    const preview = document.getElementById('preview-picture');
+    const currentPicture = document.getElementById('current-picture');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+            if (currentPicture) {
+                currentPicture.src = e.target.result;
+            }
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    } else if (currentPicture && currentPicture.src) {
+        // If no new file is selected but there's a current picture, use that
+        preview.src = currentPicture.src;
+        preview.classList.remove('hidden');
+    } else {
+        // If no picture is available, hide the preview
+        preview.classList.add('hidden');
+    }
+}
+
+function resetImageTransform() {
+    // Reset form inputs
+    const zoomInput = document.querySelector('input[name="ZoomLevel"]');
+    const offsetXInput = document.querySelector('input[name="OffsetX"]');
+    const offsetYInput = document.querySelector('input[name="OffsetY"]');
+    
+    // Set default values
+    zoomInput.value = 100;
+    offsetXInput.value = 0;
+    offsetYInput.value = 0;
+    
+    // Update the displayed values
+    document.getElementById('zoomValue').textContent = '100%';
+    document.getElementById('offsetXValue').textContent = '0px';
+    document.getElementById('offsetYValue').textContent = '0px';
+    
+    // Update the preview
+    const preview = document.getElementById('preview-picture');
+    updateTransform(preview, {
+        scale: 1.0,
+        translateX: '0px',
+        translateY: '0px'
+    });
+}
+
+function updateTransform(preview, updates) {
+    // Get current transform string and parse it into an object
+    const transformStr = preview.style.transform || '';
+    const transformMap = {};
+    
+    // Parse existing transforms into an object
+    transformStr.split(' ').forEach(transform => {
+        if (!transform) return;
+        const match = transform.match(/(\w+)\(([^)]+)\)/);
+        if (match) {
+            transformMap[match[1]] = match[2];
+        }
+    });
+    
+    // Update with new values
+    if (updates.scale !== undefined) transformMap.scale = updates.scale;
+    if (updates.translateX !== undefined) transformMap.translateX = updates.translateX;
+    if (updates.translateY !== undefined) transformMap.translateY = updates.translateY;
+    
+    // Build new transform string
+    const newTransform = [
+        transformMap.translateX !== undefined ? `translateX(${transformMap.translateX})` : '',
+        transformMap.translateY !== undefined ? `translateY(${transformMap.translateY})` : '',
+        transformMap.scale !== undefined ? `scale(${transformMap.scale})` : ''
+    ].filter(Boolean).join(' ');
+    
+    preview.style.transform = newTransform;
+}
+
+// Update zoom value display and transform
+function updateZoomValue(input) {
+    document.getElementById('zoomValue').textContent = `${input.value}%`;
+    const preview = document.getElementById('preview-picture');
+    updateTransform(preview, {
+        scale: input.value / 100.0
+    });
+}
+
+// Update X offset value display and transform
+function updateOffsetXValue(input) {
+    document.getElementById('offsetXValue').textContent = `${input.value}px`;
+    const preview = document.getElementById('preview-picture');
+    updateTransform(preview, {
+        translateX: `${input.value}px`
+    });
+}
+
+// Update Y offset value display and transform
+function updateOffsetYValue(input) {
+    document.getElementById('offsetYValue').textContent = `${input.value}px`;
+    const preview = document.getElementById('preview-picture');
+    updateTransform(preview, {
+        translateY: `${input.value}px`
+    });
+}
+
+// Initialize slider values on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // These will be set by the server-side template
+    const zoomInput = document.querySelector('input[name="ZoomLevel"]');
+    const offsetXInput = document.querySelector('input[name="OffsetX"]');
+    const offsetYInput = document.querySelector('input[name="OffsetY"]');
+    
+    // Update displays with initial values
+    if (zoomInput) {
+        document.getElementById('zoomValue').textContent = `${zoomInput.value}%`;
+    }
+    if (offsetXInput) {
+        document.getElementById('offsetXValue').textContent = `${offsetXInput.value}px`;
+    }
+    if (offsetYInput) {
+        document.getElementById('offsetYValue').textContent = `${offsetYInput.value}px`;
+    }
+});
+
 // Add event listeners
 window.addEventListener('scroll', handleScroll);
 // Handle window resize to enable/disable effect
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
     // Only update height if we're crossing the md breakpoint
     const isNowDesktop = window.innerWidth >= 1024;
     const wasDesktop = image.offsetHeight !== 0 && image.offsetHeight !== height;
-    
-    if(!isNowDesktop){
+
+    if (!isNowDesktop) {
         image.style.height = '';
     }
 

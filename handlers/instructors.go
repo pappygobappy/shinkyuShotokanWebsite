@@ -120,13 +120,12 @@ func EditInstructorPut(c *fiber.Ctx) error {
 	}
 	instructor := queries.GetInstructorByID(uint(idUint64))
 
-	var body struct {
-		Name string
-		Bio  string
-	}
-	if err := c.BodyParser(&body); err != nil {
-		return fiber.NewError(fiber.StatusBadRequest, "invalid form")
-	}
+	// Get form values
+	name := c.FormValue("Name")
+	bio := c.FormValue("Bio")
+	zoomLevel, _ := strconv.ParseInt(c.FormValue("ZoomLevel"), 10, 64)
+	offsetX, _ := strconv.ParseInt(c.FormValue("OffsetX"), 10, 64)
+	offsetY, _ := strconv.ParseInt(c.FormValue("OffsetY"), 10, 64)
 
 	// Handle optional new picture
 	if file, err := c.FormFile("NewPicture"); err == nil && file != nil {
@@ -137,8 +136,11 @@ func EditInstructorPut(c *fiber.Ctx) error {
 		}
 	}
 
-	instructor.Name = body.Name
-	instructor.Bio = body.Bio
+	instructor.Name = name
+	instructor.Bio = bio
+	instructor.ZoomLevel = int(zoomLevel)
+	instructor.OffsetX = int(offsetX)
+	instructor.OffsetY = int(offsetY)
 	queries.UpdateInstructor(instructor)
 
 	// After update, go back to instructors list

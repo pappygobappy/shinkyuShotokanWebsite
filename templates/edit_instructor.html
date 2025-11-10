@@ -15,7 +15,7 @@
                                 <span class="label-text">Instructor Name</span>
                             </label>
                             <input type="text" placeholder="Instructor Name" class="input input-bordered w-full" 
-                                   value="{{ .Instructor.Name }}" name="Name" id="name-input" oninput="updatePreview()" required />
+                                   value="{{ .Instructor.Name }}" name="Name" id="name-input" oninput="updateInstructorPreview()" required />
                         </div>
                         
                         {{ if .Instructor.ID }}
@@ -42,13 +42,38 @@
                                 <span class="label-text-alt">{{ if .Instructor.ID }}Leave empty to keep current picture{{ else }}Optional{{ end }}</span>
                             </div>
                         </div>
-                        
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Picture Zoom: <span id="zoomValue">{{ if .Instructor.ZoomLevel }}{{ .Instructor.ZoomLevel }}%{{ else }}100%{{ end }}</span></span>
+                            </label>
+                            <input name="ZoomLevel" type="range" min="100" max="300" value="{{ if .Instructor.ZoomLevel }}{{ .Instructor.ZoomLevel }}{{ else }}100{{ end }}" class="range range-xs range-warning" oninput="updateZoomValue(this)"/>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Picture Offset X: <span id="offsetXValue">{{ if .Instructor.OffsetX }}{{ .Instructor.OffsetX }}{{ else }}0{{ end }}px</span></span>
+                            </label>
+                            <input name="OffsetX" type="range" min="-100" max="100" value="{{ if .Instructor.OffsetX }}{{ .Instructor.OffsetX }}{{ else }}0{{ end }}" class="range range-xs range-accent" oninput="updateOffsetXValue(this)"/>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Picture Offset Y: <span id="offsetYValue">{{ if .Instructor.OffsetY }}{{ .Instructor.OffsetY }}{{ else }}0{{ end }}px</span></span>
+                            </label>
+                            <input name="OffsetY" type="range" min="-100" max="100" value="{{ if .Instructor.OffsetY }}{{ .Instructor.OffsetY }}{{ else }}0{{ end }}" class="range range-xs range-success" oninput="updateOffsetYValue(this)"/>
+                        </div>
+                        <div class="form-control mt-4">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="resetImageTransform()">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                                Reset Position & Zoom
+                            </button>
+                        </div>
                         <div class="form-control w-full mt-4">
                             <label class="label">
                                 <span class="label-text">Bio</span>
                             </label>
                             <textarea placeholder="Instructor bio..." class="textarea textarea-bordered textarea-lg w-full h-72" 
-                                      name="Bio" id="bio-input" oninput="updatePreview()">{{ .Instructor.Bio }}</textarea>
+                                      name="Bio" id="bio-input" oninput="updateInstructorPreview()">{{ .Instructor.Bio }}</textarea>
                         </div>
                         
                         <div class="form-control mt-6">
@@ -64,10 +89,15 @@
                 <div class="border-l pl-8">
                     <h2 class="text-2xl font-bold mb-6">Preview</h2>
                     <div class="instructor md:flex py-7">
-                        <img id="preview-picture" 
-                             class="rounded-xl mx-auto h-72 mb-5 lg:pb-0 {{ if not .Instructor.PictureUrl }}hidden{{ end }}" 
-                             src="{{ .Instructor.PictureUrl }}" 
-                             alt="Instructor preview">
+                        <div class="h-72 mx-auto mb-5 lg:pb-0 overflow-hidden rounded-xl">
+                            <img id="preview-picture" 
+                                 class="w-full h-full object-cover origin-center transform transition-transform duration-200 ease-in-out {{ if not .Instructor.PictureUrl }}hidden{{ end }}" 
+                                 src="{{ .Instructor.PictureUrl }}" 
+                                 alt="Instructor preview"
+                                 style="transform: scale({{ if .Instructor.ZoomLevel }}{{ .Instructor.InitialZoomLevel }}{{ else }}1{{ end }});
+                                 translateX({{ if .Instructor.OffsetX }}{{ .Instructor.OffsetX }}px{{ else }}0{{ end }});
+                                 translateY({{ if .Instructor.OffsetY }}{{ .Instructor.OffsetY }}px{{ else }}0{{ end }});">
+                        </div>
                         <div class="px-4 lg:px-8 flex-1">
                             <div class="flex justify-between items-start">
                                 <h1 id="preview-name" class="text-xl pb-5 font-bold">{{ .Instructor.Name }}</h1>
@@ -80,59 +110,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    function updatePreview() {
-        // Update name
-        const nameInput = document.getElementById('name-input');
-        const previewName = document.getElementById('preview-name');
-        if (nameInput && previewName) {
-            previewName.textContent = nameInput.value || 'Instructor Name';
-        }
-
-        // Update bio
-        const bioInput = document.getElementById('bio-input');
-        const previewBio = document.getElementById('preview-bio');
-        if (bioInput && previewBio) {
-            previewBio.textContent = bioInput.value || 'Instructor bio will appear here...';
-        }
-    }
-
-    function previewImage(input) {
-        const preview = document.getElementById('preview-picture');
-        const currentPicture = document.getElementById('current-picture');
-        
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.classList.remove('hidden');
-                if (currentPicture) {
-                    currentPicture.src = e.target.result;
-                }
-            }
-            
-            reader.readAsDataURL(input.files[0]);
-        } else if (currentPicture && currentPicture.src) {
-            // If no new file is selected but there's a current picture, use that
-            preview.src = currentPicture.src;
-            preview.classList.remove('hidden');
-        } else {
-            // If no picture is available, hide the preview
-            preview.classList.add('hidden');
-        }
-    }
-
-    // Initialize preview on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        updatePreview();
-        
-        // If there's no current picture but we have a file input with a file, update the preview
-        const fileInput = document.getElementById('picture-upload');
-        if (fileInput && fileInput.files.length > 0) {
-            previewImage(fileInput);
-        }
-    });
-</script>
 {{ end }}
