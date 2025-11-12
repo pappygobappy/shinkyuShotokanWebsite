@@ -18,103 +18,14 @@
             </div>
             {{ end }}
             {{ range $i, $e := .Instructors }}
-
-            <div class="instructor md:flex py-7 {{if gt $i 0}}border-t{{end}}">
-                {{ if .PictureUrl }}
-                <div class="h-72 w-fit mx-auto mb-5 lg:pb-0 overflow-hidden rounded-xl">
-                    <img class="rounded-xl mx-auto h-72 mb-5 lg:pb-0 object-cover" src="{{ .PictureUrl}}"
-                        style="transform: translateX({{ if .OffsetX }}{{ .OffsetX }}px{{ else }}0{{ end }}) translateY({{ if .OffsetY }}{{ .OffsetY }}px{{ else }}0{{ end }}) scale({{ if .ZoomLevel }}{{ .InitialZoomLevel }}{{ else }}1{{ end }});">
-                </div>
-                {{ end }}
-                <div class="px-4 lg:px-14 flex-1">
-                    <div class="flex justify-between items-start">
-                        <h1 class="text-xl pb-5 font-bold">{{ .Name }}</h1>
-                        {{ if $.user }}
-                        <div class="flex gap-2">
-                            <form hx-post="/admin/instructors/{{ .ID }}/move" hx-target=".content" hx-push-url="false"
-                                hx-swap="outerHTML">
-                                <input type="hidden" name="direction" value="up" />
-                                <button type="submit" class="btn btn-sm btn-circle shadow-xl" title="Move up">
-                                    ▲
-                                </button>
-                            </form>
-                            <form hx-post="/admin/instructors/{{ .ID }}/move" hx-target=".content" hx-push-url="false"
-                                hx-swap="outerHTML">
-                                <input type="hidden" name="direction" value="down" />
-                                <button type="submit" class="btn btn-sm btn-circle shadow-xl" title="Move down">
-                                    ▼
-                                </button>
-                            </form>
-                            <button hx-get="/admin/instructors/{{ .ID }}/edit" hx-target=".content" hx-push-url="true"
-                                hx-swap="outerHTML" class="btn btn-sm btn-primary btn-square shadow-xl">
-                                {{ template "icon_edit" }}
-                            </button>
-                            <form hx-post="/admin/instructors/{{ .ID }}/toggle-hidden" hx-target=".content"
-                                hx-push-url="false" hx-swap="outerHTML">
-                                <input type="hidden" name="hidden" value="true" />
-                                <button type="submit" class="btn btn-sm btn-error btn-square">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                        viewBox="0 0 24 24" fill="none">
-                                        <g id="Edit / Remove_Minus_Circle">
-                                            <path id="Vector"
-                                                d="M8 12H16M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z"
-                                                stroke="#000000" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </g>
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
-                        {{ end }}
-                    </div>
-                    <p>{{ .Bio }}</p>
-                </div>
-            </div>
-
+            {{ template "instructor_card" makeMap "Instructor" . "user" $.user "IsFirst" (eq $i 0) "IsHiddenSection" false }}
             {{ end }}
             {{ if .user }}
             {{ if .HiddenInstructors }}
             <div class="pt-10">
                 <h2 class="text-lg font-bold pb-2">Hidden Instructors</h2>
-                {{ range .HiddenInstructors }}
-                <div class="instructor md:flex py-7 border-t">
-                    {{ if .PictureUrl }}
-                    <div class="h-72 w-fit mx-auto mb-5 lg:pb-0 overflow-hidden rounded-xl">
-                        <img class="rounded-xl mx-auto h-72 mb-5 lg:pb-0 object-cover" src="{{ .PictureUrl}}"
-                            style="transform: translateX({{ if .OffsetX }}{{ .OffsetX }}px{{ else }}0{{ end }}) translateY({{ if .OffsetY }}{{ .OffsetY }}px{{ else }}0{{ end }}) scale({{ if .ZoomLevel }}{{ .InitialZoomLevel }}{{ else }}1{{ end }});">
-                    </div>
-                    {{ end }}
-                    <div class="px-4 lg:px-14 flex-1">
-                        <div class="flex justify-between items-start">
-                            <h1 class="text-xl pb-5 font-bold">{{ .Name }}</h1>
-                            <div class="flex gap-2">
-                                <button hx-get="/admin/instructors/{{ .ID }}/edit" hx-target=".content"
-                                    hx-push-url="true" hx-swap="outerHTML"
-                                    class="btn btn-sm btn-primary btn-square shadow-xl">
-                                    {{ template "icon_edit" }}
-                                </button>
-                                <form hx-post="/admin/instructors/{{ .ID }}/toggle-hidden" hx-target=".content"
-                                    hx-push-url="false" hx-swap="outerHTML">
-                                    <input type="hidden" name="hidden" value="false" />
-                                    <button type="submit" class="btn btn-sm btn-success btn-square shadow-xl">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path
-                                                    d="M4.52185 7H7C7.55229 7 8 7.44772 8 8C8 8.55229 7.55228 9 7 9H3C1.89543 9 1 8.10457 1 7V3C1 2.44772 1.44772 2 2 2C2.55228 2 3 2.44772 3 3V5.6754C4.26953 3.8688 6.06062 2.47676 8.14852 1.69631C10.6633 0.756291 13.435 0.768419 15.9415 1.73041C18.448 2.69239 20.5161 4.53782 21.7562 6.91897C22.9963 9.30013 23.3228 12.0526 22.6741 14.6578C22.0254 17.263 20.4464 19.541 18.2345 21.0626C16.0226 22.5842 13.3306 23.2444 10.6657 22.9188C8.00083 22.5931 5.54702 21.3041 3.76664 19.2946C2.20818 17.5356 1.25993 15.3309 1.04625 13.0078C0.995657 12.4579 1.45216 12.0088 2.00445 12.0084C2.55673 12.0079 3.00351 12.4566 3.06526 13.0055C3.27138 14.8374 4.03712 16.5706 5.27027 17.9625C6.7255 19.605 8.73118 20.6586 10.9094 20.9247C13.0876 21.1909 15.288 20.6513 17.0959 19.4075C18.9039 18.1638 20.1945 16.3018 20.7247 14.1724C21.2549 12.043 20.9881 9.79319 19.9745 7.8469C18.9608 5.90061 17.2704 4.3922 15.2217 3.6059C13.173 2.8196 10.9074 2.80968 8.8519 3.57803C7.11008 4.22911 5.62099 5.40094 4.57993 6.92229C4.56156 6.94914 4.54217 6.97505 4.52185 7Z"
-                                                    fill="#0F0F0F"></path>
-                                            </g>
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        <p>{{ .Bio }}</p>
-                    </div>
-                </div>
+                {{ range $i, $e := .HiddenInstructors }}
+                {{ template "instructor_card" makeMap "Instructor" . "user" $.user "IsFirst" (eq $i 0) "IsHiddenSection" true }}
                 {{ end }}
             </div>
             {{ end }}
