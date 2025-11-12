@@ -28,7 +28,7 @@
                 </form>
                 {{ end }}
                 <button hx-get="/admin/instructors/{{ .Instructor.ID }}/edit" hx-target=".content" hx-push-url="true"
-                    hx-swap="outerHTML" class="btn btn-sm btn-primary btn-square shadow-xl">
+                    hx-swap="outerHTML show:top" class="btn btn-sm btn-primary btn-square shadow-xl">
                     {{ template "icon_edit" }}
                 </button>
                 <form hx-post="/admin/instructors/{{ .Instructor.ID }}/toggle-hidden" hx-target=".content"

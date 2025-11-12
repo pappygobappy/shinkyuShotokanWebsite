@@ -146,7 +146,11 @@ func EditInstructorPut(c *fiber.Ctx) error {
 	queries.UpdateInstructor(instructor)
 
 	// After update, go back to instructors list
-	return Instructors(c)
+	if c.Get("HX-Request") != "" {
+		c.Set("HX-Redirect", "/instructors")
+		return c.SendStatus(200)
+	}
+	return c.Redirect("/instructors")
 }
 
 func AddInstructorGet(c *fiber.Ctx) error {
@@ -178,7 +182,11 @@ func AddInstructorPost(c *fiber.Ctx) error {
 	order := queries.GetNextInstructorDisplayOrder()
 	instructor := models.Instructor{Name: name, Bio: bio, PictureUrl: pictureUrl, DisplayOrder: order, Hidden: hidden, ZoomLevel: int(zoomLevel), OffsetX: int(offsetX), OffsetY: int(offsetY)}
 	queries.CreateInstructor(instructor)
-	return Instructors(c)
+	if c.Get("HX-Request") != "" {
+		c.Set("HX-Redirect", "/instructors")
+		return c.SendStatus(200)
+	}
+	return c.Redirect("/instructors")
 }
 
 func UploadCurrentInstructorsImagePage(c *fiber.Ctx) error {
