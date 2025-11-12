@@ -21,7 +21,7 @@
 
             <div class="instructor md:flex py-7 {{if gt $i 0}}border-t{{end}}">
                 {{ if .PictureUrl }}
-                <div class="h-72 mx-auto mb-5 lg:pb-0 overflow-hidden rounded-xl">
+                <div class="h-72 w-fit mx-auto mb-5 lg:pb-0 overflow-hidden rounded-xl">
                     <img class="rounded-xl mx-auto h-72 mb-5 lg:pb-0 object-cover" src="{{ .PictureUrl}}"
                         style="transform: translateX({{ if .OffsetX }}{{ .OffsetX }}px{{ else }}0{{ end }}) translateY({{ if .OffsetY }}{{ .OffsetY }}px{{ else }}0{{ end }}) scale({{ if .ZoomLevel }}{{ .InitialZoomLevel }}{{ else }}1{{ end }});">
                 </div>
@@ -79,7 +79,7 @@
                 {{ range .HiddenInstructors }}
                 <div class="instructor md:flex py-7 border-t">
                     {{ if .PictureUrl }}
-                    <div class="h-72 mx-auto mb-5 lg:pb-0 overflow-hidden rounded-xl">
+                    <div class="h-72 w-fit mx-auto mb-5 lg:pb-0 overflow-hidden rounded-xl">
                         <img class="rounded-xl mx-auto h-72 mb-5 lg:pb-0 object-cover" src="{{ .PictureUrl}}"
                             style="transform: translateX({{ if .OffsetX }}{{ .OffsetX }}px{{ else }}0{{ end }}) translateY({{ if .OffsetY }}{{ .OffsetY }}px{{ else }}0{{ end }}) scale({{ if .ZoomLevel }}{{ .InitialZoomLevel }}{{ else }}1{{ end }});">
                     </div>
