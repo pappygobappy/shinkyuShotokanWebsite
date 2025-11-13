@@ -158,6 +158,14 @@ function previewNewBannerImage(event) {
     }
 };
 
+function previewNewCardImage(event) {
+    var output = document.querySelector('.card-image');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function () {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+};
+
 function previewExistingBannerImage(event) {
     var output = document.querySelector('.banner-image');
     console.log(event)

@@ -11,3 +11,17 @@
     </div>
 </div>
 {{ end }}
+
+{{/* Compact version for edit form */}}
+{{ define "class_card_compact" }}
+<div class="card bg-base-100 shadow-xl image-full my-2.5 md:mx-5 h-full w-fit mx-auto my-auto" style=".card.image-full:before{opacity: 0.2;}">
+    <figure><img class="card-image" src="{{ if .CardPhoto }}{{ .CardPhoto }}{{ else }}/public/image_carousel/PXL_20210506_005649942.jpg{{ end }}" alt="Kids" /></figure>
+    <div class="card-body">
+        <h2 class="card-title mx-auto">{{ .Name }} Classes</h2>
+        <p></p>
+        <div class="card-actions justify-end">
+            <button class="btn btn-outline btn-primary">Learn More</button>
+        </div>
+    </div>
+</div>
+{{ end }}

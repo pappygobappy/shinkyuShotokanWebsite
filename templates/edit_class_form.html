@@ -3,12 +3,13 @@
     <form id="edit_class_form" hx-put="/admin/classes/{{ .Class.ID }}" hx-target=".content" hx-swap="outerHTML"
         enctype="multipart/form-data">
         <label class="font-semibold">Upload New Image</label>
-        <input type="file" name="BannerImage" id="bannerImage" accept="image/*" class="file-input file-input-bordered file-input-warning w-full" onchange="previewBannerImage(this)" />
+        <input type="file" name="BannerImage" id="bannerImage" accept="image/*"
+            class="file-input file-input-bordered file-input-warning w-full" onchange="previewNewBannerImage(event)" />
         <script>
             function previewBannerImage(input) {
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         const bannerImage = document.querySelector('#banner-image');
                         if (bannerImage) {
                             bannerImage.src = e.target.result;
@@ -18,8 +19,16 @@
                 }
             }
         </script>
-        <label class="font-semibold">Upload New Card Image</label>
-        <input type="file" name="CardImage" id="cardImage" accept="image/*" class="file-input file-input-bordered file-input-warning w-full" />
+        <div class="md:flex h-full md:h-48 items-center my-5 w-full">
+            <div>
+                <label class="font-semibold">Upload New Card Image</label>
+                <input type="file" name="CardImage" id="cardImage" accept="image/*"
+                    class="file-input file-input-bordered file-input-warning w-full" onchange="previewNewCardImage(event)"/>
+            </div>
+            <div class="mx-auto h-48 my-5 md:my-0">
+                {{ template "class_card_compact" .Class }}
+            </div>
+        </div>
         <label class="label">
             <span class="text-base label-text">Min - Max Age</span>
         </label>
@@ -53,7 +62,8 @@
                     <td>
                         <div class="btn btn-primary btn-sm md:btn-md"
                             onclick="this.parentElement.parentElement.remove()">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
