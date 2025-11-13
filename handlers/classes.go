@@ -119,6 +119,8 @@ func EditClassPut(c *fiber.Ctx) error {
 
 	class = queries.FindClassByID(id)
 
+	utils.Classes = queries.GetClasses()
+
 	classesPage := fiber.Map{
 		"Page":  structs.Page{PageName: "Classes", Tabs: utils.CurrentTabs(), Classes: utils.Classes},
 		"Class": class,

@@ -3,12 +3,14 @@
     {{ template "header" makeMap "Page" .Page "user" .user }}
     <div class="class mx-auto md:py-5 md:px-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
         {{ $title := .Class.DisplayName }}
-        {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust "BannerTitle" $title }}
+        <div class="relative">
+            {{ template "banner_image" makeMap "Banner" .Class.BannerPhoto "BannerAdjust" .Class.BannerAdjust "BannerTitle" $title }}
+        </div>
         <div class="class-body p-3 md:p-0">
             {{ if .user }}
             <button hx-get="/admin/classes/{{ .Class.ID }}" hx-target=".class-body" hx-swap="outerHTML"
-                class="ml-2 btn btn-md md:btn-sm btn-primary btn-square shadow-xl">
-                {{ template "icon_edit" }}
+                class="my-2 btn btn-md md:btn-sm btn-primary shadow-xl">
+                {{ template "icon_edit" }} Edit Class Information
             </button>
             {{ end }}
             <div class="mt-5">
