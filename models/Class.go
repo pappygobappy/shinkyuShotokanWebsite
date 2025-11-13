@@ -20,6 +20,7 @@ type Class struct {
 	CardPhoto    string
 	BannerPhoto  string
 	BannerAdjust int
+	DisplayOrder int
 }
 
 func (class Class) DisplayName() string {

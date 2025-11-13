@@ -171,6 +171,26 @@ func seedClasses() {
 				log.Print("Error creating seed Classes", result.Error)
 			}
 		}
+		// Get all classes that don't have an order set yet
+		var classes []models.Class
+		if err := DB.Where("display_order IS NULL").Find(&classes).Error; err == nil && len(classes) > 0 {
+			log.Println("Setting order for classes")
+			for _, class := range classes {
+				switch class.Name {
+				case "Pre-Karate":
+					class.DisplayOrder = 1
+				case "Youth":
+					class.DisplayOrder = 2
+				case "Teen":
+					class.DisplayOrder = 3
+				case "Adult":
+					class.DisplayOrder = 4
+				default:
+					continue // Skip if class name doesn't match any case
+				}
+				DB.Save(&class)
+			}
+		}
 	}
 }
 

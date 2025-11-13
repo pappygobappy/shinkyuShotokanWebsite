@@ -8,7 +8,7 @@ import (
 
 func GetClasses() []models.Class {
 	var classes []models.Class
-	result := initializers.DB.Find(&classes)
+	result := initializers.DB.Order("display_order ASC").Find(&classes)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}
