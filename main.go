@@ -7,6 +7,8 @@ import (
 	"os"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
+	"shinkyuShotokan/packages/cache"
+	"shinkyuShotokan/queries"
 	"shinkyuShotokan/routes"
 	"shinkyuShotokan/utils"
 	"time"
@@ -15,10 +17,14 @@ import (
 	"github.com/gofiber/template/html/v2"
 )
 
+var MainCache *cache.MemoryCache
+
 func init() {
 	initializers.LoadEnvVariables()
 	initializers.ConnectToDb()
 	initializers.SyncDb()
+	MainCache = cache.New(5 * time.Minute)
+	queries.InitCache(MainCache)
 	utils.Init()
 }
 

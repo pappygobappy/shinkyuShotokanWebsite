@@ -26,8 +26,15 @@ func SetCurrentInstructorsPagePhoto(url string) {
 }
 
 func GetInstructors() []models.Instructor {
+	if cached, ok := Cache.Get("instructors"); ok {
+		return cached.([]models.Instructor)
+	}
+
 	var instructors []models.Instructor
 	initializers.DB.Order("display_order asc, id asc").Find(&instructors)
+
+	Cache.Set("instructors", instructors)
+
 	return instructors
 }
 
@@ -71,8 +78,15 @@ func swapInstructorOrder(aID uint, bID uint) error {
 }
 
 func GetVisibleInstructors() []models.Instructor {
+	if cached, ok := Cache.Get("visibleInstructors"); ok {
+		return cached.([]models.Instructor)
+	}
+
 	var instructors []models.Instructor
 	initializers.DB.Where("hidden = ?", false).Or("hidden IS NULL").Order("display_order asc, id asc").Find(&instructors)
+
+	Cache.Set("visibleInstructors", instructors)
+
 	return instructors
 }
 

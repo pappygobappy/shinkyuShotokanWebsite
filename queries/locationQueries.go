@@ -4,14 +4,22 @@ import (
 	"log"
 	"shinkyuShotokan/initializers"
 	"shinkyuShotokan/models"
+	"strconv"
 )
 
 func GetLocations() []models.Location {
+	if cached, ok := Cache.Get("locations"); ok {
+		return cached.([]models.Location)
+	}
+
 	var locations []models.Location
 	result := initializers.DB.Find(&locations)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}
+
+	Cache.Set("locations", locations)
+
 	return locations
 }
 
@@ -25,8 +33,9 @@ func GetLocationByName(name string) models.Location {
 }
 
 func GetLocationById(id string) models.Location {
+	locationID, _ := strconv.ParseUint(id, 10, 32)
 	var location models.Location
-	result := initializers.DB.Where("id = ?", id).First(&location)
+	result := initializers.DB.Where("id = ?", locationID).First(&location)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}

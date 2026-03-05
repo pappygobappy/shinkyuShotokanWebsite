@@ -117,6 +117,8 @@ func EditClassPut(c *fiber.Ctx) error {
 		return result.Error
 	}
 
+	utils.InvalidateClasses()
+
 	class = queries.FindClassByID(id)
 
 	utils.Classes = queries.GetClasses()

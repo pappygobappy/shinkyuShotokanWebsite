@@ -25,6 +25,7 @@ func ToggleInstructorHidden(c *fiber.Ctx) error {
 	if err := queries.SetInstructorHidden(uint(idUint64), hidden); err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
+	utils.InvalidateInstructors()
 	return Instructors(c)
 }
 
@@ -95,6 +96,7 @@ func MoveInstructor(c *fiber.Ctx) error {
 	if err := queries.MoveInstructor(uint(idUint64), direction); err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
+	utils.InvalidateInstructors()
 	return Instructors(c)
 }
 
@@ -182,6 +184,7 @@ func AddInstructorPost(c *fiber.Ctx) error {
 	order := queries.GetNextInstructorDisplayOrder()
 	instructor := models.Instructor{Name: name, Bio: bio, PictureUrl: pictureUrl, DisplayOrder: order, Hidden: hidden, ZoomLevel: int(zoomLevel), OffsetX: int(offsetX), OffsetY: int(offsetY)}
 	queries.CreateInstructor(instructor)
+	utils.InvalidateInstructors()
 	if c.Get("HX-Request") != "" {
 		c.Set("HX-Redirect", "/instructors")
 		return c.SendStatus(200)
@@ -210,6 +213,7 @@ func UploadCurrentInstructorsImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Failed to save file")
 	}
 	queries.SetCurrentInstructorsPagePhoto(strings.Replace(destination, os.Getenv("UPLOAD_DIR"), "/upload", 1))
+	utils.InvalidateInstructors()
 	if c.Get("HX-Request") != "" {
 		c.Set("HX-Redirect", "/instructors")
 		return c.SendStatus(200)

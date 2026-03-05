@@ -18,7 +18,6 @@ var TZ *time.Location
 var ActualClasses []structs.ActualClass
 
 func Init() {
-
 	TZ, _ = time.LoadLocation("America/Los_Angeles")
 
 	ActualClasses = []structs.ActualClass{

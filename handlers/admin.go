@@ -91,6 +91,8 @@ func AddLocation(c *fiber.Ctx) error {
 		return result.Error
 	}
 
+	utils.InvalidateLocations()
+
 	return c.Redirect("/admin")
 }
 
@@ -138,6 +140,8 @@ func EditLocationPut(c *fiber.Ctx) error {
 		log.Print("Error updating Location", result.Error)
 		return result.Error
 	}
+
+	utils.InvalidateLocations()
 
 	return c.Render("location", location)
 }

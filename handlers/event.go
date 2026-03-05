@@ -22,6 +22,10 @@ import (
 )
 
 func getExistingEventCoverPhotos() []string {
+	if cached, ok := queries.Cache.Get("eventCoverPhotos"); ok {
+		return cached.([]string)
+	}
+
 	workingDir, _ := os.Getwd()
 	var eventImagePaths []string
 	err := filepath.Walk(workingDir+"/public/events/", func(path string, info os.FileInfo, err error) error {
@@ -58,10 +62,16 @@ func getExistingEventCoverPhotos() []string {
 		log.Println("Failed to get uploaded cover photos")
 	}
 
+	queries.Cache.Set("eventCoverPhotos", eventImagePaths)
+
 	return eventImagePaths
 }
 
 func getExistingEventCardPhotos() []string {
+	if cached, ok := queries.Cache.Get("eventCardPhotos"); ok {
+		return cached.([]string)
+	}
+
 	workingDir, _ := os.Getwd()
 	var eventImagePaths []string
 
@@ -98,6 +108,8 @@ func getExistingEventCardPhotos() []string {
 	if err != nil {
 		log.Println("Failed to get uploaded card photos")
 	}
+
+	queries.Cache.Set("eventCardPhotos", eventImagePaths)
 
 	return eventImagePaths
 }
@@ -319,6 +331,9 @@ func EditEventPost(c *fiber.Ctx) error {
 	uploadEventFiles(event, c)
 	createEventIcs(event, queries.GetLocationByName(event.Location))
 
+	utils.InvalidateEventCoverPhotos()
+	utils.InvalidateEventCardPhotos()
+
 	//files := getEventFilePaths(event)
 	c.Set("HX-Redirect", "/events/"+strconv.FormatUint(uint64(event.ID), 10))
 	return c.Next()
@@ -328,6 +343,9 @@ func DeleteEventPost(c *fiber.Ctx) error {
 	id := c.Params("id")
 	initializers.DB.Delete(&models.Event{}, id)
 	os.RemoveAll(fmt.Sprintf("%s/assets/event/%s/files/", os.Getenv("UPLOAD_DIR"), id))
+
+	utils.InvalidateEventCoverPhotos()
+	utils.InvalidateEventCardPhotos()
 
 	c.Set("HX-Redirect", "/")
 	return c.Next()

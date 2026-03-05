@@ -7,11 +7,18 @@ import (
 )
 
 func GetClasses() []models.Class {
+	if cached, ok := Cache.Get("classes"); ok {
+		return cached.([]models.Class)
+	}
+
 	var classes []models.Class
 	result := initializers.DB.Order("display_order ASC").Find(&classes)
 	if result.Error != nil {
 		log.Print(result.Error)
 	}
+
+	Cache.Set("classes", classes)
+
 	return classes
 }
 
