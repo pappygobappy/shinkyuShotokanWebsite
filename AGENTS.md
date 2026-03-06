@@ -168,7 +168,7 @@ log.Printf("event updated id=%d user_id=%d", eventID, userID)
 | 1. Extract Business Logic | ✅ Complete | Auth logic moved from handlers to `services/auth/` | `handlers/auth.go`, `services/auth/*.go` |
 | 2. Add Caching Layer | ✅ Complete | Memory cache added, caching functions in queries | `packages/cache/memory.go`, `queries/event.go` |
 | 3. Externalize Seeding Logic | ✅ Complete | Seed data moved from hardcoded Go structs to JSON files in `seeds/` directory for maintainability without recompilation | `initializers/syncDb.go`, `models/Class.go`, `seeds/*.json` |
-| 4. Standardize Errors & Logging | ⏳ Pending | Structured error types, centralized handler | `utils/errors.go`, `middleware/errors.go` (TODO) |
+| 4. Standardize Errors & Logging | 🟡 Partial | Error types exist (`utils/errors.go`) but centralized middleware handler missing | `utils/errors.go` (done), `middleware/errors.go` (TODO) |
 | 5. Add Token Rotation | ⏳ Pending | Dual-secret JWT validation | `middleware/requireAuth.go` (future change) |
 | 6. Add Basic Tests | ⏳ Pending | Unit/integration tests for services | `*_test.go` files (TODO) |
 
@@ -219,24 +219,80 @@ func Login(c *fiber.Ctx) error {
 }
 ```
 
+### Known Refactoring Targets
+
+**Large handler files that need extraction to services layer:**
+| File | Lines | What to Extract | Priority |
+|------|-------|-----------------|----------|
+| `handlers/calendar.go` | ~12,000 bytes | Calendar view logic, date range queries, color-coding rules | High |
+| `handlers/event.go` | ~17,000 bytes | Event validation, template merging, timezone handling | Medium |
+
+**Pattern**: Extract business logic to `services/`, keep handlers thin for parsing + response formatting.
+
 ### Template System Patterns
 
 **Location**: `templates/` directory (70+ HTML files)  
 **Engine**: `github.com/gofiber/template/html/v2`
 
 **Helper functions registered in `main.go`**:
-- `makeMap`: Creates maps from key/value pairs
-- `htmlRender`: Escapes HTML safely
-- `gmtRfc5545`, `yahooDateFormat`: Time formatting for iCal exports
-- `outlookCalInvite`: Generates Outlook calendar link URLs
-- `startTimePSTString`, `formatTimePST`: PST timezone conversions
-- `isToday`: Template conditionals for event dates
-- `minus`: Arithmetic in templates (avoid complex math here)
+| Function | Purpose | Example Usage |
+|----------|---------|---------------|
+| `makeMap` | Creates maps from key/value pairs | `{{ makeMap "key1" "value1" "key2" "value2" }}` |
+| `htmlRender` | Escapes HTML safely | `{{ htmlRender $event.Description }}` |
+| `gmtRfc5545` | Time formatting for iCal exports | Used in calendar (.ics) file generation |
+| `yahooDateFormat` | Yahoo/Outlook date format | Calendar invite URLs |
+| `outlookCalInvite` | Generates Outlook calendar link URLs | `{{ outlookCalInvite $event }}` |
+| `startTimePSTString` | Convert to PST timezone string | Display times in local time zone |
+| `formatTimePST` | Format PST time for display | Show class/event start times |
+| `isToday` | Template conditionals for event dates | `{{ if isToday $event.StartTime }}<span class="today">Today</span>{{ end }}` |
+| `minus` | Arithmetic in templates | `{{ minus $event.EndTime $event.StartTime }}` (avoid complex math) |
 
 **Template best practices**:
 - Keep logic minimal: no loops deeper than 2 levels, no function calls with >2 args
 - Use partials for repeated sections (`_header.html`, `_footer.html`)
 - Pass only what's needed from handlers (don't dump entire structs)
+
+### File Upload Patterns
+
+**Upload directories** (configured via `UPLOAD_DIR` env var):
+| Purpose | Path Pattern | Example |
+|---------|--------------|---------|
+| Carousel images | `/upload/assets/image_carousel/` | `/upload/assets/image_carousel/homepage1.jpg` |
+| Event covers | `/public/events/` | `/public/events/tournament-2024.png` |
+| Class photos | `/public/classes/` | `/public/classes/pre-karate-banner.jpg` |
+| Instructor headshots | `/public/instructors/` | `/public/instructors/sensei-sue.jpg` |
+
+**Key patterns**:
+- Uploaded images go to `upload/assets/` directory (persistent volume on Fly.io)
+- Static assets served from `public/` directory (embedded in binary)
+- Always store relative paths: `/public/events/tournament.png`, not absolute filesystem paths
+- Use `filesService.go` helpers for file operations
+
+### Event Template System
+
+**Many-to-Many relationship**: `EventTemplate` ↔ `EventSubType` (tournament divisions)
+
+```go
+// EventTemplate struct has this association
+type EventTemplate struct {
+    ID            uint
+    Name          string // "Tournament", "Promotional"
+    EventSubTypes []EventSubType // Many-to-many via junction table
+}
+
+// EventSubType represents tournament divisions
+type EventSubType struct {
+    ID   uint
+    Name string // "Pre-Karate", "Youth & Adult", "All Ages"
+}
+```
+
+**Usage**: When creating an event, admins select a template which pre-fills:
+- Default start/end times (1970-01-01 placeholders for recurring events)
+- Check-in time settings
+- Description with `%s` placeholders for dynamic content
+- Location reference
+- Associated divisions/subtypes
 
 ### Middleware Patterns
 
@@ -302,7 +358,41 @@ AttachUser()        // Optional: attach user if logged in, otherwise continue an
 
 ---
 
-## Common Tasks & How to Approach Them
+## Routes Overview
+
+**Public routes** (no auth required, user attached if logged in):
+| Path | Handler | Purpose |
+|------|---------|---------|
+| `/` | `Home()` | Homepage with carousel and upcoming events |
+| `/instructors`, `/instructors/:id` | `Instructors()`, `SenseiSue()` | Instructor listing and bios |
+| `/history` | `History()` | Dojo history page |
+| `/events/:id` | `Event()` | Individual event detail page |
+| `/requirements/:rank` | `Requirements()` | Belt requirement pages (10th kyu through 1st dan) |
+| `/contact-us` | `ContactUs()` | Contact form page |
+| `/calendar`, `/calendar/:id` | `Calendar()`, `CalendarItemView()` | Full calendar view and single event context |
+| `/pre-karate-class`, `/youth-class`, etc. | `Classes()` | Individual class pages (dynamic from classes.json) |
+
+**Authentication routes**:
+| Path | Handler | Purpose |
+|------|---------|---------|
+| `/login` | `LoginGet()`, `LoginPost()` | Login page and form submission |
+| `/signup` | `SignupGet()`, `SignupPost()` | Registration page and account creation |
+| `/forgot-password`, `/reset-password/:token` | Password reset flow | Token-based password recovery |
+
+**Admin routes** (require authentication):
+- Location management: `/admin/locations/*`
+- Class management: `/admin/classes/:id`, `/admin/calendar/:id`, `/admin/classPeriod`
+- Event CRUD: `/admin/events/*`, `/admin/event-templates/*`
+- Instructor management: `/admin/instructors/*`, `/admin/instructors/upload-page-image`
+- Carousel images: `/admin/carousel-images/*`, `/admin/upload-carousel-image`
+- User profile: `/admin/userProfile*`
+
+**Owner-only routes**:
+| Path | Handler | Purpose |
+|------|---------|---------|
+| `/owner/users` | `AdminUsersPage()` | List all users in system |
+
+### Common Tasks & How to Approach Them
 
 ### Adding a New Public Page (e.g., "About Us")
 
@@ -319,6 +409,14 @@ AttachUser()        // Optional: attach user if logged in, otherwise continue an
 4. **Handler**: Parse form, call service/query, return success/error response
 5. **Route**: Register in `routes/admin.go` with `RequireOwnerAuth()` middleware
 6. **Template**: Add edit form to existing template or create new one
+
+**Carousel Image Soft-Delete Pattern**:
+```go
+// Three operations for carousel images:
+POST /admin/carousel-images/:id/remove   // Soft delete (sets DeletedAt)
+POST /admin/carousel-images/:id/restore  // Restore from soft delete
+POST /admin/carousel-images/:id/hard-delete // Permanently remove from DB
+```
 
 ### Fixing a Bug in Authentication Flow
 
