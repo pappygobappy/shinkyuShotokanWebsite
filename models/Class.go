@@ -23,6 +23,10 @@ type Class struct {
 	DisplayOrder int
 }
 
+func (Class) TableName() string {
+	return "classes"
+}
+
 func (class Class) DisplayName() string {
 	if strings.Contains(class.Name, "Karate") {
 		return class.Name + " Class"

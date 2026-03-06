@@ -130,7 +130,7 @@ log.Printf("event updated id=%d user_id=%d", eventID, userID)
 |-------|--------|--------------|----------------|
 | 1. Extract Business Logic | ✅ Complete | Auth logic moved from handlers to `services/auth/` | `handlers/auth.go`, `services/auth/*.go` |
 | 2. Add Caching Layer | ✅ Complete | Memory cache added, caching functions in queries | `packages/cache/memory.go`, `queries/event.go` |
-| 3. Fix Seeding Logic | ⏳ Pending | CLI tool for database seeding (not startup) | `cmd/seed/main.go` (TODO) |
+| 3. Externalize Seeding Logic | ✅ Complete | Seed data moved from hardcoded Go structs to JSON files in `seeds/` directory for maintainability without recompilation | `initializers/syncDb.go`, `models/Class.go`, `seeds/*.json` |
 | 4. Standardize Errors & Logging | ⏳ Pending | Structured error types, centralized handler | `utils/errors.go`, `middleware/errors.go` (TODO) |
 | 5. Add Token Rotation | ⏳ Pending | Dual-secret JWT validation | `middleware/requireAuth.go` (future change) |
 | 6. Add Basic Tests | ⏳ Pending | Unit/integration tests for services | `*_test.go` files (TODO) |
