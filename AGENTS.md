@@ -46,7 +46,7 @@ import (
 	
 	"github.com/gofiber/fiber/v2"  // third-party, alphabetized
 	
-	"shinkyuShotokan/models"  // local packages last
+	"shinkyuShotokan/models"  // local package (module name: shinkyuShotokan)
 )
 ```
 
@@ -60,6 +60,43 @@ import (
 - Types/Structs: `PascalCase` (`User`, `AppError`, `MemoryCache`)
 - Variables: Match their purpose (`user` not `u`, `emailAddress` not `ea`)
 - Files: Lowercase, descriptive (`auth.go`, not `AuthenticationHandler_v2.go`)
+
+### Commit Message Conventions
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer breaking/change notes]
+```
+
+**Types**:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `refactor`: Code refactoring without behavior change
+- `chore`: Maintenance tasks, dependencies, config
+- `perf`: Performance improvements
+- `test`: Adding or updating tests
+
+**Examples**:
+```
+feat(auth): add password reset email flow
+fix(event): correct timezone conversion for testing events
+docs(AGENTS): update Phase 3 completion status
+refactor(handler): extract validation logic to service layer
+chore(deps): bump fiber to v2.50.0
+test(services): add login credential validation tests
+```
+
+**Commit message best practices**:
+- Use imperative mood ("add" not "added", "fix" not "fixed")
+- Keep subject line under 72 characters
+- Include scope when relevant (e.g., `feat(auth)`, `fix(event)`)
+- Reference issues where appropriate (`Closes #123`)
 
 ### JWT & Authentication Patterns
 
@@ -383,8 +420,7 @@ func TestLogin_ValidCredentials(t *testing.T) {
 
 1. **PostgreSQL**: Run locally or use Docker (`docker run --name shinkyu-db -e POSTGRES_PASSWORD=devpass -p 5432:5432 postgres`)
 2. **Environment variables**: Copy `.env.example` (or create manual) with all required keys
-3. **Run migrations**: `go run main.go` auto-runs on startup; for manual runs use `cmd/migrate/main.go` (Phase 3)
-4. **Seed database**: Use `cmd/seed/main.go` (Phase 3) to populate reference data
+3. **Run migrations & seed**: `go run main.go` auto-runs on startup via `initializers/syncDb.go`
 
 ### Production Checklist Before Deploy
 
