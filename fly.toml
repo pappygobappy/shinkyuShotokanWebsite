@@ -9,7 +9,7 @@ primary_region = "sjc"
 [build]
   [build.args]
     GO_VERSION = '1.25'
-    BP_KEEP_FILES = "public/*:templates/*"
+    BP_KEEP_FILES = "public/*:templates/*:seeds/*"
 
 [env]
   DB_HOST = "shinkyu-shotokan-website-db.flycast"

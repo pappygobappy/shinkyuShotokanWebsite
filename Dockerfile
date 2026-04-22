@@ -14,4 +14,5 @@ RUN apt update && apt install -y ca-certificates
 COPY --from=builder /run-app /usr/local/bin/
 COPY ./public ./public
 COPY ./templates ./templates
+COPY ./seeds ./seeds
 CMD ["run-app"]
