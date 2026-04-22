@@ -5,8 +5,10 @@
     {{ template "header" makeMap "Page" .Page "user" $user }}
     <div class="mx-auto pr-3 lg:pr-7 max-w-7xl bg-base-100 md:rounded-xl md:my-5">
         <div class="px-4 lg:px-7 py-4 w-screen md:w-full">
-            <h1 class="text-3xl font-bold mb-6">Uniforms & Gear</h1>
-            <p class="mb-6">Purchase uniforms and gear from these recommended suppliers:</p>
+            <div class="text-3xl border-b py-5 flex flex-row items-center">
+                <div>Uniforms & Gear</div>
+            </div>
+            <p class="mb-6 py-2.5">Purchase uniforms and gear from these recommended suppliers:</p>
 
             {{ if and $user (ne $user.Type "") }}
             {{ range .Items }}
@@ -26,14 +28,15 @@
                                 {{ template "icon_arrow_down" }}
                             </button>
                         </form>
-                        <a href="{{ .Link }}" target="_blank" class="btn btn-primary btn-sm shadow-md">{{ if .ShopName }}Buy on {{
-                        .ShopName }}{{ else }}Buy Now{{ end }} <svg width="24px" height="24px" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="16.5" cy="18.5" r="1.5" />
-                            <circle cx="9.5" cy="18.5" r="1.5" />
-                            <path
-                                d="M18 16H8a1 1 0 0 1-.958-.713L4.256 6H3a1 1 0 0 1 0-2h2a1 1 0 0 1 .958.713L6.344 6H21a1 1 0 0 1 .937 1.352l-3 8A1 1 0 0 1 18 16zm-9.256-2h8.563l2.25-6H6.944z" />
-                        </svg></a>
+                        <a href="{{ .Link }}" target="_blank" class="btn btn-primary btn-sm shadow-md">{{ if .ShopName
+                            }}Buy on {{
+                            .ShopName }}{{ else }}Buy Now{{ end }} <svg width="24px" height="24px" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16.5" cy="18.5" r="1.5" />
+                                <circle cx="9.5" cy="18.5" r="1.5" />
+                                <path
+                                    d="M18 16H8a1 1 0 0 1-.958-.713L4.256 6H3a1 1 0 0 1 0-2h2a1 1 0 0 1 .958.713L6.344 6H21a1 1 0 0 1 .937 1.352l-3 8A1 1 0 0 1 18 16zm-9.256-2h8.563l2.25-6H6.944z" />
+                            </svg></a>
                         <button hx-get="/admin/gear/{{ .ID }}" hx-target="#gear-{{ .ID }}" hx-swap="outerHTML"
                             class="btn btn-xs btn-square">
                             {{ template "icon_edit" }}
@@ -53,7 +56,8 @@
             <div class="border-b py-4" id="gear-{{ .ID }}">
                 <div class="flex md:justify-between items-center">
                     <span class="font-bold">{{ .Name }}</span>
-                    <a href="{{ .Link }}" target="_blank" class="btn btn-primary btn-sm shadow-md">{{ if .ShopName }}Buy on {{
+                    <a href="{{ .Link }}" target="_blank" class="btn btn-primary btn-sm shadow-md">{{ if .ShopName }}Buy
+                        on {{
                         .ShopName }}{{ else }}Buy Now{{ end }} <svg width="24px" height="24px" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <circle cx="16.5" cy="18.5" r="1.5" />
