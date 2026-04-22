@@ -224,6 +224,7 @@ func AddEvent(c *fiber.Ctx) error {
 		StartTime          string
 		EndTime            string
 		Location           string
+		EventType          string
 		Description        template.HTML
 		ExistingCoverPhoto string
 		ExistingCardPhoto  string

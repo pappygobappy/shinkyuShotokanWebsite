@@ -148,6 +148,7 @@ func Init() {
 		// {Name: "Instructors", GetUrl: "/instructors"},
 		{Name: "History", GetUrl: "/history"},
 		{Name: "Classes", SubTabs: classesTabs},
+		{Name: "Uniforms & Gear", GetUrl: "/gear"},
 		{Name: "Requirements", SubTabs: requirementsTabs},
 	}
 }

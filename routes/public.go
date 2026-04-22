@@ -36,4 +36,7 @@ func RegisterPublicRoutes(app *fiber.App) {
 	mainRoutes.Post("/forgot-password", handlers.ForgotPasswordPost)
 	mainRoutes.Get("/reset-password/:token", handlers.ResetPasswordTokenGet)
 	mainRoutes.Post("/reset-password/:token", handlers.ResetPasswordTokenPost)
+
+	// Gear page
+	mainRoutes.Get("/gear", handlers.GearPage)
 }

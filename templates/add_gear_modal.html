@@ -1,0 +1,32 @@
+{{ define "add_gear_modal" }}
+<dialog id="add_gear_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Add New Gear Item</h3>
+        <form method="POST" action="/admin/gear">
+            <div class="form-control">
+                <label class="label"><span class="label-text">Name</span></label>
+                <input type="text" name="Name" required class="input input-bordered w-full" placeholder="Item name" />
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text">Link URL</span></label>
+                <input type="url" name="Link" required class="input input-bordered w-full" placeholder="https://..." />
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text">Shop Name (e.g., Amazon)</span></label>
+                <input type="text" name="ShopName" class="input input-bordered w-full" placeholder="Amazon" />
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text">Description</span></label>
+                <textarea name="Description" class="textarea textarea-bordered w-full" placeholder="Short description"></textarea>
+            </div>
+            <div class="modal-action">
+                <button type="submit" class="btn btn-primary">Add Item</button>
+                <button type="button" class="btn" onclick="add_gear_modal.close()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+{{ end }}

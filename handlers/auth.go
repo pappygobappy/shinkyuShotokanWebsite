@@ -33,12 +33,16 @@ func SignupPost(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&input); err != nil {
 		log.Printf("Failed to parse signup request: %v", err)
-		return handleHTMXError(c, 422, "Invalid request body")
+		return c.Render("signup", fiber.Map{
+			"error": "Invalid request body",
+		})
 	}
 
 	result, appErr := auth.Signup(input)
 	if appErr != nil {
-		return handleHTMXError(c, appErr.Code, appErr.Message)
+		return c.Render("signup", fiber.Map{
+			"error": appErr.Message,
+		})
 	}
 
 	setAuthCookie(c, result.Token, result.ExpiresAt)
@@ -73,12 +77,16 @@ func LoginPost(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&input); err != nil {
 		log.Printf("Failed to parse login request: %v", err)
-		return handleHTMXError(c, 422, "Invalid request body")
+		return c.Render("login", fiber.Map{
+			"error": "Invalid request body",
+		})
 	}
 
 	result, appErr := auth.Login(input)
 	if appErr != nil {
-		return handleHTMXError(c, appErr.Code, appErr.Message)
+		return c.Render("login", fiber.Map{
+			"error": appErr.Message,
+		})
 	}
 
 	setAuthCookie(c, result.Token, result.ExpiresAt)
@@ -102,12 +110,16 @@ func ForgotPasswordPost(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&input); err != nil {
 		log.Printf("Failed to parse forgot password request: %v", err)
-		return handleHTMXError(c, 422, "Unable to process your request. Please try again.")
+		return c.Render("forgot_password", fiber.Map{
+			"error": "Unable to process your request. Please try again.",
+		})
 	}
 
 	user, appErr := auth.ForgotPassword(input)
 	if appErr != nil {
-		return handleHTMXError(c, appErr.Code, appErr.Message)
+		return c.Render("forgot_password", fiber.Map{
+			"error": appErr.Message,
+		})
 	}
 
 	// Only create token and send email if user exists (prevent email enumeration)

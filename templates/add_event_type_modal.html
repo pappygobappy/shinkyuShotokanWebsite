@@ -4,8 +4,8 @@
         <h3 class="font-bold text-lg">Add Event Type</h3>
         <form id="add_event_type_form" hx-post="/admin/start_add_event" hx-push-url="false" hx-target=".content"
             hx-swap="outerHTML show:top" enctype="multipart/form-data">
-            <select class="select select-bordered w-full max-w-xs" name="EventType" onchange="handleEventTypeChange(this)">
-                <option disabled selected>Event Type</option>
+            <select class="select select-bordered w-full max-w-xs" name="EventType" onchange="handleEventTypeChange(this)" required>
+                <option disabled selected value="">Event Type</option>
                 <option>Promotional</option>
                 <option>Tournament</option>
                 <option>Other</option>
@@ -26,40 +26,6 @@
                 </div>
             </div>
             {{ end }}
-            <!-- <div id="promotional_type_section" class="hidden">
-                <label class="label">
-                    <span class="text-base label-text">Promotional Type</span>
-                </label>
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">Pre-Karate</span>
-                        <input type="radio" name="PromotionalType" value="Pre-Karate" class="radio radio-primary" onchange="handlePromotionalTypeChange(this)" />
-                    </label>
-                    <label class="label cursor-pointer">
-                        <span class="label-text">Youth & Adult</span>
-                        <input type="radio" name="PromotionalType" value="Youth & Adult" class="radio radio-primary" onchange="handlePromotionalTypeChange(this)" />
-                    </label>
-                </div>
-            </div>
-            <div id="tournament_type_section" class="hidden">
-                <label class="label">
-                    <span class="text-base label-text">Tournament Type</span>
-                </label>
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">Youth</span>
-                        <input type="radio" name="TournamentType" value="Youth" class="radio radio-primary" onchange="handleTournamentTypeChange(this)" />
-                    </label>
-                    <label class="label cursor-pointer">
-                        <span class="label-text">Teen & Adult</span>
-                        <input type="radio" name="TournamentType" value="Teen & Adult" class="radio radio-primary" onchange="handleTournamentTypeChange(this)" />
-                    </label>
-                    <label class="label cursor-pointer">
-                        <span class="label-text">All Ages</span>
-                        <input type="radio" name="TournamentType" value="All Ages" class="radio radio-primary" onchange="handleTournamentTypeChange(this)" />
-                    </label>
-                </div>
-            </div> -->
             <label class="label">
                 <span class="text-base label-text">Date</span>
             </label>

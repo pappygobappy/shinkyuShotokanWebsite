@@ -1,0 +1,47 @@
+{{ define "gear_item_id" }}
+<div class="border-b py-4" id="gear-{{ .Item.ID }}">
+    <div class="flex justify-between items-center">
+        <span class="font-bold">{{ .Item.Name }}</span>
+        <div class="flex gap-2 items-center">
+            <form hx-post="/admin/gear/{{ .Item.ID }}/move?direction=up" hx-target="#gear-{{ .Item.ID }}" hx-push-url="false" class="inline">
+                <button type="submit" class="btn btn-xs btn-circle" title="Move up">
+                    {{ template "icon_arrow_up" }}
+                </button>
+            </form>
+            <form hx-post="/admin/gear/{{ .Item.ID }}/move?direction=down" hx-target="#gear-{{ .Item.ID }}" hx-push-url="false" class="inline">
+                <button type="submit" class="btn btn-xs btn-circle" title="Move down">
+                    {{ template "icon_arrow_down" }}
+                </button>
+            </form>
+            <a href="{{ .Item.Link }}" target="_blank" class="btn btn-primary btn-sm">{{ if .Item.ShopName }}Buy on {{ .Item.ShopName }}{{ else }}Buy Now{{ end }}</a>
+            <button hx-get="/admin/gear/{{ .Item.ID }}" hx-target="#gear-{{ .Item.ID }}" hx-swap="outerHTML"
+                class="btn btn-xs btn-square">
+                {{ template "icon_edit" }}
+            </button>
+            <form method="POST" action="/admin/gear/{{ .Item.ID }}/delete" class="inline">
+                <button type="submit" class="btn btn-xs btn-error btn-square">
+                    {{ template "icon_trash" }}
+                </button>
+            </form>
+        </div>
+    </div>
+    <p class="mt-2 whitespace-pre-line">{{ .Item.Description }}</p>
+</div>
+{{ end }}
+
+{{ define "edit_gear_form" }}
+<div class="border-b py-4" id="gear-{{ .Item.ID }}">
+    <form action="/admin/gear/{{ .Item.ID }}" method="POST" class="flex flex-col gap-2">
+        <div class="flex justify-between items-center gap-2">
+            <input type="text" name="Name" value="{{ .Item.Name }}" required class="input input-bordered input-sm flex-1" />
+            <div class="flex gap-2 items-center">
+                <input type="url" name="Link" value="{{ .Item.Link }}" required class="input input-bordered input-sm w-48" placeholder="Link URL" />
+                <input type="text" name="ShopName" value="{{ .Item.ShopName }}" class="input input-bordered input-sm w-24" placeholder="Shop name" />
+                <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                <button type="button" hx-get="/admin/gear/{{ .Item.ID }}/item" hx-target="#gear-{{ .Item.ID }}" hx-swap="outerHTML" class="btn btn-sm">Cancel</button>
+            </div>
+        </div>
+        <textarea name="Description" class="textarea textarea-bordered w-full">{{ .Item.Description }}</textarea>
+    </form>
+</div>
+{{ end }}

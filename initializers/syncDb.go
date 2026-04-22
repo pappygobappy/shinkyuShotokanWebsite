@@ -98,6 +98,7 @@ func SyncDb() {
 		&models.Instructor{},
 		&models.PasswordResetToken{},
 		&models.CurrentInstructorsPage{},
+		&models.GearItem{},
 	)
 
 	seedLocations()

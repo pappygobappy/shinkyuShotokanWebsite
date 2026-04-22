@@ -82,4 +82,12 @@ func RegisterAdminRoutes(app *fiber.App) {
 	adminRoutes.Get("/userProfile", handlers.AdminUserProfilePage)
 	adminRoutes.Get("/userProfile/edit", handlers.GetUserProfilePageEdit)
 	adminRoutes.Post("/userProfile", handlers.PostUserProfilePageEdit)
+
+	// Gear management
+	adminRoutes.Post("/gear", handlers.AddGearItem)
+	adminRoutes.Get("/gear/:id", handlers.EditGearItemGet)
+	adminRoutes.Get("/gear/:id/item", handlers.GearItemDisplay)
+	adminRoutes.Post("/gear/:id", handlers.EditGearItemPut)
+	adminRoutes.Post("/gear/:id/move", handlers.MoveGearItem)
+	adminRoutes.Post("/gear/:id/delete", handlers.DeleteGearItem)
 }
