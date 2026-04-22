@@ -54,7 +54,7 @@
             {{ else }}
             {{ range .Items }}
             <div class="border-b py-4" id="gear-{{ .ID }}">
-                <div class="flex md:justify-between items-center">
+                <div class="flex justify-between items-center">
                     <span class="font-bold">{{ .Name }}</span>
                     <a href="{{ .Link }}" target="_blank" class="btn btn-primary btn-sm shadow-md">{{ if .ShopName }}Buy
                         on {{
