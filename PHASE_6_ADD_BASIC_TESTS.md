@@ -1,6 +1,6 @@
 # Phase 6: Add Basic Tests
 
-**Priority**: 🧪 CONFIDENCE WIN  
+**Priority**: ⭐ HIGH — Next phase after 1-3  
 **Timeline**: 3-5 days (ongoing — start small, build gradually)  
 **Risk Level**: LOW — begin with unit tests for services only  
 
@@ -493,8 +493,8 @@ After implementing Phase 6:
 
 ## Next Steps After Phase 6 Completes
 
-1. **Verify all phases work together** (auth extraction + caching + logging)
-2. **Add more integration tests** for event and class management
+1. **Verify all phases work together** (auth extraction + caching + tests)
+2. **Move to Phase 5**: Standardize errors & logging (structured logging, error middleware)
 3. **Consider adding GitHub Actions** for automated testing on PRs
 
 ---

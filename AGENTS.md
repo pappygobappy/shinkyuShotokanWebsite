@@ -168,9 +168,9 @@ log.Printf("event updated id=%d user_id=%d", eventID, userID)
 | 1. Extract Business Logic | ✅ Complete | Auth logic moved from handlers to `services/auth/` | `handlers/auth.go`, `services/auth/*.go` |
 | 2. Add Caching Layer | ✅ Complete | Memory cache added, caching functions in queries | `packages/cache/memory.go`, `queries/event.go` |
 | 3. Externalize Seeding Logic | ✅ Complete | Seed data moved from hardcoded Go structs to JSON files in `seeds/` directory for maintainability without recompilation | `initializers/syncDb.go`, `models/Class.go`, `seeds/*.json` |
-| 4. Standardize Errors & Logging | 🟡 Partial | Error types exist (`utils/errors.go`) but centralized middleware handler missing | `utils/errors.go` (done), `middleware/errors.go` (TODO) |
-| 5. Add Token Rotation | ⏳ Pending | Dual-secret JWT validation | `middleware/requireAuth.go` (future change) |
-| 6. Add Basic Tests | ⏳ Pending | Unit/integration tests for services | `*_test.go` files (TODO) |
+| 4. Add Basic Tests | ⭐ Next | Unit/integration tests for services, especially auth | `*_test.go` files (TODO) |
+| 5. Standardize Errors & Logging | ⏳ Pending | Error types exist (`utils/errors.go`) but centralized middleware handler missing | `utils/errors.go` (done), `middleware/errors.go` (TODO) |
+| 6. Add Token Rotation | 🔐 Nice-to-have | Dual-secret JWT validation (optional, only if security requirements increase) | `middleware/requireAuth.go` (future change) |
 
 ### Current Service Layer Structure
 

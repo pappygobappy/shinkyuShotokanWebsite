@@ -1,7 +1,7 @@
 # Phase 4: Standardize Errors & Logging
 
-**Priority**: 📊 OBSERVABILITY WIN  
-**Timeline**: 2-3 days (can be done after Phase 1)  
+**Priority**: 📊 MEDIUM — After tests are in place  
+**Timeline**: 2-3 days (done after Phase 4 tests)  
 **Risk Level**: LOW — drop-in replacement for `log.Print()` calls  
 
 ---
@@ -492,11 +492,11 @@ This enables Fly.io's built-in log viewer with JSON parsing. For more advanced s
 
 ---
 
-## Next Steps After Phase 4 Completes
+## Next Steps After Phase 5 (Errors & Logging) Completes
 
 1. **Verify log output format** (should be JSON in production)
 2. **Check for missing context** in error logs (user IDs, request IDs)
-3. **Move to Phase 5**: Add JWT token rotation support (`middleware/requireAuth.go`)
+3. **Optional**: Consider JWT token rotation if security requirements increase
 
 ---
 
@@ -507,4 +507,4 @@ If you hit any of these issues:
 - "AppError isn't being caught" → Make sure error middleware is registered first in `main.go`
 - "Can't import logrus" → Run `go get github.com/sirupsen/logrus`
 
-**Ready to start?** Begin by creating `utils/errors.go` and `utils/logger.go`, then update one handler (like login) to use structured logging. Test the output format, then proceed to replace other `log.Print()` calls. Ping me when ready for Phase 5 guidance.
+**Ready to start?** Begin by creating `utils/logger.go` and the error handler middleware, then update one handler (like login) to use structured logging. Test the output format, then proceed to replace other `log.Print()` calls.

@@ -1,7 +1,7 @@
 # Phase 5: Add JWT Token Rotation Support
 
-**Priority**: 🔐 SECURITY WIN  
-**Timeline**: 1-2 days (can be done after Phase 4)  
+**Priority**: 🔐 NICE-TO-HAVE — Optional, not urgent  
+**Timeline**: 1-2 days (only if security requirements increase)  
 **Risk Level**: MEDIUM — requires careful testing of dual-secret validation logic  
 
 ---
@@ -9,6 +9,8 @@
 ## Overview
 
 Your current JWT authentication uses a single secret stored in `HMAC_SECRET` environment variable. If this secret is ever leaked (GitHub commit, log file exposure, etc.), all user tokens remain valid until you manually change the secret and redeploy.
+
+**Note**: This phase is optional. For a solo-maintained dojo website, rotating `HMAC_SECRET` on deploy is sufficient. Only implement dual-secret rotation if the app grows to serve many concurrent users or if security requirements increase.
 
 **Current Problem**:
 ```go
@@ -465,11 +467,11 @@ docker-compose restart app
 
 ---
 
-## Next Steps After Phase 5 Completes
+## Next Steps
 
 1. **Verify dual-secret validation works** (test with current and old tokens)
 2. **Test rotation endpoint** (ensure owner-only access)
-3. **Move to Phase 6**: Add basic tests (`go test ./...`)
+3. **Only implement if needed** — otherwise skip and focus on tests (Phase 4) and error standardization (Phase 5)
 
 ---
 
@@ -480,4 +482,4 @@ If you hit any of these issues:
 - "Old tokens stop working after rotation" → Verify `HMAC_SECRET_OLD` is set before deleting old secret
 - "Can't generate random secret" → Use `openssl rand -hex 32` or similar tool
 
-**Ready to start?** Begin by updating `middleware/requireAuth.go` with dual-secret validation, then test that both current and old tokens work. Create the rotation endpoint next, then add reminder system. Ping me when ready for Phase 6 guidance.
+**Ready to start?** Only if you need dual-secret rotation. Begin by updating `middleware/requireAuth.go` with dual-secret validation, then test that both current and old tokens work. Otherwise, skip to tests (Phase 4) or error standardization (Phase 5).
