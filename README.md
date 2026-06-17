@@ -45,6 +45,9 @@ Required variables:
 | `DB_NAME` | `citizix_db` | Database name |
 | `PORT` | `8080` | HTTP server port |
 | `HMAC_SECRET` | *(64-char hex)* | JWT signing key |
+
+> **Generating an HMAC secret:** `openssl rand -hex 32`
+
 | `UPLOAD_DIR` | `./upload` | File upload directory |
 | `SMTP_*` | *(Gmail)* | Email sending credentials |
 
