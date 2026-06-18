@@ -86,13 +86,12 @@ Use [Conventional Commits](https://www.conventionalcommits.org/) format:
 ```
 feat(auth): add password reset email flow
 fix(event): correct timezone conversion for testing events
-docs(AGENTS): update Phase 3 completion status
 refactor(handler): extract validation logic to service layer
 chore(deps): bump fiber to v2.50.0
 test(services): add login credential validation tests
 ```
 
-**Commit message best practices**:
+**Best practices**:
 - Use imperative mood ("add" not "added", "fix" not "fixed")
 - Keep subject line under 72 characters
 - Include scope when relevant (e.g., `feat(auth)`, `fix(event)`)
@@ -109,7 +108,7 @@ test(services): add login credential validation tests
 **Security rules**:
 - Never log full tokens or secrets (even in development)
 - Use `os.Getenv("HMAC_SECRET")` only—never hardcode
-- Token expiration: 30 days max (see `.env` docs)
+- Token expiration: 30 days max (see `.env.example`)
 - Password hashing must use bcrypt with cost ≥10
 
 ### Database Access Rules
@@ -160,64 +159,6 @@ log.Printf("event updated id=%d user_id=%d", eventID, userID)
 ---
 
 ## Existing Architecture Patterns in This Codebase
-
-### Refactoring Phases Completed/In Progress
-
-| Phase | Status | What Changed | Files Affected |
-|-------|--------|--------------|----------------|
-| 1. Extract Business Logic | ✅ Complete | Auth logic moved from handlers to `services/auth/` | `handlers/auth.go`, `services/auth/*.go` |
-| 2. Add Caching Layer | ✅ Complete | Memory cache added, caching functions in queries | `packages/cache/memory.go`, `queries/event.go` |
-| 3. Externalize Seeding Logic | ✅ Complete | Seed data moved from hardcoded Go structs to JSON files in `seeds/` directory for maintainability without recompilation | `initializers/syncDb.go`, `models/Class.go`, `seeds/*.json` |
-| 4. Add Basic Tests | ⭐ Next | Unit/integration tests for services, especially auth | `*_test.go` files (TODO) |
-| 5. Standardize Errors & Logging | ⏳ Pending | Error types exist (`utils/errors.go`) but centralized middleware handler missing | `utils/errors.go` (done), `middleware/errors.go` (TODO) |
-| 6. Add Token Rotation | 🔐 Nice-to-have | Dual-secret JWT validation (optional, only if security requirements increase) | `middleware/requireAuth.go` (future change) |
-
-### Current Service Layer Structure
-
-```
-services/
-├── auth/
-│   ├── signup.go       # User registration with email validation
-│   ├── login.go        # Credential verification + JWT generation
-│   └── passwordReset.go # Token-based flow: request → email → reset form
-├── event/              # (empty, future event business logic)
-├── emailService.go     # SMTP email sender wrapper
-└── filesService.go     # File upload helpers
-```
-
-### Handler Structure (What "Thin" Looks Like)
-
-**Before extraction** (bad):
-```go
-// handlers/auth.go - 400+ lines
-func Login(c *fiber.Ctx) error {
-    // parse form → validate email format → check password complexity → hash password → query DB → compare hashes → generate JWT → set cookie → return response
-}
-```
-
-**After extraction** (good):
-```go
-// handlers/auth.go - ~50 lines
-func Login(c *fiber.Ctx) error {
-    var req LoginForm
-    if err := c.Bind(&req); err != nil {
-        return utils.SendError(c, 400, "Invalid form data")
-    }
-
-    user, err := services.Login(req.Email, req.Password)
-    if err != nil {
-        return utils.SendError(c, 401, "Invalid credentials")
-    }
-
-    token, err := middlewares.GenerateToken(user.ID)
-    if err != nil {
-        return utils.SendError(c, 500, "Failed to generate session")
-    }
-
-    c.Cookie(&fiber.Cookie{Name: "Authorization", Value: token, HTTPOnly: true})
-    return c.JSON(fiber.Map{"message": "Logged in successfully"})
-}
-```
 
 ### Known Refactoring Targets
 
@@ -304,12 +245,6 @@ RequireAuth()       // Any authenticated user
 AttachUser()        // Optional: attach user if logged in, otherwise continue anonymously
 ```
 
-**Future middleware needs**:
-- Rate limiting (prevent brute force on login)
-- Request logging/metrics (Phase 4)
-- CORS headers for API endpoints (if needed)
-- Content Security Policy headers
-
 ---
 
 ## Business Domain Knowledge
@@ -350,11 +285,6 @@ AttachUser()        // Optional: attach user if logged in, otherwise continue an
 3. Email sent with link: `/reset-password?token=xxx`
 4. User submits new password with valid token
 5. Password updated, token invalidated, login redirect
-
-**Future email needs**:
-- Event registration confirmations
-- Newsletter/opt-in communications (Phase 6)
-- Admin notifications (new user signup, failed login attempts)
 
 ---
 
@@ -397,7 +327,7 @@ AttachUser()        // Optional: attach user if logged in, otherwise continue an
 ### Adding a New Public Page (e.g., "About Us")
 
 1. **Create template**: `templates/about.html` with existing layout structure
-2. **Add handler**: `handlers/history.go` (or new file like `about.go`)
+2. **Add handler**: `handlers/about.go`
 3. **Register route**: `routes/public.go` → `app.Get("/about", handlers.About)`
 4. **Keep it simple**: No service layer needed unless fetching data from DB
 
@@ -446,57 +376,19 @@ POST /admin/carousel-images/:id/hard-delete // Permanently remove from DB
 
 ---
 
-## Testing Guidelines (During Phase 6)
-
-### What to Test First
+## Testing Guidelines
 
 **Priority order**:
 1. **Services layer** (pure functions, no HTTP dependencies): password validation, token generation, email formatting
 2. **Query layer** (database operations): can be mocked with test DB
 3. **Handlers** (last priority): use fiber's `test.Ctx` for integration tests
 
-### Test File Naming
-
+**Test file naming**:
 ```
 services/auth/login_test.go      # Tests for login service
 queries/event_test.go            # Tests for event queries
 middleware/requireAuth_test.go   # Tests for auth middleware
 handlers/admin_test.go           # Integration tests for admin endpoints
-```
-
-### Example Test Structure
-
-```go
-// services/auth/login_test.go
-func TestLogin_InvalidCredentials(t *testing.T) {
-    user, err := Login("nonexistent@example.com", "wrongpassword")
-    
-    if !errors.Is(err, utils.ErrInvalidCredentials) {
-        t.Errorf("expected ErrInvalidCredentials, got %v", err)
-    }
-    if user.ID != 0 {
-        t.Errorf("expected empty user, got %+v", user)
-    }
-}
-
-func TestLogin_ValidCredentials(t *testing.T) {
-    // setup: create test user with known password
-    user := models.User{Email: "test@example.com"}
-    hashedPassword := bcrypt.GenerateFromPassword([]byte("password123"), 10)
-    user.Password = string(hashedPassword)
-    DB.Create(&user)
-    
-    // exercise
-    loggedInUser, err := Login(user.Email, "password123")
-    
-    // assert
-    if err != nil {
-        t.Fatalf("unexpected error: %v", err)
-    }
-    if loggedInUser.ID != user.ID {
-        t.Errorf("expected user ID %d, got %d", user.ID, loggedInUser.ID)
-    }
-}
 ```
 
 ---
@@ -509,7 +401,7 @@ func TestLogin_ValidCredentials(t *testing.T) {
 **Region**: `sjc` (San Jose for low latency on West Coast)  
 **Scaling**: Single instance adequate for current traffic; add more if needed
 
-**Required secrets**:
+**Required secrets** (set in Fly.io dashboard):
 - `HMAC_SECRET`: 64-character hex string (generate with `openssl rand -hex 32`)
 - `SMTP_USERNAME`, `SMTP_PASSWORD`: Gmail app password or other SMTP credentials
 - `UPLOAD_DIR`: Absolute path for file uploads (e.g., `/data/uploads`)
@@ -517,16 +409,8 @@ func TestLogin_ValidCredentials(t *testing.T) {
 ### Local Development Setup
 
 1. **PostgreSQL**: Run locally or use Docker (`docker run --name shinkyu-db -e POSTGRES_PASSWORD=devpass -p 5432:5432 postgres`)
-2. **Environment variables**: Copy `.env.example` (or create manual) with all required keys
+2. **Environment variables**: Copy `.env.example` with all required keys
 3. **Run migrations & seed**: `go run main.go` auto-runs on startup via `initializers/syncDb.go`
-
-### Production Checklist Before Deploy
-
-- [ ] All environment variables set in Fly.io dashboard
-- [ ] Database migrations run successfully (`flyctl console` → manual migration check if needed)
-- [ ] SMTP credentials tested with password reset flow
-- [ ] File upload directory exists and has correct permissions
-- [ ] HMAC_SECRET is at least 64 characters, stored securely
 
 ---
 
@@ -537,17 +421,13 @@ func TestLogin_ValidCredentials(t *testing.T) {
 **Bad**:
 ```go
 func CreateEvent(c *fiber.Ctx) error {
-    // ... form parsing ...
-    
     // Business logic here = bad
     if event.StartTime.Before(time.Now()) {
         return c.Status(400).SendString("Cannot create past events")
     }
-    
     if len(event.Title) < 3 {
         return c.Status(400).SendString("Title too short")
     }
-    
     // ... DB query ...
 }
 ```
@@ -598,11 +478,8 @@ Remember: karate instructors and dojo staff are your real users. Features should
 ### Useful Commands
 
 ```bash
-# Start development server with auto-reload
+# Start development server
 go run main.go
-
-# Build production binary
-go build -o shinkyu-website main.go
 
 # Run tests with race detector
 go test ./... -race
@@ -612,12 +489,6 @@ gofmt -w .
 
 # Check for issues
 go vet ./...
-
-# Generate dependency tree
-go mod graph | head -20
-
-# View open ports/connections
-lsof -i :8080
 ```
 
 ### Key File Locations
@@ -634,28 +505,6 @@ lsof -i :8080
 | Templates | `templates/*.html` |
 | Static assets | `public/`, `/upload/` (from env) |
 
-### Environment Variables Reference
-
-```env
-# Database connection
-DB_USERNAME=your_user
-DB_PASSWORD=your_password
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=citizix_db
-
-# Application
-PORT=8080
-HMAC_SECRET=<64-char-hex-string>
-UPLOAD_DIR=/data/uploads
-
-# Email (SMTP)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USERNAME=no-reply@shinkyu-shotokan.com
-SMTP_PASSWORD=<app-password>
-```
-
 ### Common Error Codes & Messages
 
 | Code | Meaning | When to Use |
@@ -665,42 +514,6 @@ SMTP_PASSWORD=<app-password>
 | 403 | Forbidden | User lacks permission (e.g., student accessing admin) |
 | 404 | Not Found | Event/class/instructor doesn't exist |
 | 500 | Internal Server Error | DB connection failed, unexpected panic in service |
-
----
-
-## When to Ask for Help
-
-### Before You Start a Task:
-
-1. **Check existing patterns**: Look at similar features already implemented (e.g., how is "Edit Instructor" done vs. how would "Edit Event" be done?)
-2. **Review Phase docs**: `PHASE_X_*.md` files explain ongoing refactoring priorities
-3. **Verify business rules**: Some validations are dojo-specific (belt testing prerequisites, age restrictions)
-
-### When You're Stuck:
-
-**Good questions to ask**:
-- "I'm seeing X error when doing Y—here's what I've tried so far..."
-- "Should this validation live in the service or handler layer?"
-- "The current pattern for Z is A, but B seems more maintainable. Thoughts?"
-
-**Bad questions to ask**:
-- "How do I fix my bug?" (without sharing error logs or code)
-- "What's the best way to architect X?" (without constraints/context)
-- Copy-pasting entire files without explaining what you're trying to achieve
-
----
-
-## Notes for Future Maintainers
-
-This file should evolve as the project evolves. When completing a phase:
-1. Update the "Refactoring Phases" table with completion status
-2. Add new patterns discovered during implementation
-3. Remove anti-patterns that are now obsolete
-4. Keep business domain knowledge accurate (dojo processes change over time)
-
-**Last updated**: March 6, 2026  
-**Maintainer**: Patrick (solo developer)  
-**Review cadence**: Before starting each refactoring phase
 
 ---
 
