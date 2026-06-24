@@ -1,0 +1,104 @@
+# Task 11: Applicants List Template
+
+**Files:**
+- Create: `templates/admin_promotional_applicants.html`
+
+**Interfaces:**
+- Consumes: `.PromotionalID` (string), `.Applicants` ([]models.PromotionalApplicant), `.CheckedInCount` (int) from handler
+- Produces: `admin_promotional_applicants` template define block with applicant table and inline actions
+
+**Steps:**
+
+- [ ] **Step 1: Create the template**
+
+Create `templates/admin_promotional_applicants.html`:
+
+```html
+{{ define "admin_promotional_applicants" }}
+<div class="text-3xl border-b py-5 flex flex-col md:flex-row md:items-center">
+    <div class="grow">
+        <div>Applicants — Promotional #{{ .PromotionalID }}</div>
+    </div>
+    <div class="flex flex-row gap-2">
+        <span class="self-center">{{ .CheckedInCount }} checked in</span>
+        <a href="/admin/promotionals/{{ .PromotionalID }}/applicants/print" class="btn btn-ghost btn-sm">Export Printable Sheet</a>
+        <a href="/admin/promotionals" class="btn btn-ghost btn-sm">Back to Promotionals</a>
+    </div>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="table table-sm table-zebra" style="min-width: 600px;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Rank</th>
+                <th>Belt Size</th>
+                <th>Checked In</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range .Applicants }}
+            <tr>
+                <td>{{ .FirstName }} {{ .LastName }}</td>
+                <td>{{ .Age }}</td>
+                <td>{{ .RankTestingFor }}</td>
+                <td>{{ if .BeltSize }}{{ .BeltSize }}{{ end }}</td>
+                <td>
+                    <input type="checkbox" 
+                        {{ if .CheckedIn }}checked{{ end }}
+                        hx-post="/admin/promotionals/{{ $.PromotionalID }}/applicants/{{ .ID }}/checked-in"
+                        hx-target="closest tr"
+                        class="checkbox checkbox-sm checkbox-primary" />
+                </td>
+                <td>
+                    <button hx-post="/admin/promotionals/{{ $.PromotionalID }}/applicants/{{ .ID }}/delete" hx-confirm="Are you sure?" class="btn btn-sm btn-error">Delete</button>
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4 p-4 border rounded">
+    <h3 class="text-lg font-bold">Add Applicant</h3>
+    <form hx-post="/admin/promotionals/{{ .PromotionalID }}/applicants" hx-target=".content" hx-swap="outerHTML" class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2">
+        <input type="text" name="first_name" placeholder="First Name" class="input input-bordered input-sm" required />
+        <input type="text" name="last_name" placeholder="Last Name" class="input input-bordered input-sm" required />
+        <input type="number" name="age" placeholder="Age" class="input input-bordered input-sm" />
+        <select name="rank_testing_for" class="select select-bordered select-sm">
+            <option value="">Select rank</option>
+            <option value="10th kyu">10th kyu</option>
+            <option value="9th kyu">9th kyu</option>
+            <option value="8th kyu">8th kyu</option>
+            <option value="7th kyu">7th kyu</option>
+            <option value="6th kyu">6th kyu</option>
+            <option value="5th kyu">5th kyu</option>
+            <option value="4th kyu">4th kyu</option>
+            <option value="3rd kyu">3rd kyu</option>
+            <option value="2nd kyu">2nd kyu</option>
+            <option value="1st kyu">1st kyu</option>
+            <option value="1st dan">1st dan</option>
+            <option value="2nd dan">2nd dan</option>
+            <option value="3rd dan">3rd dan</option>
+            <option value="4th dan">4th dan</option>
+            <option value="5th dan">5th dan</option>
+            <option value="6th dan">6th dan</option>
+            <option value="7th dan">7th dan</option>
+            <option value="8th dan">8th dan</option>
+            <option value="9th dan">9th dan</option>
+            <option value="10th dan">10th dan</option>
+        </select>
+        <input type="text" name="belt_size" placeholder="Belt Size (optional)" class="input input-bordered input-sm" />
+        <button class="btn btn-primary btn-sm">Add</button>
+    </form>
+</div>
+{{ end }}
+```
+
+- [ ] **Step 2: Manual verification**
+
+Run: `go run main.go`
+Navigate to `/admin/promotionals/:id/applicants`
+Expected: Page shows applicant table, checked-in count, add applicant form with rank dropdown
