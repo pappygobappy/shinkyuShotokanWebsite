@@ -141,5 +141,5 @@ Expected: PASS (no errors)
 - [ ] **Step 8: Manual verification**
 
 Run: `go run main.go`
-Open browser to `http://localhost:3000/admin/promotionals` (or whatever port the app uses)
+Open browser to `http://localhost:8080/admin/promotionals` (or whatever port the app uses)
 Expected: Page renders with "Promotionals" heading, empty table with correct column headers, sidebar shows "Promotionals" link, navbar dropdown includes "Promotionals"
