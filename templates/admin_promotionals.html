@@ -1,0 +1,38 @@
+{{ define "admin_promotionals" }}
+<div class="text-3xl border-b py-5">
+    <div class="grow">
+        <div>Promotionals</div>
+    </div>
+</div>
+<div class="overflow-x-auto">
+    <table class="table table-sm table-zebra" style="min-width: 500px;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>SubType</th>
+                <th>Location</th>
+                <th>Applicants</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range .Promotionals }}
+            <tr>
+                <td>{{ .Name }}</td>
+                <td>{{ .Date.Format "2006-01-02" }}</td>
+                <td>{{ .SubType }}</td>
+                <td>{{ .Location }}</td>
+                <td>0</td>
+                <td>
+                    <div class="flex flex-row">
+                        <button class="btn btn-sm btn-primary">Edit</button>
+                        <button class="btn btn-sm btn-error">Delete</button>
+                    </div>
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+</div>
+{{ end }}
