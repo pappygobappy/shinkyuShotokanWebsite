@@ -1,0 +1,63 @@
+{{ define "admin_promotional_edit" }}
+<div class="text-3xl border-b py-5 flex flex-col md:flex-row md:items-center">
+    <div class="grow">
+        <div>{{ if .Promotional.ID }}Edit{{ else }}New{{ end }} Promotional</div>
+    </div>
+    <div>
+        <a href="/admin/promotionals" class="btn btn-ghost btn-sm">Back to Promotionals</a>
+    </div>
+</div>
+
+<form hx-put="/admin/promotionals/{{ .Promotional.ID }}" hx-target=".content" hx-swap="outerHTML" class="p-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="form-control">
+            <label class="label"><span class="label-text">Name</span></label>
+            <input type="text" name="name" value="{{ .Promotional.Name }}" class="input input-bordered input-sm" required />
+        </div>
+
+        <div class="form-control">
+            <label class="label"><span class="label-text">Date</span></label>
+            <input type="date" name="date" value="{{ if .Promotional.Date.Format "2006-01-02" }}{{ .Promotional.Date.Format "2006-01-02" }}{{ end }}" class="input input-bordered input-sm" required />
+        </div>
+
+        <div class="form-control">
+            <label class="label"><span class="label-text">Start Time</span></label>
+            <input type="time" name="start_time" value="{{ if .Promotional.StartTime.Format "15:04" }}{{ .Promotional.StartTime.Format "15:04" }}{{ end }}" class="input input-bordered input-sm" />
+        </div>
+
+        <div class="form-control">
+            <label class="label"><span class="label-text">End Time</span></label>
+            <input type="time" name="end_time" value="{{ if .Promotional.EndTime.Format "15:04" }}{{ .Promotional.EndTime.Format "15:04" }}{{ end }}" class="input input-bordered input-sm" />
+        </div>
+
+        <div class="form-control">
+            <label class="label"><span class="label-text">Check-In Time</span></label>
+            <input type="time" name="check_in_time" value="{{ if .Promotional.CheckInTime.Format "15:04" }}{{ .Promotional.CheckInTime.Format "15:04" }}{{ end }}" class="input input-bordered input-sm" />
+        </div>
+
+        <div class="form-control">
+            <label class="label"><span class="label-text">SubType</span></label>
+            <select name="subtype" class="select select-bordered select-sm">
+                <option value="">Select subtype</option>
+                <option value="Pre-Karate" {{ if eq .Promotional.SubType "Pre-Karate" }}selected{{ end }}>Pre-Karate</option>
+                <option value="Youth & Adult" {{ if eq .Promotional.SubType "Youth & Adult" }}selected{{ end }}>Youth & Adult</option>
+                <option value="All Ages" {{ if eq .Promotional.SubType "All Ages" }}selected{{ end }}>All Ages</option>
+            </select>
+        </div>
+
+        <div class="form-control">
+            <label class="label"><span class="label-text">Location</span></label>
+            <input type="text" name="location" value="{{ .Promotional.Location }}" class="input input-bordered input-sm" />
+        </div>
+    </div>
+
+    <div class="form-control mt-4">
+        <label class="label"><span class="label-text">Description</span></label>
+        <textarea name="description" class="textarea textarea-bordered textarea-sm h-24">{{ .Promotional.Description }}</textarea>
+    </div>
+
+    <div class="mt-4">
+        <button class="btn btn-primary btn-sm">Save</button>
+    </div>
+</form>
+{{ end }}
