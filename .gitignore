@@ -158,3 +158,6 @@ upload/*
 
 #tmp
 tmp/*
+
+.DS_STORE
+shinkyuShotokan
