@@ -90,4 +90,7 @@ func RegisterAdminRoutes(app *fiber.App) {
 	adminRoutes.Post("/gear/:id", handlers.EditGearItemPut)
 	adminRoutes.Post("/gear/:id/move", handlers.MoveGearItem)
 	adminRoutes.Post("/gear/:id/delete", handlers.DeleteGearItem)
+
+	// Promotional management
+	adminRoutes.Get("/promotionals", handlers.AdminPromotionalsPage)
 }
