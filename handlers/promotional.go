@@ -14,22 +14,35 @@ import (
 func AdminPromotionalsPage(c *fiber.Ctx) error {
 	promotionals := queries.GetAllPromotionals()
 
+	counts := make(map[uint]int)
+	for _, p := range promotionals {
+		count, err := queries.GetCheckedInCountByPromotionalID(p.ID)
+		if err != nil {
+			return err
+		}
+		counts[p.ID] = count
+	}
+
 	var user *models.User
 	if u := c.Locals("user"); u != nil {
-		u := u.(models.User)
-		if u.Type != "" {
-			user = &u
+		currentUser, ok := u.(models.User)
+		if ok && currentUser.Type != "" {
+			user = &currentUser
 		}
 	}
+
+	tabs := utils.CurrentTabs()
 
 	page := fiber.Map{
 		"Page": structs.Page{
 			PageName: "Promotionals",
-			Tabs:     utils.CurrentTabs(),
+			Tabs:     tabs,
 			Classes:  utils.Classes,
 		},
-		"Promotionals": promotionals,
-		"user":         user,
+		"Tabs":           tabs,
+		"Promotionals":   promotionals,
+		"CheckedInCount": counts,
+		"user":           user,
 	}
 
 	return c.Render("adminPage", page)

@@ -1,7 +1,10 @@
 {{ define "admin_promotionals" }}
-<div class="text-3xl border-b py-5">
+<div class="text-3xl border-b py-5 flex flex-col md:flex-row md:items-center">
     <div class="grow">
         <div>Promotionals</div>
+    </div>
+    <div>
+        <a href="/admin/promotionals/new" class="btn btn-primary btn-sm">Add Promotional</a>
     </div>
 </div>
 <div class="overflow-x-auto">
@@ -13,6 +16,7 @@
                 <th>SubType</th>
                 <th>Location</th>
                 <th>Applicants</th>
+                <th>Checked In</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,11 +27,16 @@
                 <td>{{ .Date.Format "2006-01-02" }}</td>
                 <td>{{ .SubType }}</td>
                 <td>{{ .Location }}</td>
-                <td>0</td>
                 <td>
-                    <div class="flex flex-row">
-                        <button class="btn btn-sm btn-primary">Edit</button>
-                        <button class="btn btn-sm btn-error">Delete</button>
+                    <a href="/admin/promotionals/{{ .ID }}/applicants" class="link link-primary">
+                        0
+                    </a>
+                </td>
+                <td>{{ index $.CheckedInCount .ID }}/0</td>
+                <td>
+                    <div class="flex flex-row gap-1">
+                        <a href="/admin/promotionals/{{ .ID }}/edit" class="btn btn-sm btn-primary">Edit</a>
+                        <button hx-delete="/admin/promotionals/{{ .ID }}" hx-confirm="Are you sure?" class="btn btn-sm btn-error">Delete</button>
                     </div>
                 </td>
             </tr>
