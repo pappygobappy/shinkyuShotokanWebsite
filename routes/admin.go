@@ -97,4 +97,10 @@ func RegisterAdminRoutes(app *fiber.App) {
 	adminRoutes.Get("/promotionals/:id/edit", handlers.EditPromotionalGet)
 	adminRoutes.Put("/promotionals/:id", handlers.EditPromotionalPut)
 	adminRoutes.Delete("/promotionals/:id", handlers.DeletePromotional)
+
+		// Promotional Applicant management
+	adminRoutes.Get("/promotionals/:id/applicants", handlers.PromotionalApplicantsPage)
+	adminRoutes.Post("/promotionals/:id/applicants", handlers.AddPromotionalApplicant)
+	adminRoutes.Post("/promotionals/:id/applicants/:applicantID/checked-in", handlers.ToggleCheckedIn)
+	adminRoutes.Post("/promotionals/:id/applicants/:applicantID/delete", handlers.DeletePromotionalApplicant)
 }
